@@ -1,0 +1,74 @@
+{
+  "createdAt": "2025-09-23T15:03:12.161Z",
+  "updatedAt": "2025-09-23T15:03:12.161Z",
+  "id": "DPy5uFMRTCiuVEM4",
+  "name": "My workflow 4",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "882a77b6-5baa-4a6f-89b8-ca2fdbe4634b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "bulkEnrich",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-apollo.apollo",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "57f4086c-6d25-49be-a580-2271bf68605e",
+      "name": "Bulk enrich people",
+      "credentials": {
+        "apolloApi": {
+          "id": "ZKnPOmo64zClJSCS",
+          "name": "Apollo account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Bulk enrich people",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "9e859b4a-4964-4cf4-b8e2-7c1d17197c0e",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-23T15:03:12.164Z",
+      "updatedAt": "2025-09-23T15:03:12.164Z",
+      "role": "workflow:owner",
+      "workflowId": "DPy5uFMRTCiuVEM4",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
