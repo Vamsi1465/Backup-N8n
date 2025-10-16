@@ -1,0 +1,1831 @@
+{
+  "createdAt": "2025-10-15T14:18:14.335Z",
+  "updatedAt": "2025-10-15T17:46:30.000Z",
+  "id": "DEl6UidMHYLE4FWa",
+  "name": "Coaches",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Coaches",
+        "formDescription": "Yes",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name"
+            },
+            {
+              "fieldLabel": "Email"
+            },
+            {
+              "fieldLabel": "Message"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -704,
+        -352
+      ],
+      "id": "53a802a5-1a92-4af2-8b47-d98410fe6650",
+      "name": "On form submission",
+      "webhookId": "4be5de2b-37e1-4104-949c-1f34b061df64"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -720,
+        -176
+      ],
+      "id": "b7a336e9-bd44-4d9e-b538-08281b0708ad",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UbWO1LFfZ6s8MzMA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b3ce1dd-7bf9-4a69-ac98-e11ab5b5050a",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "167f58be-18af-4382-94b6-b7b8d73ad2a2",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "ad8b19a7-7438-4437-8e5a-81c0ae10f3a6",
+              "name": "Message",
+              "value": "={{ $json.Message }}",
+              "type": "string"
+            },
+            {
+              "id": "5eedc740-25c6-42c0-9c44-bd6aa4af4444",
+              "name": "form",
+              "value": "={{ $json.formMode }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -432,
+        -352
+      ],
+      "id": "d8ca5554-d1cc-41fd-ae7e-027fa88ae48c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b41dd3b5-c6df-4da7-ba31-ce7d835a876f",
+                    "leftValue": "={{ $json['199e830e4ac1772f'] }}",
+                    "rightValue": "gmail",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Gmail"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "747ec442-8907-4160-8d53-defbe0032d4d",
+                    "leftValue": "={{ $json.form }}",
+                    "rightValue": "test",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Form"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -176,
+        -256
+      ],
+      "id": "b3efe668-cb4c-4f17-8f07-914d41744e73",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f80cef39-8363-4b67-9a3b-7e7cb5251beb",
+              "name": "Name",
+              "value": "={{ $('Edit Fields').item.json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "314c743f-587e-4141-8bd3-f0b4084a96a0",
+              "name": "Email",
+              "value": "={{ $('Edit Fields').item.json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "000392f4-0de1-4da8-99ba-11b2a5ba4e27",
+              "name": "Message",
+              "value": "={{ $('Edit Fields').item.json.Message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -128
+      ],
+      "id": "6415501f-a28b-4fed-b554-a027d0cb88ad",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ecf7415d-af76-4ac0-a6ab-bc247ebcdf83",
+              "name": "From",
+              "value": "={{ $json.From }}",
+              "type": "string"
+            },
+            {
+              "id": "31fa8d56-7e5d-4ac4-beb2-37249720a756",
+              "name": "Subject",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "c4d4ba9b-b973-4550-9cba-65b61b5a236e",
+              "name": "snippet",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -368
+      ],
+      "id": "31729643-0b05-4513-b708-73e44717d256",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now }}",
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}",
+            "Message": "={{ $json.Message }}",
+            "Source": "Form",
+            "Status": "New"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        -128
+      ],
+      "id": "e2d1cd29-dd54-42d6-8ab8-5e8f2796ca31",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a85ad17-6f3b-456e-80dc-aba54f58ce50",
+              "name": "From",
+              "value": "={{ $json.From }}",
+              "type": "string"
+            },
+            {
+              "id": "267ee287-3092-4ab7-9cdf-33a4ff840657",
+              "name": "Subject",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "58add8d3-c439-4285-90c0-f33d338b9447",
+              "name": "snippet",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "4f675811-6e3f-449d-beb0-bb520d271b04",
+              "name": "={{ $json.id }}",
+              "value": "=gmail",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        -176
+      ],
+      "id": "3a66c798-1703-4498-8efe-905872e95a36",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now }}",
+            "Email": "={{ $json.From }}",
+            "Message": "={{ $json.snippet }}",
+            "Name": "From Email",
+            "Source": "Email",
+            "Status": "New"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        -368
+      ],
+      "id": "ec2f7b2c-67ff-4434-a202-0f5ca48251fa",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -896,
+        480
+      ],
+      "id": "002b0a32-6897-4493-ad56-fca6ff3b7e44",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "jiy4CLauc0aInJpJ",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.Message }}",
+        "options": {
+          "systemMessage": "=You are a lead qualification assistant. \nScore the following lead message from 0 to 100 based on how likely the person is to purchase a coaching automation service. \nAlso, categorize as \"High Intent\" (score >70) or \"Low Intent\" (score <=70).\n\nLead message:\n {{ $json.Message }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -624,
+        480
+      ],
+      "id": "1e3d6763-2a56-41e2-b3ed-dc75958645ff",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.Message }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -528,
+        704
+      ],
+      "id": "2aca7e97-aeae-42e9-a64e-bf673ad3c478",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        704
+      ],
+      "id": "b6969664-e55a-47b2-96c8-32afa5ac0d78",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1fdf018a-f4ba-438b-b10c-a91a3930e104",
+              "leftValue": "={{ $json.output.Category }}",
+              "rightValue": "=High Intent",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        480
+      ],
+      "id": "d70d93d1-fe0c-4a26-9937-1b34e5e4308e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Google Sheets Trigger').item.json.Message }}",
+        "options": {
+          "systemMessage": "=You are an assistant for a coaching automation agency. \nCreate a polite, engaging follow-up message to this lead, aiming to book a call. \nLead details:\nName: {{ $('Google Sheets Trigger').item.json.Name }}\nEmail: {{ $('Google Sheets Trigger').item.json.Email }}\nMessage: {{ $('Google Sheets Trigger').item.json.Message }}\nWrite in a professional, friendly tone, include a call-to-action to book a call.\ninclude this link for calendly and booking appointment: https://cal.com/vamsivk/30min\n\nName: vamsi\nemail: vamsivk1465@gmail.com\ncoaching automation name: Lumoscale"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        464
+      ],
+      "id": "e83cd3f9-5ac1-4b1f-a6e2-e85ada6dc6f0",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        432,
+        704
+      ],
+      "id": "e096e659-5fc1-45bf-b6f5-af9e8ec4a12a",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Google Sheets Trigger').item.json.Message }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        704
+      ],
+      "id": "e66b87ef-3994-412d-983a-a3fc12d26dc5",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Score": "={{ $json.output.Score }}",
+            "Intent": "={{ $json.output.Category }}",
+            "Name": "={{ $('Google Sheets Trigger').item.json.Email }}",
+            "Email": "={{ $('Google Sheets Trigger').item.json.Email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        736
+      ],
+      "id": "73a45271-37c4-40b6-8a67-08115eef6d6d",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.output }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Score",
+              "description": "Take out Score",
+              "required": true
+            },
+            {
+              "name": "Category",
+              "description": "Take out category",
+              "required": true
+            },
+            {
+              "name": "Reasoning",
+              "description": "Take out reasoning",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -272,
+        480
+      ],
+      "id": "8b1e88d8-d7d3-4e4d-a88b-6c96e8c6380b",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        688
+      ],
+      "id": "ca54e343-f2b9-4928-bd15-e21f431a0e3e",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Grab AI output from previous node\nconst aiOutput = $json[\"output\"] || \"\";\n\n// Split at first newline after 'Subject:'\nconst firstNewlineIndex = aiOutput.indexOf(\"\\n\");\nlet subject = \"\";\nlet message = \"\";\n\nif (firstNewlineIndex !== -1) {\n    subject = aiOutput.slice(8, firstNewlineIndex).trim(); // 8 = length of \"Subject:\"\n    message = aiOutput.slice(firstNewlineIndex + 1).trim();\n} else {\n    subject = \"No Subject\";\n    message = aiOutput.trim();\n}\n\n// Return structured JSON\nreturn [{\n    json: {\n        subject: subject,\n        message: message\n    }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        464
+      ],
+      "id": "43448f46-4e07-42fe-9c7a-5d9a002cbc6f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json.Email }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1136,
+        320
+      ],
+      "id": "56a7ce36-e469-417f-b4e6-dba38d8874af",
+      "name": "Send a message",
+      "webhookId": "50a16b39-e59f-4a57-80be-7a0d5dec4052",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UbWO1LFfZ6s8MzMA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "vamsivk1465@gmail.com",
+          "mode": "list",
+          "cachedResultName": "vamsivk1465@gmail.com"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $now.toFormat(\"yyyy-MM-dd\") }}",
+        "timeMax": "={{ $now.plus({ days: 3 }).toFormat(\"yyyy-MM-dd\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -848,
+        1376
+      ],
+      "id": "a420ae72-907f-4147-93f8-422c3bdf60d8",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "g4VAMKMrPf3B63WZ",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $('Edit Fields10').item.json.time }}, {{ $('Edit Fields10').item.json.summary }},{{ $('Edit Fields10').item.json['attendees[1].email'] }},{{ $('Edit Fields10').item.json.start.dateTime }}, {{ $('Edit Fields10').item.json.creator.email }}"
+            }
+          ]
+        },
+        "simplify": false,
+        "jsonOutput": true,
+        "options": {
+          "systemMessage": "=You are an AI assistant for professional scheduling and reminders.  \nYour task is to write concise, friendly, and exciting emails for booked meetings.  \n\nInputs:  \n- Attendee email: {{ $('Edit Fields10').item.json['attendees[1].email'] }}\n- Attendee name: (infer from email if possible, e.g., \"john.doe@gmail.com\" → \"John\")  \n- Meeting summary: {{ $('Edit Fields10').item.json.summary }}\n- Meeting date and time: {{ $('Edit Fields10').item.json.start.dateTime }}\n- Time until meeting:{{ $('Edit Fields10').item.json.time }}(e.g., \"2hrs\", \"3hrs\")  \n- Type of email: (confirmation or reminder)  \n- Organizer email: {{ $('Edit Fields10').item.json.creator.email }} (use this to refer to the organizer’s name professionally)\n\nRequirements:  \n1. If `emailType` is \"confirmation\", write a professional email acknowledging the booking. Include a friendly greeting, thank the attendee, mention the meeting date/time, and add an exciting note about looking forward to the discussion using the `hoursUntilStart` input.  \n2. If `emailType` is \"reminder\", write a friendly reminder 2 hours before the meeting. Include the meeting summary, date/time, and an enthusiastic note about speaking soon using `hoursUntilStart`.  \n3. Emails should be:  \n   - 3–5 sentences  \n   - Polite, professional, and exciting  \n   - Include a greeting using the attendee’s name  \n   - Include a professional sign-off using the organizer’s name  \n   - Use phrases like “I’m really looking forward to our conversation,” “can’t wait to discuss,” or “excited to connect.”  \n4. Output only the ready-to-send email text. No explanations.\n\nExample output (confirmation):  \n\"Dear John,  \nThank you for scheduling a meeting regarding 'Project Discussion'. Your meeting is confirmed for October 16th at 12:00 PM IST. I’m really looking forward to our conversation and can’t wait to dive into the discussion with you in just 2hrs!  \nBest regards,  \nJane Doe\"\n\nExample output (reminder):  \n\"Dear John,  \nThis is a friendly reminder of your upcoming meeting 'Project Discussion' scheduled for October 16th at 12:00 PM IST. I’m excited to connect with you in 2hrs and discuss everything in detail. Please let me know if you need to adjust the timing.  \nBest regards,  \nJane Doe\"\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        768,
+        1200
+      ],
+      "id": "dfddccd2-0864-4d87-bd3a-28bd40d4445c",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "802657959596026",
+        "recipientPhoneNumber": "+918919053970",
+        "textBody": "Hello",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        1680
+      ],
+      "id": "3ac6def9-38af-4bb2-8c4a-9990a28305d3",
+      "name": "Send message",
+      "webhookId": "ee19619e-9f28-459b-a7dc-5ab34fa53e53",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "YseJfrakPyAJkOCX",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "23",
+        "text": "HI",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1328,
+        1488
+      ],
+      "id": "69a4bd2c-e54c-49a4-a0b1-2952d9d2213e",
+      "name": "Send a text message",
+      "webhookId": "0b182a8a-c988-4111-a16f-68a83bde7f1f",
+      "credentials": {
+        "telegramApi": {
+          "id": "gwHBxrkrPXY0I5Fk",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1040,
+        1376
+      ],
+      "id": "c6d1aa10-f06e-41d3-b496-b9e1ad56024c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.candidates[0].content.parts[0].text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Subject",
+              "description": "Take subject out with clear idea",
+              "required": true
+            },
+            {
+              "name": "Body",
+              "description": "Take out body with clear words",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1088,
+        1200
+      ],
+      "id": "f67d2c8e-1303-45c4-a77d-ec47161c88ff",
+      "name": "Information Extractor1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        1344
+      ],
+      "id": "73fee7b2-a2a2-457d-9da4-d879a84dda37",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "=vamsikrishna2536@gmail.com",
+        "subject": "={{ $json.output.Subject }}",
+        "emailType": "text",
+        "message": "={{ $json.output.Body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1424,
+        1200
+      ],
+      "id": "f21eb0dc-6853-42b2-95b9-14235a77ee69",
+      "name": "Send a message1",
+      "webhookId": "8bc0d4d6-8c1c-4bea-9f46-d46cb034971a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UbWO1LFfZ6s8MzMA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "id,, summary, start.dateTime, end.dateTime, attendees[0].email, attendees[1].email, description",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        1376
+      ],
+      "id": "eb53a4b1-1899-4c9b-91c9-c69853f40b33",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb70f2da-d1f5-494e-9d94-b96ef7706aae",
+              "name": "start.dateTime",
+              "value": "={{ $json['start.dateTime'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d6f678c9-3aef-4885-9387-c0997adc2e76",
+              "name": "$now",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        1376
+      ],
+      "id": "20f834e9-b275-4b2a-a4db-6c360f04b779",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -240,
+        1376
+      ],
+      "id": "bf33dea8-8bf4-4884-a9fb-55f8e9f8de24",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.time }}",
+                    "rightValue": "2hr",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6099b2d2-dab8-4f46-9def-2d5212842ca3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2hr"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b0552428-a64c-4e01-8cbb-72868626c65f",
+                    "leftValue": "={{ $json.time }}",
+                    "rightValue": "6hrs",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "6hrs"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7e163c57-61ea-40a9-b912-3b10aca7874b",
+                    "leftValue": "={{ $json.time }}",
+                    "rightValue": "12hrs",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "12hrs"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        560,
+        1376
+      ],
+      "id": "6c80718f-d39a-4a29-8f9f-ec4f42b427ad",
+      "name": "Switch3",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d10833b8-63d8-4353-93e4-37a8c32c4e67",
+              "name": "time",
+              "value": "={{ $json.hoursUntilStart }}",
+              "type": "string"
+            },
+            {
+              "id": "2f669074-3ed7-4c3e-9c42-e7c02545db7f",
+              "name": "summary",
+              "value": "={{ $('Split Out').item.json.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "e6a3ea7a-85b6-4e92-9168-6087f3587eea",
+              "name": "['attendees[1].email']",
+              "value": "={{ $('Split Out').item.json['attendees[1].email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a1f961b0-69ea-4507-8fec-dd831ee9dad3",
+              "name": "start.dateTime",
+              "value": "={{ new Date($('Split Out').item.json['start.dateTime']).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) }}",
+              "type": "string"
+            },
+            {
+              "id": "f8c6c483-49df-4d8a-8d7d-90da2a6ba5cd",
+              "name": "creator.email",
+              "value": "={{ $('Get many events').item.json.creator.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        1392
+      ],
+      "id": "19c4e0b6-3981-42b8-b519-a8f4898687d6",
+      "name": "Edit Fields10"
+    },
+    {
+      "parameters": {
+        "jsCode": "const outputItems = [];\n\nfor (const item of items) {\n    if (!item.json.start || !item.json.start.dateTime) continue;\n\n    // Convert startTime from ISO string\n    const startTime = new Date(item.json.start.dateTime);\n\n    // Convert current time from $now if available, otherwise use system time\n    const now = item.json.$now ? new Date(item.json.$now) : new Date();\n\n    // Calculate difference in hours\n    const diffHours = Math.round((startTime - now) / (1000 * 60 * 60));\n\n    outputItems.push({\n        json: {\n            eventId: item.json.id || null,\n            summary: item.json.summary || null,\n            hoursUntilStart: diffHours <= 0 ? \"0hr\" : (diffHours === 1 ? \"1hr\" : `${diffHours}hrs`)\n        }\n    });\n}\n\nreturn outputItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        1392
+      ],
+      "id": "c5773be8-fc25-4888-97ed-d59309503045",
+      "name": "Code in JavaScript3",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an assistant for sending professional and friendly reminders or confirmations via WhatsApp or Telegram.  \nYour task is to write concise, engaging, and exciting messages for booked meetings.  \n\nInputs:  \n- Attendee email: {{ $('Edit Fields10').item.json['attendees[1].email'] }}\n- Attendee name: (infer from email if possible, e.g., \"john.doe@gmail.com\" → \"John\")  \n- Meeting summary: {{ $('Edit Fields10').item.json.summary }}\n- Meeting date and time: {{ $('Edit Fields10').item.json.start.dateTime }}\n- Time until meeting: {{ $('Edit Fields10').item.json.time }} (e.g., \"2hrs\", \"3hrs\")  \n- Type of message: (confirmation or reminder)  \n- Organizer email: {{ $('Edit Fields10').item.json.creator.email }} (use this to refer to the organizer’s name professionally)\n\nRequirements:  \n1. If `messageType` is \"confirmation\", write a short WhatsApp/Telegram message acknowledging the booking. Include:  \n   - Friendly greeting using the attendee’s name  \n   - Meeting summary and date/time  \n   - Exciting note using `time` (e.g., \"Looking forward to connecting with you in 2hrs!\")  \n   - Optional quick call-to-action if needed  \n2. If `messageType` is \"reminder\", write a concise reminder message 2 hours before the meeting. Include:  \n   - Meeting summary and date/time  \n   - Exciting, friendly note mentioning `time`  \n   - Optional note to reply if they need to reschedule  \n3. Messages should be:  \n   - Short and natural (1–3 sentences)  \n   - Friendly, professional, and enthusiastic  \n   - Easy to read on mobile chat  \n4. Output only the ready-to-send message text, no extra explanations.\n\nExample output (confirmation):  \n\"Hi John, thanks for scheduling a meeting about 'Project Discussion'. It's set for Oct 16th at 12:00 PM IST. Really excited to connect with you in just 2hrs!\"  \n\nExample output (reminder):  \n\"Hi John, a quick reminder about your 'Project Discussion' meeting at Oct 16th, 12:00 PM IST. Can't wait to talk with you in 2hrs!\"\n"
+            }
+          ]
+        },
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        832,
+        1600
+      ],
+      "id": "8a5d545b-75e8-4d6f-a225-bf11141c957f",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Lead Capturing",
+        "height": 800,
+        "width": 1568
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -832,
+        -688
+      ],
+      "typeVersion": 1,
+      "id": "cbcccc73-9c18-4f1b-bae1-70c8d22b3dd4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Lead Qualification",
+        "height": 736,
+        "width": 2304,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -960,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "0fcc257c-3042-4cd3-b6c5-e42315cee425",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Meeting Remainder Follow-Up",
+        "height": 816,
+        "width": 2672,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1072,
+        1072
+      ],
+      "typeVersion": 1,
+      "id": "62b97feb-384c-4cfe-800f-695ac66ba356",
+      "name": "Sticky Note2"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        []
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields10": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "549b2271-b3e6-4550-a57e-674881fd71d7",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-15T14:18:14.338Z",
+      "updatedAt": "2025-10-15T14:18:14.338Z",
+      "role": "workflow:owner",
+      "workflowId": "DEl6UidMHYLE4FWa",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
