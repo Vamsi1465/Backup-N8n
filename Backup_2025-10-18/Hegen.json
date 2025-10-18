@@ -1,0 +1,1071 @@
+{
+  "createdAt": "2025-10-16T17:15:52.327Z",
+  "updatedAt": "2025-10-16T20:41:05.000Z",
+  "id": "gLOMhlHVz5VX6s73",
+  "name": "Hegen",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1O_A_3MHof00gEGOeC6-ulnM5lHUhedlyThcXAhrbpQM",
+          "mode": "list",
+          "cachedResultName": "HeyGen AI Video",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1O_A_3MHof00gEGOeC6-ulnM5lHUhedlyThcXAhrbpQM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1O_A_3MHof00gEGOeC6-ulnM5lHUhedlyThcXAhrbpQM/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "08bf8356-3c34-4c25-bb7b-7de8f85803f3",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -528,
+        240
+      ],
+      "typeVersion": 4.6,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.heygen.com/v2/video/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"video_inputs\": [\n    {\n      \"character\": {\n        \"type\": \"avatar\",\n        \"avatar_id\": \"\",\n        \"avatar_style\": \"normal\"\n      },\n      \"voice\": {\n        \"type\": \"text\",\n        \"input_text\": \"{{ $json.script }}\",\n        \"voice_id\": \"insertvoiceID\",\n        \"speed\": 1.1\n      }\n    }\n  ],\n  \"dimension\": {\n    \"width\": 720,\n    \"height\": 1280\n  }\n}\n",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "f87220e7-b178-4044-8ab7-894e467e3687",
+      "name": "HeyGen",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -304,
+        240
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EDgwpcO6HdLsFxRx",
+          "name": "Header Auth account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "amount": 25
+      },
+      "id": "e773d331-335f-44cc-9df4-e4fa0e862163",
+      "name": "Wait4",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        16,
+        208
+      ],
+      "webhookId": "d2c37f01-834e-40d3-888e-6e7e4296f474",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "url": "https://api.heygen.com/v1/video_status.get",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "video_id",
+              "value": "={{ $('HeyGen').first().json.data.video_id }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "fccd3e83-b068-43b5-aee1-1a769a2edb44",
+      "name": "HeyGen : Check Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        192,
+        208
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EDgwpcO6HdLsFxRx",
+          "name": "Header Auth account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.data.status }}",
+                    "rightValue": "completed"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "completed"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "46dfa599-fe04-4b32-8d15-09e963099737",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.data.status == 'processing' || $json.data.status == 'pending' || $json.data.status == 'waiting' }}",
+                    "rightValue": ""
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "processing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "22c93926-40a2-49ef-b8f0-aa718da00792",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.data.status }}",
+                    "rightValue": "failed"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "failed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "680eb7f4-260b-4882-bc68-88d791e20a6b",
+      "name": "heygen_response",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        448,
+        176
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "id": "7930996f-6ec3-4402-83ba-62a591b0d8ac",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        944,
+        208
+      ],
+      "webhookId": "d2c37f01-834e-40d3-888e-6e7e4296f474",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "=insert caption or script variable"
+            },
+            {
+              "name": "user",
+              "value": "insert your username "
+            },
+            {
+              "name": "platform[]",
+              "value": "instagram"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1776,
+        192
+      ],
+      "id": "641c4353-d08c-4220-a1c7-a174b3fd5ba6",
+      "name": "Upload-post.com - Upload to Instagram",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EDgwpcO6HdLsFxRx",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.downloadUrl }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1584,
+        192
+      ],
+      "id": "9ddc712b-dee0-418b-aa6d-1b47eacf7f89",
+      "name": "Download Vid",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EDgwpcO6HdLsFxRx",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.submagic.co/v1/projects/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1152,
+        208
+      ],
+      "id": "6db4ec80-0ef9-4144-88e7-a197266c7ee2",
+      "name": "Get The Submagic Video"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.submagic.co/v1/projects",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"videoUrl\": \"{{ $json.data.video_url }}\",\n  \"language\": \"en\",\n  \"title\": \"My Video\",\n  \"templateName\": \"Dan 2\",\n  \"magicZooms\": true,\n  \"magicBrolls\": true,\n  \"magicBrollsPercentage\": 50\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        176
+      ],
+      "id": "4b7e76ac-0d4e-43ff-ae60-ea0cb4141caa",
+      "name": "Sent to Submagic",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EDgwpcO6HdLsFxRx",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "completed",
+                    "id": "3d76e3b8-0031-4afd-b470-70eb5e4d4b48"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "completed"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "46dfa599-fe04-4b32-8d15-09e963099737",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "leftValue": "={{ $json.status == 'processing' || $json.data.status == 'pending' || $json.data.status == 'waiting' }}",
+                    "rightValue": ""
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "processing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "22c93926-40a2-49ef-b8f0-aa718da00792",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "failed"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "failed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c9891a59-4187-4c87-94d2-973e3275e857",
+      "name": "Submagic response",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        1344,
+        192
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1O_A_3MHof00gEGOeC6-ulnM5lHUhedlyThcXAhrbpQM",
+          "mode": "list",
+          "cachedResultName": "HeyGen AI Video",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1O_A_3MHof00gEGOeC6-ulnM5lHUhedlyThcXAhrbpQM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1O_A_3MHof00gEGOeC6-ulnM5lHUhedlyThcXAhrbpQM/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        240
+      ],
+      "id": "8e67db6a-1257-4034-b231-33ce2175ed56",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "jiy4CLauc0aInJpJ",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## This part makes the video with your script & Heygen",
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -640,
+        32
+      ],
+      "typeVersion": 1,
+      "id": "98284470-8fcf-4312-a3e6-7bf0d3ec453f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## This grabs your video from Heygen when it's ready",
+        "height": 144,
+        "width": 528,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "10a2a89a-19c0-43c8-a05d-62234788cce5",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Send your video to Submagic",
+        "height": 144,
+        "width": 176,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        688,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "9d6bd1eb-6d99-4775-ab90-b425bb41e7b2",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Grab Your video from Submagic when its ready",
+        "height": 144,
+        "width": 480,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        960,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "52f33395-2d13-4d02-be9d-636e5c2bf299",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Download the video from Submagic",
+        "height": 144,
+        "width": 150,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1552,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "e923953e-29cc-4692-afb7-23953b5eb269",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Post to Instagram!",
+        "height": 144,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1744,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "4cbf07ca-d116-46d1-b00e-e8dd6db898c8",
+      "name": "Sticky Note5"
+    }
+  ],
+  "connections": {
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "HeyGen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "HeyGen : Check Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HeyGen": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "heygen_response": {
+      "main": [
+        [
+          {
+            "node": "Sent to Submagic",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HeyGen : Check Video": {
+      "main": [
+        [
+          {
+            "node": "heygen_response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get The Submagic Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The Submagic Video": {
+      "main": [
+        [
+          {
+            "node": "Submagic response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sent to Submagic": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Vid": {
+      "main": [
+        [
+          {
+            "node": "Upload-post.com - Upload to Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submagic response": {
+      "main": [
+        [
+          {
+            "node": "Download Vid",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Get The Submagic Video": [
+      {
+        "json": {
+          "id": "5d6c917d-d2d1-49b6-877c-7f591fd7b4ce",
+          "title": "My Video",
+          "language": "en",
+          "status": "completed",
+          "downloadUrl": "https://app.submagic.co/api/file/download?path=api/aca7af56-6fe9-4906-a5ff-b7a48fc18da3/5d6c917d-d2d1-49b6-877c-7f591fd7b4ce/video.mp4-download.mp4&newFileName=My%20Video.mp4",
+          "transcriptionStatus": "COMPLETED",
+          "videoMetaData": {
+            "fps": 25,
+            "width": 720,
+            "format": "AVC",
+            "height": 1280,
+            "duration": 12.16,
+            "originalWidth": 720,
+            "originalHeight": 1280
+          },
+          "magicVideosPercentage": 50,
+          "magicZooms": true,
+          "magicBrolls": true,
+          "createdAt": "2025-09-26T00:08:30.991Z",
+          "updatedAt": "2025-09-26T00:09:22.838Z",
+          "words": [
+            {
+              "id": "silence_e12ff9c4-3d3f-4f97-ada1-e00a36efb2ee",
+              "text": "",
+              "type": "silence",
+              "startTime": 0,
+              "endTime": 0.4
+            },
+            {
+              "id": "3iKNynSM",
+              "text": "Our",
+              "type": "word",
+              "startTime": 0.4,
+              "endTime": 0.56
+            },
+            {
+              "id": "R70PTzna",
+              "text": "goal",
+              "type": "word",
+              "startTime": 0.56,
+              "endTime": 0.84
+            },
+            {
+              "id": "9TNytcj3",
+              "text": "for",
+              "type": "word",
+              "startTime": 0.84,
+              "endTime": 1
+            },
+            {
+              "id": "Phm02LIp",
+              "text": "the",
+              "type": "word",
+              "startTime": 1,
+              "endTime": 1.16
+            },
+            {
+              "id": "sbsErvQu",
+              "text": "follow",
+              "type": "word",
+              "startTime": 1.16,
+              "endTime": 1.36
+            },
+            {
+              "id": "gKAxLPwu",
+              "text": "up",
+              "type": "word",
+              "startTime": 1.36,
+              "endTime": 1.6
+            },
+            {
+              "id": "7rWV8Fh9",
+              "text": "is",
+              "type": "word",
+              "startTime": 1.6,
+              "endTime": 1.84
+            },
+            {
+              "id": "TP1SZMFj",
+              "text": "to",
+              "type": "word",
+              "startTime": 1.84,
+              "endTime": 2.04
+            },
+            {
+              "id": "9rWhMXs5",
+              "text": "put",
+              "type": "word",
+              "startTime": 2.04,
+              "endTime": 2.2
+            },
+            {
+              "id": "ugWCFqqG",
+              "text": "out",
+              "type": "word",
+              "startTime": 2.2,
+              "endTime": 2.4
+            },
+            {
+              "id": "NXqp9ffk",
+              "text": "10x",
+              "type": "word",
+              "startTime": 2.4,
+              "endTime": 2.96
+            },
+            {
+              "id": "8lAu2n06",
+              "text": "content",
+              "type": "word",
+              "startTime": 2.96,
+              "endTime": 3.36
+            },
+            {
+              "id": "silence_3711a379-4b9e-43b5-a359-cc1f1d15d937",
+              "text": "",
+              "type": "silence",
+              "startTime": 3.36,
+              "endTime": 3.44
+            },
+            {
+              "id": "mtSyHpbK",
+              "text": "that",
+              "type": "word",
+              "startTime": 3.44,
+              "endTime": 3.8
+            },
+            {
+              "id": "oKpnnFO3",
+              "text": "no",
+              "type": "word",
+              "startTime": 3.8,
+              "endTime": 4.04
+            },
+            {
+              "id": "ocKqjsZY",
+              "text": "one",
+              "type": "word",
+              "startTime": 4.04,
+              "endTime": 4.2
+            },
+            {
+              "id": "ICZFvvwG",
+              "text": "else",
+              "type": "word",
+              "startTime": 4.2,
+              "endTime": 4.44
+            },
+            {
+              "id": "sJY23uRe",
+              "text": "on",
+              "type": "word",
+              "startTime": 4.44,
+              "endTime": 4.6
+            },
+            {
+              "id": "gLMXesJw",
+              "text": "the",
+              "type": "word",
+              "startTime": 4.6,
+              "endTime": 4.76
+            },
+            {
+              "id": "sIdNLLMh",
+              "text": "Internet",
+              "type": "word",
+              "startTime": 4.76,
+              "endTime": 5.08
+            },
+            {
+              "id": "FZZMkkiy",
+              "text": "can",
+              "type": "word",
+              "startTime": 5.08,
+              "endTime": 5.24
+            },
+            {
+              "id": "UB1ykkVt",
+              "text": "do",
+              "type": "word",
+              "startTime": 5.24,
+              "endTime": 5.52
+            },
+            {
+              "id": "oHV3trUk",
+              "text": ".",
+              "type": "punctuation",
+              "startTime": 5.52,
+              "endTime": 5.52
+            },
+            {
+              "id": "silence_13e72853-f420-4078-b910-1572ecb485a7",
+              "text": "",
+              "type": "silence",
+              "startTime": 5.52,
+              "endTime": 5.76
+            },
+            {
+              "id": "luLiSBGA",
+              "text": "To",
+              "type": "word",
+              "startTime": 5.76,
+              "endTime": 6.04
+            },
+            {
+              "id": "26mQPtVY",
+              "text": "do",
+              "type": "word",
+              "startTime": 6.04,
+              "endTime": 6.2
+            },
+            {
+              "id": "5gD1cNEg",
+              "text": "this",
+              "type": "word",
+              "startTime": 6.2,
+              "endTime": 6.4
+            },
+            {
+              "id": "n8OGZXHl",
+              "text": ",",
+              "type": "punctuation",
+              "startTime": 6.4,
+              "endTime": 6.4
+            },
+            {
+              "id": "fHbLDzVT",
+              "text": "we",
+              "type": "word",
+              "startTime": 6.4,
+              "endTime": 6.64
+            },
+            {
+              "id": "zztCaBrx",
+              "text": "think",
+              "type": "word",
+              "startTime": 6.64,
+              "endTime": 6.84
+            },
+            {
+              "id": "4tWswtYx",
+              "text": "of",
+              "type": "word",
+              "startTime": 6.84,
+              "endTime": 7.04
+            },
+            {
+              "id": "DCArSLge",
+              "text": "tactical",
+              "type": "word",
+              "startTime": 7.04,
+              "endTime": 7.52
+            },
+            {
+              "id": "BfkyjRgU",
+              "text": "and",
+              "type": "word",
+              "startTime": 7.52,
+              "endTime": 7.8
+            },
+            {
+              "id": "HosIUexG",
+              "text": "entertaining",
+              "type": "word",
+              "startTime": 7.8,
+              "endTime": 8.48
+            },
+            {
+              "id": "UmgtsZU6",
+              "text": "topics",
+              "type": "word",
+              "startTime": 8.48,
+              "endTime": 8.88
+            },
+            {
+              "id": "nfATtX0p",
+              "text": "that",
+              "type": "word",
+              "startTime": 8.88,
+              "endTime": 9.12
+            },
+            {
+              "id": "Z3XUhS1W",
+              "text": "teach",
+              "type": "word",
+              "startTime": 9.12,
+              "endTime": 9.4
+            },
+            {
+              "id": "yw7nwj6z",
+              "text": "and",
+              "type": "word",
+              "startTime": 9.4,
+              "endTime": 9.64
+            },
+            {
+              "id": "t0ToefhP",
+              "text": "entertain",
+              "type": "word",
+              "startTime": 9.64,
+              "endTime": 10.12
+            },
+            {
+              "id": "uihxpQuz",
+              "text": "B2B",
+              "type": "word",
+              "startTime": 10.12,
+              "endTime": 10.8
+            },
+            {
+              "id": "aRnSSJ58",
+              "text": "salespeople",
+              "type": "word",
+              "startTime": 10.8,
+              "endTime": 11.44
+            },
+            {
+              "id": "vDBw3GRl",
+              "text": ".",
+              "type": "punctuation",
+              "startTime": 11.44,
+              "endTime": 11.44
+            },
+            {
+              "id": "silence_0f6bdb9b-b00d-4d83-8bef-bef072af28af",
+              "text": "",
+              "type": "silence",
+              "startTime": 11.44,
+              "endTime": 12.16
+            }
+          ],
+          "magicClips": [],
+          "previewUrl": "https://app.submagic.co/view/5d6c917d-d2d1-49b6-877c-7f591fd7b4ce"
+        }
+      }
+    ]
+  },
+  "versionId": "040c42fc-f9e1-4fbb-aad3-ed86d004bc49",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-16T17:15:52.329Z",
+      "updatedAt": "2025-10-16T17:15:52.329Z",
+      "role": "workflow:owner",
+      "workflowId": "gLOMhlHVz5VX6s73",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
