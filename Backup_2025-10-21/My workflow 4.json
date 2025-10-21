@@ -1,0 +1,723 @@
+{
+  "createdAt": "2025-10-21T11:50:07.072Z",
+  "updatedAt": "2025-10-21T12:29:56.000Z",
+  "id": "xOl5dqbr93rnsZsN",
+  "name": "My workflow 4",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a212fd2b-ae22-4d5e-b6a3-1b23ca8f32dc",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.fathom.ai/external/v1/meetings",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a53405da-0612-4752-a7fd-e02fbefd6222",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NBhzhmldtZCSS2om",
+          "name": "Lumoscale -Fathom"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.fathom.ai/external/v1/recordings/{{ $json.items[0].recording_id }}/summary",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        -128
+      ],
+      "id": "9a9c281a-fc46-4676-9c65-090bc0a302a4",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NBhzhmldtZCSS2om",
+          "name": "Lumoscale -Fathom"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.fathom.ai/external/v1/recordings/{{ $json.items[0].recording_id }}/transcript",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        64
+      ],
+      "id": "23a06881-4f2f-48ac-8712-0a7eb4ec3b25",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NBhzhmldtZCSS2om",
+          "name": "Lumoscale -Fathom"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the transcript array from input\nconst transcript = $input.item.json.transcript;\n\n// Map each transcript entry to \"Speaker Name: text\"\nconst formatted = transcript.map(entry => {\n  // Try to get name from multiple possible locations\n  const speaker = entry.display_name || (entry.speaker && entry.speaker.display_name) || \"Unknown\";\n  const text = entry.text || \"\";\n  return `${speaker}: ${text}`;\n});\n\n// Return as single array\nreturn [{ json: { conversation: formatted } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        64
+      ],
+      "id": "143501be-0e90-442a-b3a8-0603583e12d2",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input: msg.json.conversation = array of strings like:\n// [\"Lumoscale: Yeah, okay.\", \"Lumoscale: Let's wait until the beginning of the day.\", ...]\n\nconst conversation = $json[\"conversation\"]; // Your conversation array\n\nlet cleanedTranscript = [];\n\nconversation.forEach(line => {\n    if (!line) return; // skip empty lines\n\n    // Split speaker and text\n    const parts = line.split(\":\");\n    if (parts.length < 2) return; // skip lines without proper speaker\n\n    const speaker = parts[0].trim();\n    const speech = parts.slice(1).join(\":\").trim();\n\n    // Filter out filler / meaningless lines\n    const fillers = [\"yeah\", \"huh\", \"okay\", \"hello\", \"come on in here\", \"what\", \"sorry to interrupt\"];\n    if (speech.length < 3) return; // skip very short lines\n    if (fillers.some(f => speech.toLowerCase().includes(f))) return;\n\n    cleanedTranscript.push({speaker, text: speech});\n});\n\nreturn [{json: {cleanedTranscript}}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        64
+      ],
+      "id": "4a3bd781-9f22-4265-8732-54da62418825",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access previous OpenAI / Gemini node outputs\nconst objectionsNode = $node[\"Objections\"].json[\"content\"][\"parts\"][0][\"text\"];\nconst questionsNode = $node[\"Questions\"].json[\"content\"][\"parts\"][0][\"text\"];\nconst emotionalTriggersNode = $node[\"Emotional Triggers\"].json[\"content\"][\"parts\"][0][\"text\"];\n\n// Helper function to remove ```json and ``` from OpenAI output\nfunction cleanJSON(str) {\n    if (!str) return \"[]\";\n    return str.replace(/```json|```/g, '').trim();\n}\n\n// Parse outputs safely\nconst objections = JSON.parse(cleanJSON(objectionsNode));\nconst questions = JSON.parse(cleanJSON(questionsNode));\nconst emotionalTriggers = JSON.parse(cleanJSON(emotionalTriggersNode));\n\n// Return combined data\nreturn [{ json: { objections, questions, emotionalTriggers } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        96
+      ],
+      "id": "bef9571c-22a9-4293-a215-9e0e05eaecd7",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Extract all objections the prospect raised.\n\nFormat as JSON array:\n[\n  \"Objection 1: ...\",\n  \"Objection 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $json[\"cleanedTranscript\"].map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        -128
+      ],
+      "id": "54068088-550a-474b-9e99-412da5f9fa3c",
+      "name": "Objections",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Extract all questions the prospect asked.\n\nFormat as a JSON array:\n[\n  \"Question 1: ...\",\n  \"Question 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $node[\"Code in JavaScript1\"].json.cleanedTranscript.map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        80
+      ],
+      "id": "448c33f2-8fb5-44a6-845e-413935ace4cc",
+      "name": "Questions",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Identify emotional triggers, pain points, frustrations, or motivators expressed by the prospect.  \n\nFormat as a JSON array:\n[\n  \"Emotional Trigger 1: ...\",\n  \"Emotional Trigger 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $('Code in JavaScript1').item.json.cleanedTranscript.map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        288
+      ],
+      "id": "ed36a138-3511-4a8b-891f-d2f94f206bf4",
+      "name": "Emotional Triggers",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1872,
+        80
+      ],
+      "id": "c94bdc1d-9365-4c18-a01a-09c751e59930",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content creator. Based on the following extracted data from a sales call, create a 7-slide Instagram carousel.\n\nData:\nObjections: {{ $json[\"objections\"].join(\"; \") }}\nQuestions: {{ $json[\"questions\"].join(\"; \") }}\nEmotional Triggers: {{ $json[\"emotionalTriggers\"].join(\"; \") }}\n\nFormat each slide with a short, punchy text (15-20 words max):\n\nSlide 1: Hook (grab attention)\nSlide 2: Objection 1 + How to address\nSlide 3: Objection 2 + How to address\nSlide 4: Question 1 + Insight\nSlide 5: Emotional Trigger 1 + Solution\nSlide 6: Emotional Trigger 2 + Solution\nSlide 7: CTA (Call-to-Action) - e.g., \"DM me if this resonates!\"\n\nMake the language engaging, friendly, and in the coach's brand voice.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        -160
+      ],
+      "id": "b86695c7-a7bf-4e9a-8b85-3b7fe4757a3a",
+      "name": "Carousal",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content creator. Based on the extracted data from a sales call, write a LinkedIn post that:\n\n- Tells a short story or scenario from the call\n- Highlights objections, questions, or frustrations the prospect shared\n- Shows insights or solutions\n- Ends with a friendly CTA (like commenting or DMing)\n\nData:\nObjections: {{ $json.objections }}\nQuestions: {{ $json.questions }}\nEmotional Triggers: {{ $json.emotionalTriggers }}\n\nTone: Professional, story-driven, client-focused, and engaging\nLength: 150–250 words\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        96
+      ],
+      "id": "c358dfc6-9c12-4d0b-83d7-a6eebba190a8",
+      "name": "Linkedin Post",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional content creator for a coach. Based on the following extracted data from a sales call, write a short, engaging email.\n\nData:\nObjections: {{ $json.objections }}\nQuestions: {{ $json.questions }}\nEmotional Triggers: {{ $json.emotionalTriggers }}\n\nEmail requirements:\n- Include a clear subject line\n- Highlight 1-2 objections or pain points from the prospect\n- Provide actionable insight or solution\n- End with a friendly call-to-action (e.g., reply to this email, DM me, or schedule a call)\n- Tone: professional but friendly\n- Length: 150–200 words\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        2448,
+        336
+      ],
+      "id": "d5a8b7e6-1a6a-4aff-b85d-d8018fac9919",
+      "name": "Email",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content creator. Based on the following extracted data from a sales call, create a 5-slide story sequence for Instagram/Facebook.\n\nData:\nObjections: {{ $json.objections }}\nQuestions: {{ $json.questions }}\nEmotional Triggers: {{ $json.emotionalTriggers }}\n\nInstructions:\n- Slide 1: Hook / Attention Grabber\n- Slide 2: Highlight an objection or pain point\n- Slide 3: Share a question or frustration from the prospect\n- Slide 4: Provide a solution or actionable insight\n- Slide 5: CTA (Call-to-Action) - e.g., \"Swipe up\", \"DM me\", \"Comment below\"\n\nKeep each slide short, punchy, and visually scannable (15-20 words max). \nUse friendly, engaging, and brand-aligned language.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        2448,
+        608
+      ],
+      "id": "9a951b6c-8ddc-4efb-b5f0-0d90e5acd58d",
+      "name": "Story Sequence",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "prompt": "=Create an illustration for an Instagram carousel slide:\n\nSlide Text: {{ $json.content.parts[0].text }}\nTopic: LinkedIn outreach frustrations\nStyle: Modern, colorful, attention-grabbing, suitable for Instagram\nFormat: 1080x1080 pixels\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3184,
+        -160
+      ],
+      "id": "4aa614ac-f970-470e-83f6-3948bbd41800",
+      "name": "Generate an image",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input: $json.content.parts[0].text = full carousel text\nconst fullText = $json.content.parts[0].text;\n\n// Split by slide markers (Slide 1, Slide 2, etc.)\nconst slideRegex = /Slide \\d+/g;\nlet matches = [...fullText.matchAll(slideRegex)];\n\nlet items = [];\n\nfor (let i = 0; i < matches.length; i++) {\n    const startIndex = matches[i].index;\n    const endIndex = i + 1 < matches.length ? matches[i + 1].index : fullText.length;\n    const slideText = fullText.substring(startIndex, endIndex).trim();\n\n    items.push({ json: { slideNumber: i + 1, text: slideText } });\n}\n\n// Return as separate items\nreturn items;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2784,
+        -160
+      ],
+      "id": "6c76937e-d8bb-480e-be52-4b042dd02f81",
+      "name": "Code in JavaScript3"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Objections",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Questions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Emotional Triggers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Objections": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Questions": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Emotional Triggers": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Carousal",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Linkedin Post",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Story Sequence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email": {
+      "main": [
+        []
+      ]
+    },
+    "Carousal": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Code in JavaScript2": [
+      {
+        "json": {
+          "objections": [
+            "Objection: \"Now the problem is, as far as I was seeing few clients, when I'm trying to connect with them, so they're telling me to use the premium because you can't send them the connection, I don't know why.\"",
+            "Objection: \"Now the problem is the message section in there, when I'm messaging them, trying to message them, so it is not being allowed, like I'm not redirecting to the inbox page, and other than that, they're like, you can't message, have to try like premium for that.\"",
+            "Objection: \"So for that reason, I am unable to message, like whenever I'm trying to like, open the message section here, they're showing me message, try premium for, you know, this thing, otherwise, you know, you can't message this certain person.\"",
+            "Objection: \"Also have one option as like, you can either like, you know, add a free note that basically they showed me before two minutes when I was trying to connect with them, but now it disappeared.\"",
+            "Objection: \"So I don't know how do I message them in the draft that you have sent to me if it is showing this.\"",
+            "Objection: \"Connection button. So when you try to click that button, they are telling you to use premium only that you can send the certain person the message and also your, you know, connection is not being, does premium is needed for sending an action?\"",
+            "Objection: \"I am guessing this is one of the reasons if I'm pending, so I might not be able to send the message once I just get, you know, validated.\"",
+            "Objection: \"They are saying to upgrade it to Pro.\"",
+            "Objection: \"All of them are pending.\"",
+            "Objection: \"Mine too are pending.\"",
+            "Objection: \"All of them, I can't check who are pending and all.\"",
+            "Objection: \"Unless they're like that, I won't understand who are pending or have accessed it.\"",
+            "Objection: \"Maybe because I am just fetching the founder and the, you know, CEOs, maybe, because, I don't know, maybe I need to get validated.\"",
+            "Objection: \"Then I will be able to send this.\"",
+            "Objection: \"She texted me, please. I think some internet connection was problem with Ayoshi.\"",
+            "Objection: \"Is there any correction problem? Internet.\"",
+            "Objection: \"Is there a mobile data working over there? Let's try it on putting on the mobile data.\"",
+            "Objection: \"Maybe she has a problem and continue.\"",
+            "Objection: \"No, as of now, I have only sent LinkedIn.\"",
+            "Objection: \"No, it is not optimized yet.\"",
+            "Objection: \"No, basically, the problem is the account that I already had in Twitter, I'm unable to fetch it back.\"",
+            "Objection: \"The problem with that is they are basically trying to save me that it was like not used or something like that, so they are redirecting me to like, your account is blocked and you can't fetch it back.\"",
+            "Objection: \"So I took like they, I had a 14 days timer, waited for 14 days, today is the 16th or 17th day, but I'm still not, I still not got any sort of notification.\"",
+            "Objection: \"So either I have to wait for like two to three days more to see, otherwise I have to make a new account.\"",
+            "Objection: \"Can you just see two more days?\"",
+            "Objection: \"I actually scraped around 50 emails. got 50 good leads when it comes to Philippine's market.\"",
+            "Objection: \"So he told me to, you know, send organically, but I can even copy paste and change a little bit.\"",
+            "Objection: \"If you put every email organically, it's up to you.\"",
+            "Objection: \"Like in the notion file that shared a notion file, the cold outreach one, basically, and that I guess they said Zoho, HubSpot, and Go, Go, Go high level, basically. These are the, you know, tools, but most of them are paid ones.\"",
+            "Objection: \"It's an extension, just keep on learning, just keep on learning, just send the list of the places where you have did research, it's to Wamshi, and also if possible to me.\""
+          ],
+          "questions": [
+            "Question 1: So am I audible now?",
+            "Question 2: Are you in touch with her?",
+            "Question 3: So for that reason, I am unable to message, like whenever I'm trying to like, open the message section here, they're showing me message, try premium for, you know, this thing, otherwise, you know, you can't message this certain person.",
+            "Question 4: So now I'm not understanding, and they have...",
+            "Question 5: So I don't know how do I message them in the draft that you have sent to me if it is showing this.",
+            "Question 6: mean, you can just text them, right?",
+            "Question 7: Connection button.",
+            "Question 8: So when you try to click that button, they are telling you to use premium only that you can send the certain person the message and also your, you know, connection is not being, does premium is needed for sending an action?",
+            "Question 9: Once I'm like validated, because now it's pending.",
+            "Question 10: So did you send the connections?",
+            "Question 11: So how much, how many did you send today, both of you?",
+            "Question 12: All of them are pending.",
+            "Question 13: Mine too are pending.",
+            "Question 14: All of them, I can't check who are pending and all.",
+            "Question 15: Unless they're like that, I won't understand who are pending or have accessed it.",
+            "Question 16: Aren't your emails on validation?",
+            "Question 17: Did you verify your emails?",
+            "Question 18: Am I audible?",
+            "Question 19: Am I audible?",
+            "Question 20: Is there any correction problem?",
+            "Question 21: Is there a mobile data working over there?",
+            "Question 22: So can I Triparna?",
+            "Question 23: Is it optimized?",
+            "Question 24: So when are you thinking to optimize?",
+            "Question 25: Why is so?",
+            "Question 26: Did you report the problem?",
+            "Question 27: mean, after reporting off the problem only, was telling you to wait 14 days.",
+            "Question 28: Can you just see two more days?",
+            "Question 29: I mean, see, check corrections in it.",
+            "Question 30: How is it?",
+            "Question 31: So you just grabbed all the emails?",
+            "Question 32: Do you have the list of the places, any mails you have to send?",
+            "Question 33: We have with you, right?",
+            "Question 34: And you have any idea about mail tracking?",
+            "Question 35: Is there any, you know, tools that you would recommend?",
+            "Question 36: Can you just go on to the timing, which will be better to send the mails?",
+            "Question 37: No, if I send email according to India time ISD, I should be sending at 9am, it will be 11am in sleepings.",
+            "Question 38: So any more points to discuss?"
+          ],
+          "emotionalTriggers": [
+            "Frustration: Prospect is unable to message potential clients due to LinkedIn's premium requirement.",
+            "Frustration: Prospect's messages or connection attempts are not going through or are pending.",
+            "Frustration: Prospect's previously available option to add a free note has disappeared.",
+            "Frustration: Prospect is experiencing issues accessing or recovering their Twitter account, leading to a blocked status.",
+            "Frustration: Prospect has waited for a notification for account recovery but hasn't received it.",
+            "Frustration: Prospect is facing uncertainty about how to proceed with their Twitter account situation (wait longer or create a new one).",
+            "Pain Point: Inability to connect with or message target clients on LinkedIn is hindering sales efforts.",
+            "Pain Point: Technical difficulties with platform access (LinkedIn, Twitter) are creating roadblocks.",
+            "Motivator: Desire to effectively reach and message potential clients for sales.",
+            "Motivator: Need to find solutions to overcome platform limitations (e.g., premium requirements).",
+            "Motivator: Exploring different strategies for outreach, including organic messaging and email campaigns.",
+            "Motivator: Interest in tools and techniques for improving outreach effectiveness (e.g., mail tracking)."
+          ]
+        }
+      }
+    ],
+    "Merge": [
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "```json\n[\n  \"Objection: \\\"Now the problem is, as far as I was seeing few clients, when I'm trying to connect with them, so they're telling me to use the premium because you can't send them the connection, I don't know why.\\\"\",\n  \"Objection: \\\"Now the problem is the message section in there, when I'm messaging them, trying to message them, so it is not being allowed, like I'm not redirecting to the inbox page, and other than that, they're like, you can't message, have to try like premium for that.\\\"\",\n  \"Objection: \\\"So for that reason, I am unable to message, like whenever I'm trying to like, open the message section here, they're showing me message, try premium for, you know, this thing, otherwise, you know, you can't message this certain person.\\\"\",\n  \"Objection: \\\"Also have one option as like, you can either like, you know, add a free note that basically they showed me before two minutes when I was trying to connect with them, but now it disappeared.\\\"\",\n  \"Objection: \\\"So I don't know how do I message them in the draft that you have sent to me if it is showing this.\\\"\",\n  \"Objection: \\\"Connection button. So when you try to click that button, they are telling you to use premium only that you can send the certain person the message and also your, you know, connection is not being, does premium is needed for sending an action?\\\"\",\n  \"Objection: \\\"I am guessing this is one of the reasons if I'm pending, so I might not be able to send the message once I just get, you know, validated.\\\"\",\n  \"Objection: \\\"They are saying to upgrade it to Pro.\\\"\",\n  \"Objection: \\\"All of them are pending.\\\"\",\n  \"Objection: \\\"Mine too are pending.\\\"\",\n  \"Objection: \\\"All of them, I can't check who are pending and all.\\\"\",\n  \"Objection: \\\"Unless they're like that, I won't understand who are pending or have accessed it.\\\"\",\n  \"Objection: \\\"Maybe because I am just fetching the founder and the, you know, CEOs, maybe, because, I don't know, maybe I need to get validated.\\\"\",\n  \"Objection: \\\"Then I will be able to send this.\\\"\",\n  \"Objection: \\\"She texted me, please. I think some internet connection was problem with Ayoshi.\\\"\",\n  \"Objection: \\\"Is there any correction problem? Internet.\\\"\",\n  \"Objection: \\\"Is there a mobile data working over there? Let's try it on putting on the mobile data.\\\"\",\n  \"Objection: \\\"Maybe she has a problem and continue.\\\"\",\n  \"Objection: \\\"No, as of now, I have only sent LinkedIn.\\\"\",\n  \"Objection: \\\"No, it is not optimized yet.\\\"\",\n  \"Objection: \\\"No, basically, the problem is the account that I already had in Twitter, I'm unable to fetch it back.\\\"\",\n  \"Objection: \\\"The problem with that is they are basically trying to save me that it was like not used or something like that, so they are redirecting me to like, your account is blocked and you can't fetch it back.\\\"\",\n  \"Objection: \\\"So I took like they, I had a 14 days timer, waited for 14 days, today is the 16th or 17th day, but I'm still not, I still not got any sort of notification.\\\"\",\n  \"Objection: \\\"So either I have to wait for like two to three days more to see, otherwise I have to make a new account.\\\"\",\n  \"Objection: \\\"Can you just see two more days?\\\"\",\n  \"Objection: \\\"I actually scraped around 50 emails. got 50 good leads when it comes to Philippine's market.\\\"\",\n  \"Objection: \\\"So he told me to, you know, send organically, but I can even copy paste and change a little bit.\\\"\",\n  \"Objection: \\\"If you put every email organically, it's up to you.\\\"\",\n  \"Objection: \\\"Like in the notion file that shared a notion file, the cold outreach one, basically, and that I guess they said Zoho, HubSpot, and Go, Go, Go high level, basically. These are the, you know, tools, but most of them are paid ones.\\\"\",\n  \"Objection: \\\"It's an extension, just keep on learning, just keep on learning, just send the list of the places where you have did research, it's to Wamshi, and also if possible to me.\\\"\"\n]\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      },
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "```json\n[\n  \"Question 1: So am I audible now?\",\n  \"Question 2: Are you in touch with her?\",\n  \"Question 3: So for that reason, I am unable to message, like whenever I'm trying to like, open the message section here, they're showing me message, try premium for, you know, this thing, otherwise, you know, you can't message this certain person.\",\n  \"Question 4: So now I'm not understanding, and they have...\",\n  \"Question 5: So I don't know how do I message them in the draft that you have sent to me if it is showing this.\",\n  \"Question 6: mean, you can just text them, right?\",\n  \"Question 7: Connection button.\",\n  \"Question 8: So when you try to click that button, they are telling you to use premium only that you can send the certain person the message and also your, you know, connection is not being, does premium is needed for sending an action?\",\n  \"Question 9: Once I'm like validated, because now it's pending.\",\n  \"Question 10: So did you send the connections?\",\n  \"Question 11: So how much, how many did you send today, both of you?\",\n  \"Question 12: All of them are pending.\",\n  \"Question 13: Mine too are pending.\",\n  \"Question 14: All of them, I can't check who are pending and all.\",\n  \"Question 15: Unless they're like that, I won't understand who are pending or have accessed it.\",\n  \"Question 16: Aren't your emails on validation?\",\n  \"Question 17: Did you verify your emails?\",\n  \"Question 18: Am I audible?\",\n  \"Question 19: Am I audible?\",\n  \"Question 20: Is there any correction problem?\",\n  \"Question 21: Is there a mobile data working over there?\",\n  \"Question 22: So can I Triparna?\",\n  \"Question 23: Is it optimized?\",\n  \"Question 24: So when are you thinking to optimize?\",\n  \"Question 25: Why is so?\",\n  \"Question 26: Did you report the problem?\",\n  \"Question 27: mean, after reporting off the problem only, was telling you to wait 14 days.\",\n  \"Question 28: Can you just see two more days?\",\n  \"Question 29: I mean, see, check corrections in it.\",\n  \"Question 30: How is it?\",\n  \"Question 31: So you just grabbed all the emails?\",\n  \"Question 32: Do you have the list of the places, any mails you have to send?\",\n  \"Question 33: We have with you, right?\",\n  \"Question 34: And you have any idea about mail tracking?\",\n  \"Question 35: Is there any, you know, tools that you would recommend?\",\n  \"Question 36: Can you just go on to the timing, which will be better to send the mails?\",\n  \"Question 37: No, if I send email according to India time ISD, I should be sending at 9am, it will be 11am in sleepings.\",\n  \"Question 38: So any more points to discuss?\"\n]\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      },
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "```json\n[\n  \"Frustration: Prospect is unable to message potential clients due to LinkedIn's premium requirement.\",\n  \"Frustration: Prospect's messages or connection attempts are not going through or are pending.\",\n  \"Frustration: Prospect's previously available option to add a free note has disappeared.\",\n  \"Frustration: Prospect is experiencing issues accessing or recovering their Twitter account, leading to a blocked status.\",\n  \"Frustration: Prospect has waited for a notification for account recovery but hasn't received it.\",\n  \"Frustration: Prospect is facing uncertainty about how to proceed with their Twitter account situation (wait longer or create a new one).\",\n  \"Pain Point: Inability to connect with or message target clients on LinkedIn is hindering sales efforts.\",\n  \"Pain Point: Technical difficulties with platform access (LinkedIn, Twitter) are creating roadblocks.\",\n  \"Motivator: Desire to effectively reach and message potential clients for sales.\",\n  \"Motivator: Need to find solutions to overcome platform limitations (e.g., premium requirements).\",\n  \"Motivator: Exploring different strategies for outreach, including organic messaging and email campaigns.\",\n  \"Motivator: Interest in tools and techniques for improving outreach effectiveness (e.g., mail tracking).\"\n]\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      }
+    ]
+  },
+  "versionId": "c3672e65-2010-4c11-b1a6-c53e5a82b78b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-21T11:50:07.078Z",
+      "updatedAt": "2025-10-21T11:50:07.078Z",
+      "role": "workflow:owner",
+      "workflowId": "xOl5dqbr93rnsZsN",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
