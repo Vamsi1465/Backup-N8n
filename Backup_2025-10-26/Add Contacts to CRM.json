@@ -1,0 +1,575 @@
+{
+  "createdAt": "2025-10-25T21:25:39.958Z",
+  "updatedAt": "2025-10-26T13:24:12.000Z",
+  "id": "sQ8gEOLDz1eH9USq",
+  "name": "Add Contacts to CRM",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "events": [
+          "BOOKING_CREATED"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.calTrigger",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        112
+      ],
+      "id": "682afbd4-fea4-4a76-a036-a095d402a9db",
+      "name": "Cal.com Trigger1",
+      "webhookId": "1b5058e0-acc7-4a21-9cfb-cc0b07846192",
+      "credentials": {
+        "calApi": {
+          "id": "EUv3ewUXAb0GzLlV",
+          "name": "Cal account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"data\": [\n    {\n      \"Email\": \"{{ $json.attendees[0].email }}\",\n      \"Deal_Name\": \"{{ $json.attendees[0].name }}\",\n      \"Stage\": \"Meeting Booked\",\n      \"Closing_Date\": \"{{ new Date($json.startTime).toISOString().split('T')[0] }}\",\n      \"Description\": \"{{ $json.eventDescription || $json.additionalNotes || '' }}\",\n      \"VideoCallURL\": \"{{ $json.metadata.videoCallUrl || '' }}\"\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -672,
+        112
+      ],
+      "id": "045bce7f-c190-485c-89e5-883b2a196c45",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "lastName": "={{ $json.data[0].Deal_Name }}",
+        "additionalFields": {
+          "Email": "={{ $json.data[0].Email }}"
+        }
+      },
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        112
+      ],
+      "id": "21e1d13d-ea6c-4828-bd3a-f5dec9316b60",
+      "name": "Create a contact",
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "KY3A0ESDutXSdOIl",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "contact",
+        "operation": "get",
+        "contactId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        112
+      ],
+      "id": "b43e78a5-a23a-43f4-94f1-ec75ce955352",
+      "name": "Get a contact",
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "KY3A0ESDutXSdOIl",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "deal",
+        "dealName": "={{ $json.Owner.name }}",
+        "stage": "Qualification",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.zohoCrm",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        112
+      ],
+      "id": "42076f2b-8a24-4431-b162-d71255fadd50",
+      "name": "Create a deal",
+      "credentials": {
+        "zohoOAuth2Api": {
+          "id": "KY3A0ESDutXSdOIl",
+          "name": "Zoho account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1atIlmeZnPiLt72y7AXn4RrAaWNiR8TBO87dwM5akYiA",
+          "mode": "list",
+          "cachedResultName": "Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1atIlmeZnPiLt72y7AXn4RrAaWNiR8TBO87dwM5akYiA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Lead Management",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1atIlmeZnPiLt72y7AXn4RrAaWNiR8TBO87dwM5akYiA/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Qualified( Yes / No)",
+              "lookupValue": "Yes"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -720,
+        352
+      ],
+      "id": "75caa49d-e8c5-4ec7-827b-38ba10c0856f",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        352
+      ],
+      "id": "ae16b60e-2314-44da-81ad-f277ced8383b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.zohoapis.in/crm/v2/Contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"data\": [\n    {\n      \"First_Name\": \" \",\n      \"Last_Name\": \" {{ $json['Lead Name'] }}\",\n      \"Email\": \"{{ $json.Email }}\",\n      \"Phone\": \"{{ $json['Mobile No'] }}\"\n    }\n  ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -496,
+        352
+      ],
+      "id": "fa40b7eb-e5ec-4322-a8a0-de1f2c551ff6",
+      "name": "HTTP Request1",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "leKprGXDkzeLyR7p",
+          "name": "bigin"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -288,
+        352
+      ],
+      "id": "10b139c1-6149-4761-9dbb-0bd29707d33e",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.zohoapis.in/crm/v2/Contacts/{{ $json.data[0].details.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        368
+      ],
+      "id": "7028f8ad-d141-4f7d-a1e5-edd76cbcaf54",
+      "name": "HTTP Request2",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "leKprGXDkzeLyR7p",
+          "name": "bigin"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.zohoapis.in/crm/v2/Deals",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"data\": [\n    {\n      \"Deal_Name\": \"{{ $json.data[0].Full_Name }}\",\n      \"Stage\": \"Meeting Booked\",\n      \"Amount\": 5000\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        368
+      ],
+      "id": "b53a6203-e19e-4676-99f1-8a174427822e",
+      "name": "HTTP Request3",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "leKprGXDkzeLyR7p",
+          "name": "bigin"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cal.com Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Create a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a contact": {
+      "main": [
+        [
+          {
+            "node": "Get a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a contact": {
+      "main": [
+        [
+          {
+            "node": "Create a deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a deal": {
+      "main": [
+        []
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Cal.com Trigger1": [
+      {
+        "json": {
+          "triggerEvent": "BOOKING_CREATED",
+          "createdAt": "2025-10-26T04:24:03.502Z",
+          "bookerUrl": "https://cal.com",
+          "title": "30 Min Meeting between V Vamsi Krishna and v vamsi",
+          "startTime": "2025-10-26T09:00:00Z",
+          "endTime": "2025-10-26T09:30:00Z",
+          "additionalNotes": "",
+          "type": "30min",
+          "description": "let’s chat and explore ideas",
+          "eventTypeId": 3086845,
+          "hideCalendarNotes": false,
+          "hideCalendarEventDetails": false,
+          "hideOrganizerEmail": false,
+          "schedulingType": null,
+          "seatsPerTimeSlot": null,
+          "seatsShowAttendees": true,
+          "seatsShowAvailabilityCount": true,
+          "customReplyToEmail": null,
+          "disableRescheduling": false,
+          "disableCancelling": false,
+          "organizer": {
+            "id": 1696057,
+            "name": "V Vamsi Krishna",
+            "email": "vamsivk1465@gmail.com",
+            "username": "vamsivk",
+            "timeZone": "Asia/Calcutta",
+            "language": {
+              "locale": "en"
+            },
+            "timeFormat": "HH:mm",
+            "utcOffset": 330
+          },
+          "attendees": [
+            {
+              "email": "vamsikrishna2536@gmail.com",
+              "name": "v vamsi",
+              "firstName": "",
+              "lastName": "",
+              "timeZone": "Asia/Calcutta",
+              "language": {
+                "locale": "en"
+              },
+              "utcOffset": 330
+            }
+          ],
+          "customInputs": {},
+          "responses": {
+            "name": {
+              "label": "your_name",
+              "value": "v vamsi",
+              "isHidden": false
+            },
+            "email": {
+              "label": "email_address",
+              "value": "vamsikrishna2536@gmail.com",
+              "isHidden": false
+            },
+            "attendeePhoneNumber": {
+              "label": "phone_number",
+              "isHidden": true
+            },
+            "location": {
+              "label": "location",
+              "value": {
+                "value": "integrations:google:meet",
+                "optionValue": ""
+              },
+              "isHidden": false
+            },
+            "title": {
+              "label": "what_is_this_meeting_about",
+              "isHidden": true
+            },
+            "notes": {
+              "label": "additional_notes",
+              "isHidden": false
+            },
+            "guests": {
+              "label": "additional_guests",
+              "value": [],
+              "isHidden": false
+            },
+            "rescheduleReason": {
+              "label": "reason_for_reschedule",
+              "isHidden": false
+            }
+          },
+          "userFieldsResponses": {},
+          "location": "integrations:google:meet",
+          "destinationCalendar": [
+            {
+              "id": 759961,
+              "integration": "google_calendar",
+              "externalId": "vamsivk1465@gmail.com",
+              "primaryEmail": "vamsivk1465@gmail.com",
+              "userId": 1696057,
+              "eventTypeId": null,
+              "credentialId": 1245761,
+              "createdAt": "2025-08-17T16:26:13.617Z",
+              "updatedAt": "2025-08-17T16:26:13.617Z",
+              "delegationCredentialId": null,
+              "domainWideDelegationCredentialId": null
+            }
+          ],
+          "iCalUID": "7uypU79hdnhNxX8TTBW2ek@Cal.com",
+          "iCalSequence": 0,
+          "requiresConfirmation": false,
+          "oneTimePassword": null,
+          "uid": "7uypU79hdnhNxX8TTBW2ek",
+          "conferenceData": {
+            "createRequest": {
+              "requestId": "8a0ce172-f69a-51b5-8481-93feb73d58e2"
+            }
+          },
+          "appsStatus": [
+            {
+              "appName": "google-calendar",
+              "type": "google_calendar",
+              "success": 1,
+              "failures": 0,
+              "errors": [],
+              "warnings": []
+            },
+            {
+              "appName": "Google Meet",
+              "type": "conferencing",
+              "success": 1,
+              "failures": 0,
+              "errors": []
+            }
+          ],
+          "eventTitle": "30 Min Meeting",
+          "eventDescription": "let’s chat and explore ideas",
+          "price": 0,
+          "currency": "usd",
+          "length": 30,
+          "bookingId": 12120746,
+          "metadata": {
+            "videoCallUrl": "https://meet.google.com/eao-zgjw-giv"
+          },
+          "status": "ACCEPTED"
+        }
+      }
+    ],
+    "Get row(s) in sheet": [
+      {
+        "json": {
+          "row_number": 2,
+          "Date": "25/10/25",
+          "Lead Name": "Aditya Singaraju",
+          "Email": "asingaraju85@gmail.com",
+          "Mobile No": "",
+          "Platform": "Referral",
+          "Owner": "Vamsi",
+          "Status": "Contacted or DM",
+          "URL": "-",
+          "Niche/ ICP": "Co- working spaces",
+          "Next Action": "check qualified or not",
+          "Last Contact Date": "25/10/25",
+          "Follow up date": "-",
+          "Pain Point/ Requirement": "Website requirement",
+          "Qualified( Yes / No)": "Yes",
+          "Bigin Update": "Has to move to CRM"
+        }
+      },
+      {
+        "json": {
+          "row_number": 3,
+          "Date": "25/10/25",
+          "Lead Name": "Muskaan",
+          "Email": "aggarwalmuskan37@gmail.com",
+          "Mobile No": "",
+          "Platform": "Referral",
+          "Owner": "Vamsi",
+          "Status": "Contacted or DM",
+          "URL": "-",
+          "Niche/ ICP": "Lawyer",
+          "Next Action": "check qualified or not",
+          "Last Contact Date": "25/10/25",
+          "Follow up date": "-",
+          "Pain Point/ Requirement": "Automations",
+          "Qualified( Yes / No)": "Yes",
+          "Bigin Update": "Moved to CRM"
+        }
+      }
+    ],
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "versionId": "8ac84ad1-99f4-40be-9f0a-4991dfd3110f",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-25T21:25:39.961Z",
+      "updatedAt": "2025-10-25T21:25:39.961Z",
+      "role": "workflow:owner",
+      "workflowId": "sQ8gEOLDz1eH9USq",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
