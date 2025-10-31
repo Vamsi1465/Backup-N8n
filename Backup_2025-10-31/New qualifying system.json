@@ -1,0 +1,2720 @@
+{
+  "createdAt": "2025-10-30T15:52:31.741Z",
+  "updatedAt": "2025-10-30T20:16:45.000Z",
+  "id": "4aBnRQs0MwFenQHE",
+  "name": "New qualifying system",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Coaches",
+        "formDescription": "Submit your free consultation",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Enter your name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "placeholder": "Enter your email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What's your biggest challenge right now?",
+              "placeholder": "Message",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "Book a Call",
+          "ignoreBots": true,
+          "customCss": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n<title>Lumoscale Lead Form</title>\n<style>\n:root {\n\t--font-family: 'Open Sans', sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\t--font-size-body: 14px;\n\t--font-size-label: 14px;\n\t--font-size-header: 20px;\n\t--color-background: #fbfcfe;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #dbdfe7;\n\t--color-card-shadow: rgba(99, 77, 255, 0.06);\n\t--color-header: #525356;\n\t--color-label: #555555;\n\t--color-input-border: #dbdfe7;\n\t--color-input-text: #333;\n\t--color-focus-border: #5a4cc2;\n\t--color-submit-btn-bg: #ff6d5a;\n\t--color-submit-btn-text: #ffffff;\n\t--color-html-link: #ff6d5a;\n\t--color-error: #ea1f30;\n\t--border-radius-card: 8px;\n\t--border-radius-input: 6px;\n\t--box-shadow-card: 0 6px 18px var(--color-card-shadow);\n}\n\nbody {\n\tfont-family: var(--font-family);\n\tbackground: var(--color-background);\n\tdisplay: flex;\n\tjustify-content: center;\n\talign-items: center;\n\tmin-height: 100vh;\n\tpadding: 20px;\n}\n\n.form-card {\n\tbackground: var(--color-card-bg);\n\tborder: 1px solid var(--color-card-border);\n\tbox-shadow: var(--box-shadow-card);\n\tborder-radius: var(--border-radius-card);\n\twidth: 100%;\n\tmax-width: 420px;\n\tpadding: 32px;\n}\n\n.form-header {\n\ttext-align: center;\n\tcolor: var(--color-header);\n\tfont-size: var(--font-size-header);\n\tfont-weight: var(--font-weight-bold);\n\tmargin-bottom: 12px;\n}\n\n.form-subtext {\n\ttext-align: center;\n\tcolor: #7e8186;\n\tfont-size: 13px;\n\tmargin-bottom: 24px;\n}\n\n.form-group {\n\tmargin-bottom: 16px;\n}\n\nlabel {\n\tdisplay: block;\n\tmargin-bottom: 6px;\n\tcolor: var(--color-label);\n\tfont-size: var(--font-size-label);\n}\n\ninput, textarea, select {\n\twidth: 100%;\n\tpadding: 12px;\n\tborder: 1px solid var(--color-input-border);\n\tborder-radius: var(--border-radius-input);\n\tfont-size: var(--font-size-body);\n\tcolor: var(--color-input-text);\n\tbackground-color: #fff;\n\ttransition: border 0.3s;\n}\n\ninput:focus, textarea:focus, select:focus {\n\toutline: none;\n\tborder-color: var(--color-focus-border);\n\tbox-shadow: 0 0 0 3px rgba(90, 76, 194, 0.1);\n}\n\nbutton {\n\twidth: 100%;\n\tbackground: var(--color-submit-btn-bg);\n\tcolor: var(--color-submit-btn-text);\n\tpadding: 14px;\n\tfont-size: var(--font-size-label);\n\tfont-weight: var(--font-weight-bold);\n\tborder: none;\n\tborder-radius: var(--border-radius-input);\n\tcursor: pointer;\n\ttransition: 0.3s;\n}\n\nbutton:hover {\n\tbackground: #ff543e;\n}\n\nfooter {\n\ttext-align: center;\n\tmargin-top: 16px;\n\tfont-size: 12px;\n\tcolor: #888;\n}\n</style>\n</head>\n<body>\n\n<div class=\"form-card\">\n\t<h2 class=\"form-header\">Get Your Free Automation Audit</h2>\n\t<p class=\"form-subtext\">See how we can automate your lead generation, qualification, and onboarding.</p>\n\t\n\t<form>\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"name\">Full Name</label>\n\t\t\t<input type=\"text\" id=\"name\" placeholder=\"Enter your name\" required>\n\t\t</div>\n\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"email\">Email</label>\n\t\t\t<input type=\"email\" id=\"email\" placeholder=\"Enter your email\" required>\n\t\t</div>\n\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"business\">Business Type / Niche</label>\n\t\t\t<select id=\"business\">\n\t\t\t\t<option value=\"\">Select...</option>\n\t\t\t\t<option>Coach / Consultant</option>\n\t\t\t\t<option>Agency Owner</option>\n\t\t\t\t<option>Real Estate</option>\n\t\t\t\t<option>Law / Legal</option>\n\t\t\t\t<option>Other</option>\n\t\t\t</select>\n\t\t</div>\n\n\t\t<div class=\"form-group\">\n\t\t\t<label for=\"pain\">Biggest Challenge Right Now</label>\n\t\t\t<textarea id=\"pain\" rows=\"3\" placeholder=\"E.g., Too many unqualified leads or missed follow-ups\"></textarea>\n\t\t</div>\n\n\t\t<button type=\"submit\">Submit</button>\n\t</form>\n\n\t<footer>Powered by Lumoscale Automations</footer>\n</div>\n\n</body>\n</html>\n"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -2496,
+        -1104
+      ],
+      "id": "1509330d-e138-4756-ad8a-f0372d266098",
+      "name": "Website Signup or Webinar Signup",
+      "webhookId": "4be5de2b-37e1-4104-949c-1f34b061df64"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "323ad272-08e7-462f-9774-efe6946dfba0",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1024,
+        -1104
+      ],
+      "id": "28ee6563-bc6e-4b29-aca0-274fe6c8071f",
+      "name": "If duplicates Found vs Not Found"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Form",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1248,
+        -1104
+      ],
+      "id": "da00b163-4848-439d-9694-ef61b3ec942f",
+      "name": "Check duplicates",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b3ce1dd-7bf9-4a69-ac98-e11ab5b5050a",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "167f58be-18af-4382-94b6-b7b8d73ad2a2",
+              "name": "Email",
+              "value": "={{ $json.Email }}",
+              "type": "string"
+            },
+            {
+              "id": "ad8b19a7-7438-4437-8e5a-81c0ae10f3a6",
+              "name": "Message",
+              "value": "={{ $json['What\\'s your biggest challenge right now?'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2272,
+        -1104
+      ],
+      "id": "599b2b10-f379-4e57-9edc-0d2378dc405e",
+      "name": "Edit Req Fields for Form"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI-2025-04-14"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Lead Qualification AI Assistant for a Coaching Automation Agency.\nYou will receive form submissions from potential coaching clients. Each form contains:\n\nName: {{ $json.Name }}\n\nEmail: {{ $json.Email }}\n\nProblem/Challenge Description : {{ $json.Message }}\n\nYour task is to:\n\nUnderstand the lead’s context and the core problem they are facing.\n\nIdentify the type of need (mindset, business, marketing, relationship, career, etc.).\n\nDetermine their readiness level — are they just exploring, actively looking for help, or ready to invest?\n\nSummarize the message in a short, professional tone for the coach to quickly review.\n\nGive a lead score (1–5) based on how qualified they are:\n\n1 = Not relevant or unclear\n\n2 = Problem not defined clearly\n\n3 = Has a valid issue but may not be urgent\n\n4 = Clearly defined issue, seems interested\n\n5 = High-intent, strong problem awareness, likely to convert\n\nOutput format:\n\nName: {{ $json.Name }}\nEmail: {{ $json.Email }}\nProblem Summary: [Summarize the issue in 1–2 lines]\nNeed Type: [Category]\nReadiness Level: [Exploring / Interested / Ready to Invest]\nLead Score: [1–5]\nCoach Notes: [1-line suggestion on how to approach this lead]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -2048,
+        -1104
+      ],
+      "id": "08045945-54d6-4c5f-b66e-12e31186e4a9",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  const message = item.json.message?.content || item.json.message || \"\";\n\n  // Extract key-value pairs using regex\n  const extract = (key) => {\n    const regex = new RegExp(`${key}:\\\\s*(.*)`, \"i\");\n    const match = message.match(regex);\n    return match ? match[1].trim() : \"\";\n  };\n\n  item.json.name = extract(\"Name\");\n  item.json.email = extract(\"Email\");\n  item.json.problem_summary = extract(\"Problem Summary\");\n  item.json.need_type = extract(\"Need Type\");\n  item.json.readiness_level = extract(\"Readiness Level\");\n  item.json.lead_score = extract(\"Lead Score\");\n  item.json.coach_notes = extract(\"Coach Notes\");\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1696,
+        -1104
+      ],
+      "id": "6592d7d4-5ae1-4d59-a9e3-e867a0090e2e",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "34174716-b519-4a47-923e-a3fb14437321",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "21808bd2-1a96-4f9e-9c6c-15b65cc0ef2a",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "7b400100-5536-4aad-a202-4ac706a57ecc",
+              "name": "problem_summary",
+              "value": "={{ $json.problem_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "9a0f33cb-93c3-4833-8fcd-b3a2059f7fd6",
+              "name": "need_type",
+              "value": "={{ $json.need_type }}",
+              "type": "string"
+            },
+            {
+              "id": "d1c0902d-2d98-49f4-b4fd-a0874ed401cc",
+              "name": "readiness_level",
+              "value": "={{ $json.readiness_level }}",
+              "type": "string"
+            },
+            {
+              "id": "02968b92-4cfa-48b8-952d-ecee5300cf1e",
+              "name": "lead_score",
+              "value": "={{ $json.lead_score }}",
+              "type": "string"
+            },
+            {
+              "id": "2ac9712f-edc9-4e4b-8e5e-90ef09c76041",
+              "name": "coach_notes",
+              "value": "={{ $json.coach_notes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1472,
+        -1104
+      ],
+      "id": "64d8e9b7-3da1-42c0-a051-bccccf1fc7f7",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI-2025-04-14"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Lead Qualification AI Assistant that thinks like an experienced Coach. Your purpose is to help coaches identify truly qualified leads — not just by surface information, but by emotional depth, mindset, and readiness to commit. \n\nYou will receive structured data about a lead: \n{ \n  \"name\": \"{{$json['name']}}\", \n  \"email\": \"{{$json['email']}}\", \n  \"problem_summary\": \"{{$json['problem_summary']}}\", \n  \"need_type\": \"{{$json['need_type']}}\", \n  \"readiness_level\": \"{{$json['readiness_level']}}\", \n  \"lead_score\": \"{{$json['lead_score']}}\", \n  \"coach_notes\": \"{{$json['coach_notes']}}\" \n} \n\nYour task is to evaluate the lead through the lens of a coach. Go beyond surface-level readiness and evaluate 5 layers of qualification:\n\n1. **Pain Depth** – Is the pain emotionally real and specific, or vague and surface-level?  \n2. **Ownership Level** – Does the lead take responsibility or blame circumstances?  \n3. **Desire Strength** – Do they express a vision for change or just frustration?  \n4. **Decision Readiness** – Are they prepared to act or still in the thinking stage?  \n5. **Coachability** – Does their tone show openness, curiosity, and willingness to be guided?\n\nBased on your full analysis, classify the lead as **Hot**, **Warm**, **Cold**, or **Unqualified**.\n\n🔥 **HOT LEAD:**  \n- Feels a real, emotionally strong pain.  \n- Takes ownership and clearly wants change now.  \n- Ready to invest effort, time, or money.  \n- Coachable and solution-focused.  \n\n🌤 **WARM LEAD:**  \n- Understands the issue and shows curiosity.  \n- Wants change but not urgent.  \n- Still exploring options; could be nurtured through success stories.  \n\n❄️ **COLD LEAD:**  \n- Vague pain, no urgency.  \n- Low ownership or still seeking external validation.  \n- Might need mindset shift before engaging with a coach.  \n\n🚫 **UNQUALIFIED LEAD:**  \n- Irrelevant to coaching or no real problem stated.  \n- Unclear, spammy, or unwilling to improve.  \n\nOutput strictly in JSON:\n\n{\n  \"name\": \"{{$json['name']}}\",\n  \"email\": \"{{$json['email']}}\",\n  \"problem_summary\": \"{{$json['problem_summary']}}\",\n  \"need_type\": \"{{$json['need_type']}}\",\n  \"lead_score\": \"{{$json['lead_score']}}\",\n  \"lead_stage\": \"[Hot / Warm / Cold / Unqualified]\",\n  \"reason\": \"[2–3 lines combining emotional and logical reasoning for classification]\",\n  \"coach_notes\": \"[Give 1 actionable suggestion on how the coach should approach this lead next — e.g., offer call, send case study, or nurture email.]\"\n}\n\nThink like a human coach — use empathy, intuition, and logic together. Your final goal: help the coach spend time only on leads who are emotionally ready and truly want change.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -2480,
+        -704
+      ],
+      "id": "a9c34a20-cf7d-4ab6-a397-ec83458a2718",
+      "name": "Message a model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  // Get the AI model output (usually inside message.content)\n  const raw = item.json.message?.content || item.json.message || \"\";\n\n  try {\n    // Clean any formatting (like ```json or ``` from AI response)\n    const clean = raw.replace(/```json|```/g, \"\").trim();\n\n    // Parse JSON string into an object\n    const data = JSON.parse(clean);\n\n    // Divide all fields into separate keys\n    item.json.name = data.name || \"\";\n    item.json.email = data.email || \"\";\n    item.json.problem_summary = data.problem_summary || \"\";\n    item.json.need_type = data.need_type || \"\";\n    item.json.lead_score = data.lead_score || \"\";\n    item.json.lead_stage = data.lead_stage || \"\";\n    item.json.reason = data.reason || \"\";\n    item.json.coach_notes = data.coach_notes || \"\";\n\n    // Store full parsed response for reference\n    item.json.raw_response = data;\n\n  } catch (error) {\n    item.json.error = `Parsing failed: ${error.message}`;\n  }\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2112,
+        -704
+      ],
+      "id": "87388c55-4570-46e3-93fb-c2b45fa37081",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "82dfc6ac-0af4-44e0-99ad-f556be6f2a87",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "7433e411-0b73-4486-a4c8-ec774a475bdf",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "5f98df64-2e25-4202-85ee-daa516ccc176",
+              "name": "problem_summary",
+              "value": "={{ $json.problem_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "ba88ffc4-457f-4e77-9004-fbf1b45292ef",
+              "name": "need_type",
+              "value": "={{ $json.need_type }}",
+              "type": "string"
+            },
+            {
+              "id": "d538aedf-aa2d-4a10-8cdc-af3a223c70fb",
+              "name": "lead_score",
+              "value": "={{ $json.lead_score }}",
+              "type": "string"
+            },
+            {
+              "id": "96a1b99c-658e-47ed-a3d3-697e703653b8",
+              "name": "lead_stage",
+              "value": "={{ $json.lead_stage }}",
+              "type": "string"
+            },
+            {
+              "id": "4a5db161-de77-4aaa-8a19-314f7764a683",
+              "name": "reason",
+              "value": "={{ $json.reason }}",
+              "type": "string"
+            },
+            {
+              "id": "0b2fccda-d5f7-4deb-abc8-3b747498c7a6",
+              "name": "coach_notes",
+              "value": "={{ $json.coach_notes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1888,
+        -704
+      ],
+      "id": "89f9e513-a673-4f82-b255-788154a432a3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Hot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0e3762bf-b17e-495d-a9f7-61904bc8b577"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Hot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dd643b98-b4c3-4e5f-8638-3828df6b03a0",
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Warm",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Warm"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4a915986-2163-43c2-aa5f-cad1239b6929",
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Cold",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cold"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a895fc85-1600-4a1b-94fa-0baaa00ebbbe",
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Unqualified",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Unqualified"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1664,
+        -736
+      ],
+      "id": "771f4c36-4f3e-4b57-8d22-f6a9d7247a7a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "New Lead",
+        "message": "=<html>\n  <body style=\"font-family: 'Segoe UI', Arial, sans-serif; background-color: #f8f9fb; padding: 20px;\">\n    <table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);\">\n      <tr>\n        <td style=\"padding: 30px; text-align: center;\">\n          <h2 style=\"color: #e63946;\">🔥 Let’s Chat — I Think I Can Help You!</h2>\n          <p style=\"color: #444; font-size: 16px; line-height: 1.6;\">\n            Hey {{name}},  \n            I just went through your note about <strong>{{problem_summary}}</strong> — and I can already see a few quick wins that can turn things around fast.\n          </p>\n          <p style=\"color: #444; font-size: 16px;\">\n            Let’s connect for a short strategy call to dive in and map out a solution tailored for your business.\n          </p>\n\n          <a href=\"[calendar_link]\" \n             style=\"display:inline-block; background-color:#e63946; color:#fff; padding:12px 24px; \n                    border-radius:8px; text-decoration:none; font-weight:bold; margin-top:15px;\">\n            📅 Book Your Strategy Call\n          </a>\n\n          <p style=\"margin-top:25px; color:#777; font-size:14px;\">\n            Can’t find a slot that fits? Just reply to this email and I’ll make one work for you.\n          </p>\n\n          <hr style=\"margin:30px 0; border:none; border-top:1px solid #eee;\">\n          <p style=\"font-size:13px; color:#aaa;\">\n            Sent by Lumoscale — helping coaches automate lead generation & onboarding.<br>\n            [coach_name]\n          </p>\n        </td>\n      </tr>\n    </table>\n  </body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1440,
+        -800
+      ],
+      "id": "5709b6dd-4b37-417b-9722-04f814fc6cb7",
+      "name": "Send a message",
+      "webhookId": "60502eb8-e3ed-409e-a9b8-7235cfc5885a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "OEcIZm1duf4dQunn",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09PV3DSRJQ",
+          "mode": "list",
+          "cachedResultName": "n8n"
+        },
+        "messageType": "block",
+        "blocksUi": "={\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"🔥 HOT LEAD ALERT!\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Name:* {{$json.name}}\\n*Email:* {{$json.email}}\\n*Problem:* {{$json.problem_summary}}\\n*Need Type:* {{$json.need_type}}\\n*Lead Score:* *{{$json.lead_score}}/10*\\n*Stage:* {{$json.lead_stage}}\"\n      },\n      \"accessory\": {\n        \"type\": \"image\",\n        \"image_url\": \"https://cdn-icons-png.flaticon.com/512/906/906343.png\",\n        \"alt_text\": \"Hot Lead\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"🧠 *Reason:*\\n>{{$json.reason}}\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"🎯 *Coach Notes:*\\n>{{$json.coach_notes}}\"\n      }\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"🚀 *Action Tip:* Reach out or DM within *30 minutes* to secure this lead!\"\n      }\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"⚡ _Lead detected by Lumoscale AI Qualification System_\"\n        }\n      ]\n    },\n    {\n      \"type\": \"divider\"\n    },\n    {\n      \"type\": \"actions\",\n      \"elements\": [\n        {\n          \"type\": \"button\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"✅ Contacted\"\n          },\n          \"style\": \"primary\",\n          \"value\": \"contacted\"\n        },\n        {\n          \"type\": \"button\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"🕒 Follow-Up Later\"\n          },\n          \"value\": \"follow_up\"\n        },\n        {\n          \"type\": \"button\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"📝 Add Notes\"\n          },\n          \"style\": \"danger\",\n          \"url\": \"https://forms.gle/your-feedback-form-link\"\n        }\n      ]\n    }\n  ]\n}\n",
+        "text": "New",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "unfurl_links": false,
+          "unfurl_media": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -1440,
+        -608
+      ],
+      "id": "2ca1b324-d68c-4c42-a34a-488dc21131a4",
+      "name": "Send a message1",
+      "webhookId": "82b90f26-e9d7-4045-a8a8-cc5473612c04",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "Rb7HyhAgq0iIU3TT",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Website Forms",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "Date": "={{ new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) }}",
+            "Name": "={{ $json.Name }}",
+            "Message": "={{ $json.Message }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -736,
+        -1200
+      ],
+      "id": "c7f40ef4-d96b-41ee-9c03-4554f46ff581",
+      "name": "Update Form Sheet 1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "includeSpamTrash": false,
+          "q": "(coaching OR coach OR mentorship OR help OR \"looking for\" OR \"need guidance\" OR \"need help\" OR problem OR \"work with you\" OR \"book a call\" OR \"want to learn\" OR \"need support\") -category:{promotions social updates forums} -in:chats",
+          "readStatus": "unread"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -2672,
+        -256
+      ],
+      "id": "25ad8e3c-edd2-40f4-b8b3-16030b6db984",
+      "name": "Check Email For Every Min",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UbWO1LFfZ6s8MzMA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cea558f7-054e-4683-b3c7-1f6c9ee826b1",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "d671d03e-ff69-4da0-92d7-2e9efb6c396f",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "3c00aba2-34a7-4551-8d5c-66be91ca170d",
+              "name": "problem_summary",
+              "value": "={{ $json.problem_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "4b5770ed-4489-4ca9-aeea-a9d129c17b29",
+              "name": "need_type",
+              "value": "={{ $json.need_type }}",
+              "type": "string"
+            },
+            {
+              "id": "6b960e1a-f477-4a82-a1e7-9856d64d79a2",
+              "name": "readiness_level",
+              "value": "={{ $json.readiness_level }}",
+              "type": "string"
+            },
+            {
+              "id": "b0e54638-86b7-48a7-b8fb-3a6cd2c4043f",
+              "name": "lead_score",
+              "value": "={{ $json.lead_score }}",
+              "type": "number"
+            },
+            {
+              "id": "1586508d-c5a8-4499-9ccc-7941d0d0d0a8",
+              "name": "coach_notes",
+              "value": "={{ $json.coach_notes }}",
+              "type": "string"
+            },
+            {
+              "id": "94b07439-e1cb-4f17-bb13-de0182786ed4",
+              "name": "snippet",
+              "value": "={{ $('Edit Fields2').item.json.snippet }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1696,
+        -256
+      ],
+      "id": "ee8e0b67-5a43-416c-bd79-09f023810018",
+      "name": "Edit Req Fields for Email"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1573018970,
+          "mode": "list",
+          "cachedResultName": "Gmail",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1573018970"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "From": "={{ $('Edit Required Fields for next step').item.json.From }}",
+            "Subject": "={{ $('Edit Required Fields for next step').item.json.Subject }}",
+            "Date": "={{ new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) }}",
+            "Body": "={{ $('Edit Required Fields for next step').item.json.snippet }}"
+          },
+          "matchingColumns": [
+            "From"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "From",
+              "displayName": "From",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Body",
+              "displayName": "Body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -976,
+        -400
+      ],
+      "id": "e7a5b122-a507-4851-aac9-f238f28df159",
+      "name": "Update Gmail Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = [];\n\nfor (const item of $input.all()) {\n  try {\n    // Extract AI message text\n    const rawText = item.json.content?.parts?.[0]?.text || \"\";\n\n    // Remove markdown formatting (```json ... ```)\n    const cleanText = rawText.replace(/```json|```/g, \"\").trim();\n\n    // Parse JSON safely\n    const parsed = JSON.parse(cleanText);\n\n    // Push cleaned fields\n    output.push({\n      json: {\n        name: parsed.name || \"\",\n        email: parsed.email || \"\",\n        problem_summary: parsed.problem_summary || \"\",\n        need_type: parsed.need_type || \"\",\n        readiness_level: parsed.readiness_level || \"\",\n        lead_score: parsed.lead_score || \"\",\n        coach_notes: parsed.coach_notes || \"\"\n      }\n    });\n\n  } catch (error) {\n    // Error handler for malformed JSON\n    output.push({\n      json: {\n        error: error.message,\n        raw: item.json\n      }\n    });\n  }\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1904,
+        -256
+      ],
+      "id": "f926c685-dd1c-40ee-9095-f1810233161e",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-06-17",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-06-17"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert Lead Qualification Assistant for a Coaching Automation Agency.  \nYou will receive an email message fetched from Gmail.  \nYour job is to analyze it and decide if it is **relevant or spam**, and if relevant, qualify it using the rules below.\n\n---\n\n### EMAIL DATA\nFrom: {{ $json.From }}\nTo: {{ $json.To }}\nSubject: {{ $json.Subject }}\nSnippet: {{ $json.snippet }}\nReceived_at: {{ $json.Received_at }}\n\n---\n\n### TASKS\n\n1. **Understand the Problem**  \n   - Summarize the issue, question, or goal mentioned in the email clearly.  \n   - If there’s no clear problem or it’s a notification, promotion, or spam, mention that.\n\n2. **Identify the Area**  \n   - Choose one of: `mindset`, `business`, `marketing`, `relationship`, `health`, `career`, or `other`.\n\n3. **Assess Readiness Level**  \n   - Identify how open the person seems to be to getting help:  \n     `Exploring`, `Interested`, or `Ready to Invest`.\n\n4. **Lead Score (1–5)**  \n   - 1 = Not relevant or unclear (spam or system message)  \n   - 2 = Vague problem or no clear intent  \n   - 3 = Has a problem but low urgency  \n   - 4 = Clear pain and intent  \n   - 5 = Highly qualified and strong intent  \n\n---\n\n### OUTPUT FORMAT (Strict JSON)\n\n```json\n{\n  \"name\": \"{{ $json[\"From\"].match(/^([^<]+)/) ? $json[\"From\"].match(/^([^<]+)/)[1].trim() : $json[\"From\"].trim() }}\",\n  \"email\": \"{{ $json[\"From\"].match(/<([^>]+)>/) ? $json[\"From\"].match(/<([^>]+)>/)[1].trim() : $json[\"From\"].trim() }}\",\n  \"problem_summary\": \"...\",\n  \"need_type\": \"...\",\n  \"readiness_level\": \"...\",\n  \"lead_score\": \"...\",\n  \"coach_notes\": \"...\"\n}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2256,
+        -256
+      ],
+      "id": "1417bb6f-2355-4130-a447-29978052beb3",
+      "name": "Message a model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "01befe42-f604-40ce-afde-99f5347d4494",
+              "name": "From",
+              "value": "={{ $json.From }}",
+              "type": "string"
+            },
+            {
+              "id": "f1843917-44c7-49a5-b925-cb2e6f3ba2c4",
+              "name": "To",
+              "value": "={{ $json.To }}",
+              "type": "string"
+            },
+            {
+              "id": "f7dd0511-74b3-462d-8fc8-a93e9f72c6a6",
+              "name": "Subject",
+              "value": "={{ $json.Subject }}",
+              "type": "string"
+            },
+            {
+              "id": "2290a93c-dad1-4808-aabe-ce67f2ab3f7a",
+              "name": "snippet",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "f3a32e46-7e1c-4bca-89cd-bb15317d728c",
+              "name": "Received_at",
+              "value": "={{ new Date($now.toLocaleString(\"en-US\", { timeZone: \"Asia/Calcutta\" })).toLocaleDateString(\"en-US\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2464,
+        -256
+      ],
+      "id": "89a71071-4088-49cf-894f-bba53a7acaf0",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  try {\n    // Step 1: Extract from message.content or message\n    let raw =\n      item.json.message?.content ||\n      item.json.message ||\n      item.json.content?.parts?.[0]?.text ||\n      \"\";\n\n    // Step 2: Convert escaped \\n to real newlines & remove markdown wrappers\n    let clean = raw\n      .replace(/\\\\n/g, \"\\n\") // convert escaped newlines\n      .replace(/```json|```/g, \"\") // remove code fences\n      .trim();\n\n    // Step 3: Extract only the JSON object between { and }\n    const jsonMatch = clean.match(/{[\\s\\S]*}/);\n    if (!jsonMatch) throw new Error(\"No valid JSON object found\");\n    clean = jsonMatch[0];\n\n    // Step 4: Parse safely\n    let data;\n    try {\n      data = JSON.parse(clean);\n    } catch (err) {\n      throw new Error(`JSON parse failed — malformed or incomplete JSON`);\n    }\n\n    // Step 5: Output structured fields\n    item.json = {\n      name: data.name || \"\",\n      email: data.email || \"\",\n      snippet: data.snippet || \"\",\n      problem_summary: data.problem_summary || \"\",\n      need_type: data.need_type || \"\",\n      lead_score: data.lead_score || \"\",\n      lead_stage: data.lead_stage || \"\",\n      reason: data.reason || \"\",\n      coach_notes: data.coach_notes || \"\",\n      parse_status: \"success\",\n      raw_text: raw\n    };\n\n  } catch (error) {\n    item.json = {\n      error: `Parsing failed: ${error.message}`,\n      raw_text: item.json.message?.content || \"\",\n      parse_status: \"failed\"\n    };\n  }\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2240,
+        160
+      ],
+      "id": "0fb84508-1db4-451d-a1bf-e537ae8632ab",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1573018970,
+          "mode": "list",
+          "cachedResultName": "Gmail",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1573018970"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "From",
+              "lookupValue": "={{ $json.email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1440,
+        -256
+      ],
+      "id": "b16583c1-25e8-4e34-8271-8c52f9e8e425",
+      "name": "Duplicates in Gmail sheet1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "323ad272-08e7-462f-9774-efe6946dfba0",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1216,
+        -256
+      ],
+      "id": "13d37b31-bc33-482a-b651-cc9a068aa947",
+      "name": "If duplicates Found vs Not Found - Instagram1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3b8c9d6e-7f1a-4273-888a-387711be73e6",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "df43ee09-0a55-4639-a628-26f01307c871",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "15083841-b751-4c95-82c9-6f0f6e04d3a9",
+              "name": "snippet",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "a80877a4-3635-4b3e-a9b2-819e6922c355",
+              "name": "problem_summary",
+              "value": "={{ $json.problem_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "f7ef45bf-242e-408d-9c04-a3ad960a230c",
+              "name": "need_type",
+              "value": "={{ $json.need_type }}",
+              "type": "string"
+            },
+            {
+              "id": "9770cf3e-8eb4-4c68-894a-f67d421c7f98",
+              "name": "lead_score",
+              "value": "={{ $json.lead_score }}",
+              "type": "string"
+            },
+            {
+              "id": "9c6e06bf-b5f1-4559-9a5d-7145e243faf7",
+              "name": "lead_stage",
+              "value": "={{ $json.lead_stage }}",
+              "type": "string"
+            },
+            {
+              "id": "5c0b73ae-1402-4970-a251-f7114634f4b2",
+              "name": "reason",
+              "value": "={{ $json.reason }}",
+              "type": "string"
+            },
+            {
+              "id": "913f980d-76be-4a7d-9430-b4485c8dbcab",
+              "name": "coach_notes",
+              "value": "={{ $json.coach_notes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2016,
+        160
+      ],
+      "id": "a706415a-117c-4deb-ba88-4e46e3e36b81",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI-2025-04-14"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=# 🎯 Lead Qualification Coach AI Prompt\n\nYou are a **Lead Qualification AI Assistant** that thinks like an **experienced Coach**.  \nYour mission is to help coaches identify truly qualified leads — not just from surface data, but from emotional depth, mindset, and readiness to commit.\n\nYou will receive structured data about a lead in this format:\n```json\n{\n  \"name\": \"{{ $('Edit Req Fields for Email').item.json.name }}\",\n  \"email\": \"{{ $('Edit Req Fields for Email').item.json.email }}\",\n  \"snippet\": \"{{ $('Edit Req Fields for Email').item.json.snippet }}\",\n  \"problem_summary\": \"{{ $('Edit Req Fields for Email').item.json.problem_summary }}\",\n  \"need_type\": \"{{ $('Edit Req Fields for Email').item.json.need_type }}\",\n  \"readiness_level\": \"{{ $('Edit Req Fields for Email').item.json.readiness_level }}\",\n  \"lead_score\": \"{{ $('Edit Req Fields for Email').item.json.lead_score }}\",\n  \"coach_notes\": \"{{ $('Edit Req Fields for Email').item.json.coach_notes }}\"\n}\n```\n\n---\n\n### 🧠 Your Evaluation Framework\n\nAnalyze the lead through five human layers of qualification:\n\n1. **Pain Depth** – Is the pain emotionally real and specific, or vague and surface-level?  \n2. **Ownership Level** – Does the person take responsibility or blame others/circumstances?  \n3. **Desire Strength** – Do they show a clear drive for change or just mild frustration?  \n4. **Decision Readiness** – Are they mentally prepared to act, or still in reflection mode?  \n5. **Coachability** – Does their tone show openness, humility, and willingness to be guided?\n\n---\n\n### 🔥 Classification Logic\n\n**HOT LEAD**\n- Strong emotional pain and urgency  \n- High ownership and desire  \n- Ready to take help or invest soon  \n- Coachable and solution-focused  \n\n**WARM LEAD**\n- Understands their problem clearly  \n- Interested but not urgent  \n- Curious and open to learn, may need nurturing  \n\n**COLD LEAD**\n- Vague or surface-level pain  \n- Low urgency or responsibility  \n- May need mindset shift before coaching  \n\n**UNQUALIFIED LEAD**\n- Irrelevant, spam, or system-generated (like login, OTP, promo)  \n- No real problem or emotional need for coaching  \n- Disengaged or uncoachable tone  \n\n---\n\n---\n\n### 🧩 Example for a System Notification Email\n\n\n**Output:**\n```json\n{\n  \"name\": \"Vadla Vamsi Krishna\",\n  \"email\": \"vamsivk1465@gmail.com\",\n  \"snippet\": \"We noticed a login to your account @vamsivk1465 from a new device. Was this you?\",\n  \"problem_summary\": \"This email is a system notification about a login attempt.\",\n  \"need_type\": \"System / Irrelevant\",\n  \"lead_score\": \"1\",\n  \"lead_stage\": \"Unqualified\",\n  \"reason\": \"The message is an automated login alert and not related to coaching needs or human intent.\",\n  \"coach_notes\": \"Ignore this message. It’s not a potential lead for coaching.\"\n}\n```\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -2704,
+        160
+      ],
+      "id": "3afc7e2e-1695-4b35-9edc-9bf50e5ecc9d",
+      "name": "Message a model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Hot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0e3762bf-b17e-495d-a9f7-61904bc8b577"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Hot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dd643b98-b4c3-4e5f-8638-3828df6b03a0",
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Warm",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Warm"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4a915986-2163-43c2-aa5f-cad1239b6929",
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Cold",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Cold"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a895fc85-1600-4a1b-94fa-0baaa00ebbbe",
+                    "leftValue": "={{ $json.lead_stage }}",
+                    "rightValue": "Unqualified",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Unqualified"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1760,
+        128
+      ],
+      "id": "734b8e05-1e01-4ea1-8111-f22a10fdc320",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        -352
+      ],
+      "id": "6432ff91-d88a-4a3c-9132-2b06f443d4ea",
+      "name": "Wait1",
+      "webhookId": "276e07ca-2322-48b6-8e36-806c955f3128"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "085371f4-fb8c-4ed1-a697-92ebd9e53bdd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        -352
+      ],
+      "id": "8a051c79-49eb-46ae-bd48-df5b3f445242",
+      "name": "Linkedin DM",
+      "webhookId": "085371f4-fb8c-4ed1-a697-92ebd9e53bdd"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "eb727470-16e7-43f4-9524-032d69df5e56",
+              "name": "body.sender.attendee_name",
+              "value": "={{ $json.body.sender.attendee_name }}",
+              "type": "string"
+            },
+            {
+              "id": "07f0795d-3ac1-42c2-b043-38cde86cf88f",
+              "name": "body.sender.attendee_profile_url",
+              "value": "={{ $json.body.sender.attendee_profile_url }}",
+              "type": "string"
+            },
+            {
+              "id": "f86e54a0-bfe0-47b5-a54b-562e066df588",
+              "name": "body.message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "eb2b63a7-c2dd-4fec-ac79-bbb2ba64f845",
+              "name": "body.sender.attendee_provider_id",
+              "value": "={{ $json.body.sender.attendee_provider_id }}",
+              "type": "string"
+            },
+            {
+              "id": "f473a900-3cd4-4c6c-a5a2-5d2b6b0be477",
+              "name": "direction",
+              "value": "Incoming",
+              "type": "string"
+            },
+            {
+              "id": "84a17055-5d48-4749-9d02-c01e386ec1c9",
+              "name": "Timestamp",
+              "value": "={{$now.toLocaleString(\"en-IN\", { timeZone: \"Asia/Kolkata\" })}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -32,
+        -352
+      ],
+      "id": "f95b1a5a-60c6-485e-a78d-a0bb0cee1bd0",
+      "name": "Edit req fields from Linkedin dm"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1989579242,
+          "mode": "list",
+          "cachedResultName": "Linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1989579242"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Edit req fields from Linkedin dm').item.json.body.sender.attendee_name }}",
+            "Message": "={{ $('Edit req fields from Linkedin dm').item.json.body.message }}",
+            "Linkedin URL": "={{ $('Edit req fields from Linkedin dm').item.json.body.sender.attendee_profile_url }}",
+            "Date": "={{ new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Linkedin URL",
+              "displayName": "Linkedin URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2048,
+        -176
+      ],
+      "id": "7205a789-acf9-4d3b-9bcd-8a2139da70f5",
+      "name": "Append Linkedin Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api9.unipile.com:13982/api/v1/chats",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY",
+              "value": "2Kp+I9QKk.tQLnUEMxmdyQSHkuo8kmgC9mOx/LUIJDfGCz02RArbk="
+            },
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "account_id",
+              "value": "={{ $('Linkedin DM').item.json.body.account_id }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('AI Agent1').item.json.output }}"
+            },
+            {
+              "name": "attendees_ids",
+              "value": "={{ $('Linkedin DM').item.json.body.attendees[0].attendee_provider_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2464,
+        -368
+      ],
+      "id": "2d501ce4-c724-499d-9780-f4b1236ff308",
+      "name": "Send reply back in Linkedin"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        864,
+        -144
+      ],
+      "id": "93b89022-18b2-40ca-a3fa-d328256fd84f",
+      "name": "Google Gemini Chat Model7",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit req fields from Linkedin dm').item.json.body.sender.attendee_provider_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1008,
+        -128
+      ],
+      "id": "8c2cb8ed-4611-4753-96f0-d2ce37bd178f",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Edit req fields from Linkedin dm').item.json.body.message }}",
+        "options": {
+          "systemMessage": "=You are an AI LinkedIn and Instagram assistant helping the founder of **Lumoscale** — an AI Automation Agency.\n\nYour goal is to reply naturally, like a friendly human — never robotic, formal, or salesy.\n\n---\n\n### Input\nConversation so far:\n{{ $json.conversation_log }}\n\nCurrent user message:\n{{ $('Edit req fields from Linkedin dm').item.json.body.message }}\n\n---\n\n### Response Rules\n\n1. **If the user greets (hi, hello, hey, etc.)**  \n   → Reply casually and friendly.  \n   Example: “Hey! Haha great to connect 👋 How’s everything going?”\n\n2. **If they ask what Lumoscale does**  \n   → Keep it simple and clear.  \n   Example: “Lumoscale helps coaches automate lead generation, outreach, and client onboarding — so you can grow faster without all the manual work.”\n\n3. **If they mention a problem or challenge**  \n   → Empathize first, then ask a gentle follow-up.  \n   Example: “Ah I get that, it’s super common actually. What’s been the toughest part for you so far?”\n\n4. **If they ask about getting help, pricing, or booking a call**  \n   → Do **not** send any links directly.  \n   → Instead, if they seem genuinely interested and would be a good fit:  \n   “Awesome! Before we go further, could you please share your email?  \n   I’ll send you a short overview and booking link there.”\n\n5. **If they say something unclear or unrelated**  \n   → Keep tone light and curious.  \n   Example: “Haha got it 😄 could you tell me a bit more about what kind of help you’re looking for?”\n\n6. **Tone & Style**  \n   - Keep replies short, conversational, and natural.  \n   - Use light fillers like “umm”, “haha”, or “honestly” when it fits.  \n   - Avoid corporate or overly polished phrasing.  \n   - Always sound approachable and human.\n\n---\n\n### Output Format\nReturn the response strictly in JSON:\n\n{\n  \"reply\": \"[Your short, natural message here]\",\n  \"intent\": \"[Greeting / Inquiry / Problem / Call / Other]\",\n  \"confidence\": \"[High / Medium / Low]\",\n  \"next_action\": \"[Ask Email / Continue Chat / End Conversation / Flag for Manual Review]\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        -352
+      ],
+      "id": "f55d4113-3dcf-4eca-8bc3-d6ecaed139f0",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1472294070,
+          "mode": "list",
+          "cachedResultName": "Convo Linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1472294070"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID",
+              "lookupValue": "={{ $json.body.sender.attendee_provider_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        400,
+        -352
+      ],
+      "id": "d8d52dc1-defa-42c9-aaa0-ee466845e9e5",
+      "name": "Get row(s) in sheet2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  let raw = item.json.output || \"\";\n\n  // Remove code fences, extra spaces, and newlines\n  raw = raw.replace(/```json|```/g, \"\").replace(/\\n/g, \" \").trim();\n\n  // Try parsing JSON safely\n  let data = {};\n  try {\n    data = JSON.parse(raw);\n  } catch (e) {\n    item.json.error = \"Invalid JSON format\";\n  }\n\n  // Divide each text field and remove newlines/spaces\n  const clean = (str) => (str || \"\").replace(/\\n/g, \" \").trim();\n\n  item.json.reply = clean(data.reply);\n  item.json.intent = clean(data.intent);\n  item.json.confidence = clean(data.confidence);\n  item.json.next_action = clean(data.next_action);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        -352
+      ],
+      "id": "d9724984-7f75-4fb0-b3d4-7d39ee2c3596",
+      "name": "Code in JavaScript6",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(item => item.json);\n\n// Sort in case\nrows.sort((a, b) => a.row_number - b.row_number);\n\n// Take last 5 messages\nconst lastFive = rows.slice(-5);\n\n// Join convo text only (no name or label)\nconst convo = lastFive\n  .map(m => `${m.Convo || \"\"}`)\n  .join('\\n');\n\nreturn [{\n  json: {\n    conversation_log: convo || \"No previous messages\",\n    sender_profile_url: rows[0]?.Url || \"\",\n    sender_id: rows[0]?.ID || \"\"\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        -352
+      ],
+      "id": "e00f57a8-50ce-494b-b2cb-31253a138a7a",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Edit Fields4').first().json.body.entry[0].messaging[0].message.text }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        -944
+      ],
+      "id": "7e567013-d442-4f83-a63d-ce5e1b7ed581",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 954419306,
+          "mode": "list",
+          "cachedResultName": "Instagram",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=954419306"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Sender ID": "={{ $('Code in JavaScript5').item.json.sender_id }}",
+            "Text": "={{ $('Code in JavaScript4').item.json.reply }}",
+            "Date": "={{ new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sender ID",
+              "displayName": "Sender ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Text",
+              "displayName": "Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1536,
+        -1152
+      ],
+      "id": "fa4993b4-efcd-44b3-8113-1b9eec9ed795",
+      "name": "Append Instagram Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1589942840,
+          "mode": "list",
+          "cachedResultName": "Convo history",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1589942840"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "sender_id": "={{ $('Code in JavaScript5').item.json.sender_id }}",
+            "conversation_history": "={{ $json.reply }}"
+          },
+          "matchingColumns": [
+            "sender_id"
+          ],
+          "schema": [
+            {
+              "id": "sender_id",
+              "displayName": "sender_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "conversation_history",
+              "displayName": "conversation_history",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1296,
+        -1152
+      ],
+      "id": "051c0218-37a2-44f8-812e-48608c9df2d3",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all convo rows from previous node\nconst rows = $input.all().map(item => item.json);\n\n// Sort by row_number (just to be safe)\nrows.sort((a, b) => a.row_number - b.row_number);\n\n// Take last 5 messages (in case there are more)\nconst lastFive = rows.slice(-5);\n\n// Format them as a clean readable chat log\nconst conversation = lastFive\n  .map((msg, i) => `Message ${i + 1}: ${msg.conversation_history}`)\n  .join(\"\\n\");\n\nreturn [\n  {\n    json: {\n      sender_id: rows[0]?.sender_id || null,\n      conversation_log: conversation,\n      last_5_messages: lastFive\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -1152
+      ],
+      "id": "b2ca2ed6-5d9b-481d-bd08-6118beec9485",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6bd88b13-825f-4c9e-bce8-a45d423433db",
+              "name": "body.entry[0].messaging[0].sender.id",
+              "value": "={{ $json.body.entry[0].messaging[0].sender.id }}",
+              "type": "string"
+            },
+            {
+              "id": "c95fbccd-0bc0-438b-8d67-4d9c9de62d41",
+              "name": "body.entry[0].messaging[0].message.text",
+              "value": "={{ $json.body.entry[0].messaging[0].message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "397a18db-5a5b-419a-a8c1-d606d623e1cc",
+              "name": "direction",
+              "value": "Incoming",
+              "type": "string"
+            },
+            {
+              "id": "dd49e08a-ae00-4f37-b2d2-c1459c904725",
+              "name": "timestamp",
+              "value": "={{ $now.toLocaleString(\"en-IN\", { timeZone: \"Asia/Kolkata\" }) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        96,
+        -1152
+      ],
+      "id": "5756b8e7-2325-4081-a1fc-763f4c8aecb5",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  let raw = item.json.output || \"\";\n\n  // Remove code fences, extra spaces, and newlines\n  raw = raw.replace(/```json|```/g, \"\").replace(/\\n/g, \" \").trim();\n\n  // Try parsing JSON safely\n  let data = {};\n  try {\n    data = JSON.parse(raw);\n  } catch (e) {\n    item.json.error = \"Invalid JSON format\";\n  }\n\n  // Divide each text field and remove newlines/spaces\n  const clean = (str) => (str || \"\").replace(/\\n/g, \" \").trim();\n\n  item.json.reply = clean(data.reply);\n  item.json.intent = clean(data.intent);\n  item.json.confidence = clean(data.confidence);\n  item.json.next_action = clean(data.next_action);\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        -1152
+      ],
+      "id": "85dcd16e-fbc1-4f74-ae60-e2f586f81c13",
+      "name": "Code in JavaScript4",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1589942840,
+          "mode": "list",
+          "cachedResultName": "Convo history",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1589942840"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "sender_id",
+              "lookupValue": "={{ $json.body.entry[0].messaging[0].sender.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        -1152
+      ],
+      "id": "3f46a887-94c4-4cbd-b8da-4a5a36a2da01",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.conversation_log }}",
+        "options": {
+          "systemMessage": "=```\nYou are an AI Assistant for **Lumoscale** — an AI Automation Agency that helps coaches automate their lead generation, outreach, and onboarding using smart systems.\n\nYour job is to reply naturally to incoming LinkedIn or Instagram messages — like a friendly human who knows automation and genuinely wants to help.\n\nYou will receive:\n- conversation_log → the last few messages from the user\n- new_message → the latest message they just sent\n\nConversation so far:\n{{ $json.conversation_log }}\n\nCurrent user message:\n{{ $('Edit Fields4').first().json.body.entry[0].messaging[0].message.text }}\n\n---\n\n### 🧠 Follow These Rules\n\n1. **If the user greets (hi, hello, hey, etc.)**\n   → Reply casually and warm.  \n   Example: “Hey! Haha, great to connect 👋 How’s everything going on your side?”\n\n2. **If the user asks what Lumoscale does**\n   → Keep it short and clear.  \n   Example: “Yeah, so Lumoscale helps coaches automate everything — from getting leads to onboarding clients — so you can focus on actual coaching instead of chasing tasks all day.”\n\n3. **If the user mentions a problem or frustration**\n   → Empathize first, then ask for details.  \n   Example: “Umm I totally get that — it’s something a lot of coaches struggle with. What’s been the biggest challenge for you lately?”\n\n4. **If the user shows interest in a call or says words like ‘demo’, ‘call’, or ‘meeting’**\n   → Respond warmly and share booking link.  \n   Example: “That’s awesome 😄 You can book a quick call here — [cal.com/vamsivk/30min](https://cal.com/vamsivk/30min) — we’ll go over how we can automate your process step by step.”\n\n5. **If the user gives unclear or unrelated text**\n   → Stay polite and nudge context.  \n   Example: “Haha no worries! Could you tell me a bit about what you’re looking to improve — lead generation, onboarding, or something else?”\n\n6. **If the user gives an objection** (like “I’m not ready”, “no budget”, or “doing fine now”)  \n   → Handle gently — no pressure.  \n   Examples:  \n   - “Totally fair! Haha I get it — sometimes timing’s everything. Would you like me to share a free workflow example so you can explore later?”  \n   - “That’s completely fine, honestly. Out of curiosity — what’s holding you back right now? Maybe I can help in a lighter way.”\n\n7. **Tone & Personality**  \n   - Be friendly, short, and real — like chatting with a friend.  \n   - Use light fillers like *“umm”, “haha”, “honestly”, “I get that”* to sound human.  \n   - Never pushy, always curious and supportive.  \n   - Use 1–2 emojis max (optional).\n\n8. **Always end** with a soft open question or next step to keep the chat going.\n\n---\n\n### 🎯 Output Strictly in JSON:\n{\n  \"reply\": \"[Your message in natural, human tone]\",\n  \"intent\": \"[Greeting / Inquiry / Problem / Objection / Call / Other]\",\n  \"confidence\": \"[High / Medium / Low]\",\n  \"next_action\": \"[What the system or coach should do next]\"\n}\n```\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        -1152
+      ],
+      "id": "5bd2f037-6f6e-4479-af1d-a42e0e333b2d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v24.0/me/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer IGAANy9Ku2eeZABZAFRTMVEzakhpRmdXN01rMDhLM0dWOEs0MWZA3YktzVWpMWkdjcENaX1BaNzY4dVRJclFKRmlFOFJUSXZA6SDJhMWxSaHhtNjhDV25NeEN0YXROUU9RSFlNRF9Nc21LRnVneVJ0NGk2ODdDU0U0eldWdTExTldtYwZDZD"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\": {\n    \"id\": \"{{ $('Code in JavaScript5').item.json.sender_id }}\"\n  },\n  \"message\": {\n    \"text\": \"{{ $('Code in JavaScript4').item.json.reply }}\"\n  },\n  \"messaging_type\": \"RESPONSE\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1744,
+        -1152
+      ],
+      "id": "0bc839d3-618d-48a2-9f05-ffffec78f207",
+      "name": "Send reply back in Instagram"
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST",
+          "GET"
+        ],
+        "path": "Instagram-dm",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -160,
+        -1056
+      ],
+      "id": "014a24cb-d2e1-4a39-b705-c9e1ef0042d7",
+      "name": "Instagram DMs",
+      "webhookId": "8f3ef1ea-5ba5-454b-a611-f0a53df234fd"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        32,
+        -896
+      ],
+      "id": "f3e7b6b4-f6d7-46d5-8f8c-a894fc3efa28",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        592,
+        -944
+      ],
+      "id": "0b069b94-d419-4532-993c-a30cd29072a2",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1472294070,
+          "mode": "list",
+          "cachedResultName": "Convo Linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1472294070"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Edit req fields from Linkedin dm').item.json.body.sender.attendee_provider_id }}",
+            "Name": "={{ $('Wait1').item.json.body.sender.attendee_name }}",
+            "Url": "={{ $('Wait1').item.json.body.sender.attendee_profile_url }}",
+            "Convo": "={{ $('Code in JavaScript6').item.json.reply }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Convo",
+              "displayName": "Convo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2224,
+        -368
+      ],
+      "id": "c770818f-0d90-41a4-bf80-58bac9f27fbd",
+      "name": "Append row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1989579242,
+          "mode": "list",
+          "cachedResultName": "Linkedin",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1989579242"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Name",
+              "lookupValue": "={{ $('Wait1').item.json.body.sender.attendee_name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1600,
+        -352
+      ],
+      "id": "34c7c7a7-9378-4bd2-8cb6-dbacd7ada3cf",
+      "name": "Get row(s) in sheet1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b971e2ec-f21d-44ff-89da-0b845fdeccae",
+              "leftValue": "={{ $json.Name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1808,
+        -352
+      ],
+      "id": "9f94ddfb-80f7-4ac8-ae13-f33c8a09e674",
+      "name": "If"
+    }
+  ],
+  "connections": {
+    "Website Signup or Webinar Signup": {
+      "main": [
+        [
+          {
+            "node": "Edit Req Fields for Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If duplicates Found vs Not Found": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Form Sheet 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check duplicates": {
+      "main": [
+        [
+          {
+            "node": "If duplicates Found vs Not Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Req Fields for Form": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Check duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Check Email For Every Min": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Req Fields for Email": {
+      "main": [
+        [
+          {
+            "node": "Duplicates in Gmail sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Edit Req Fields for Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Message a model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Duplicates in Gmail sheet1": {
+      "main": [
+        [
+          {
+            "node": "If duplicates Found vs Not Found - Instagram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If duplicates Found vs Not Found - Instagram1": {
+      "main": [
+        [
+          {
+            "node": "Message a model3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Gmail Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linkedin DM": {
+      "main": [
+        [
+          {
+            "node": "Edit req fields from Linkedin dm",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit req fields from Linkedin dm": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Linkedin Sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Append Instagram Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Instagram Sheet": {
+      "main": [
+        [
+          {
+            "node": "Send reply back in Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram DMs": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Send reply back in Linkedin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append Linkedin Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Linkedin DM": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1011051.hstgr.cloud",
+            "user-agent": "axios/1.7.7",
+            "content-length": "1209",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "51.159.195.149",
+            "x-forwarded-host": "n8n.srv1011051.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "91aa74ac8129",
+            "x-real-ip": "51.159.195.149"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "message_received",
+            "account_id": "m217EhgbTCeKm54r2Qw44w",
+            "account_type": "LINKEDIN",
+            "account_info": {
+              "type": "LINKEDIN",
+              "feature": "classic",
+              "user_id": "ACoAAF6mS4gBFvo_nIYPRUS3l0w7CovUo3dLRrs"
+            },
+            "webhook_name": "n8n",
+            "chat_id": "G00jx2pWWtGldT12TiyIig",
+            "attendees": [
+              {
+                "attendee_id": "Sv1pL09yXh-xF7ZkMgsQEg",
+                "attendee_provider_id": "ACoAAEdKhdYBtl0iugQy3sHdWvWgxGZ5HNBGgyU",
+                "attendee_name": "Vadla Vamsi Krishna",
+                "attendee_profile_url": "https://www.linkedin.com/in/ACoAAEdKhdYBtl0iugQy3sHdWvWgxGZ5HNBGgyU"
+              }
+            ],
+            "sender": {
+              "attendee_id": "Sv1pL09yXh-xF7ZkMgsQEg",
+              "attendee_provider_id": "ACoAAEdKhdYBtl0iugQy3sHdWvWgxGZ5HNBGgyU",
+              "attendee_name": "Vadla Vamsi Krishna",
+              "attendee_profile_url": "https://www.linkedin.com/in/ACoAAEdKhdYBtl0iugQy3sHdWvWgxGZ5HNBGgyU"
+            },
+            "subject": null,
+            "message": "Hi",
+            "message_id": "y1Ag-bxBUrKEPghFblyEQg",
+            "timestamp": "2025-10-30T19:11:19.753Z",
+            "attachments": [],
+            "provider_chat_id": "2-YWUyNDg5Y2EtMzc0YS00ODJjLWEzZWUtMGFlMzhmZjU3N2RmXzEwMA==",
+            "provider_message_id": "2-MTc2MTg1MTQ3OTc1M2IxMTQ0My0xMDAmYWUyNDg5Y2EtMzc0YS00ODJjLWEzZWUtMGFlMzhmZjU3N2RmXzEwMA==",
+            "is_event": 0,
+            "quoted": null,
+            "chat_content_type": null,
+            "message_type": "MESSAGE",
+            "is_group": false,
+            "folder": [
+              "INBOX",
+              "INBOX_LINKEDIN_CLASSIC"
+            ]
+          },
+          "webhookUrl": "https://n8n.srv1011051.hstgr.cloud/webhook-test/085371f4-fb8c-4ed1-a697-92ebd9e53bdd",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "11712673-ca49-4796-8770-17d989bdd1d2",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-30T15:52:31.745Z",
+      "updatedAt": "2025-10-30T15:52:31.745Z",
+      "role": "workflow:owner",
+      "workflowId": "4aBnRQs0MwFenQHE",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
