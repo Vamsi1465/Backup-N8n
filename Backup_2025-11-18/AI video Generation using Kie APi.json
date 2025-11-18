@@ -1,0 +1,1758 @@
+{
+  "createdAt": "2025-11-16T17:46:51.326Z",
+  "updatedAt": "2025-11-17T16:42:42.000Z",
+  "id": "RDcBL6HetNBzu3dj",
+  "name": "AI video Generation using Kie APi",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "UGC",
+        "formDescription": "High quality",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload product",
+              "fieldType": "file",
+              "acceptFileTypes": ".jpg, .png, .jpeg",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Target Audience",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Women 18 to 25"
+                  },
+                  {
+                    "option": "Women 25 to 40"
+                  },
+                  {
+                    "option": "Men 18 to 30"
+                  },
+                  {
+                    "option": "Men 30 to 45"
+                  },
+                  {
+                    "option": "Skincare users"
+                  },
+                  {
+                    "option": "Fitness users"
+                  },
+                  {
+                    "option": "Fashion buyers"
+                  },
+                  {
+                    "option": "People with dry skin"
+                  },
+                  {
+                    "option": "People wanting to lose weight"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Tone of video",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Friendly and natur"
+                  },
+                  {
+                    "option": "Aesthetic and calm"
+                  },
+                  {
+                    "option": "High energy"
+                  },
+                  {
+                    "option": "Storytelling vibe"
+                  },
+                  {
+                    "option": "Review style"
+                  },
+                  {
+                    "option": "Problem solving"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Focus point",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Hydration"
+                  },
+                  {
+                    "option": "Lightweight"
+                  },
+                  {
+                    "option": "Comfort"
+                  },
+                  {
+                    "option": "Glow"
+                  },
+                  {
+                    "option": "Fast results"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Description about script"
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -1872,
+        560
+      ],
+      "id": "398c1e6c-e6ba-4d4e-8a33-7adf8a1d3699",
+      "name": "On form submission",
+      "webhookId": "ddad5b04-b2e7-493d-84fd-97c4a05f8678"
+    },
+    {
+      "parameters": {
+        "operation": "resize",
+        "dataPropertyName": "Upload_product",
+        "width": 720,
+        "height": 1280,
+        "resizeOption": "ignoreAspectRatio",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        -1552,
+        560
+      ],
+      "id": "a6615480-5d4f-4c43-9ecb-058204e9aa05",
+      "name": "Edit Image"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        48,
+        800
+      ],
+      "id": "2fc98103-d705-4b2d-8068-3d9e2af6593a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/veo/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": {{ JSON.stringify($json.output) }},\n  \"imageUrls\": [\n    \"https://drive.google.com/uc?export=view&id={{ $('Upload Image').item.json.id }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"Lumoscale\",\n  \"aspectRatio\": \"16:9\",\n  \"seeds\": 12345,\n  \"enableFallback\": false,\n  \"enableTranslation\": true,\n  \"generationType\": \"REFERENCE_2_VIDEO\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1664,
+        -512
+      ],
+      "id": "42ba2411-5c8e-42db-aa1f-429ed8718e24",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sd8hPGkflaFZs144",
+          "name": "Kie API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/veo/record-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1024,
+        -512
+      ],
+      "id": "3f0fe457-0a86-4b83-ab96-07484e9e3a16",
+      "name": "HTTP Request6",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sd8hPGkflaFZs144",
+          "name": "Kie API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.response.resultUrls[0] }}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "sora_video.mp4"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -592,
+        -528
+      ],
+      "id": "bd61c9ad-828e-43c1-9b0e-6afb8f1e13ac",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "content": "# Sora 2",
+        "height": 1376,
+        "width": 704
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        656,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "6d5c1a57-5c98-427e-818a-3ad0e45ea1d0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Veo 3",
+        "height": 480,
+        "width": 848
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1696,
+        -720
+      ],
+      "typeVersion": 1,
+      "id": "74d18c8d-b7b6-4ee7-bd4a-2e48c00b4a3e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5ccd71e5-f89a-4c79-9dd0-84b62c98a3f5",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        -512
+      ],
+      "id": "ad7b9f77-2426-49e1-93cc-f53eaa2f2f75",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1248,
+        -512
+      ],
+      "id": "b4bef722-5bae-4fff-a88a-46eb6f06b2dc",
+      "name": "Wait",
+      "webhookId": "9affabd3-4a0d-4c95-be3d-0b25d26bbc37"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "682def4c-2cda-4417-9329-682a8a60feed",
+              "leftValue": "={{ $json.status_code }}",
+              "rightValue": "FINISHED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1408
+      ],
+      "id": "29b5794d-0e44-47f4-9799-61dca5fc33b1",
+      "name": "✅ Is Container Ready?1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v22.0/{{ $('🔀 Smart Content Router').item.json.node }}/media_publish",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "creation_id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        992,
+        1392
+      ],
+      "id": "3347e57a-8aaf-4c52-896b-08c56362a06c",
+      "name": "📤 Publish via HTTP API1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CezkIXyqm1175DXL",
+          "name": "Submagic"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        1600
+      ],
+      "id": "e09887a2-1bf5-43d3-a5e8-55796ccdaf4c",
+      "name": "⏰ Retry Wait Loop1",
+      "webhookId": "e9ac0c1d-b415-4160-a6b1-908d2310cb23"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/{{ $json.page_id }}/video_reels",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"upload_phase\":\"start\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -640,
+        1856
+      ],
+      "id": "61c09cf0-e45a-4deb-87c4-4ef07b97ef0f",
+      "name": "Initialize Upload Session1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CezkIXyqm1175DXL",
+          "name": "Submagic"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.upload_url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "file_url",
+              "value": "="
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -464,
+        1856
+      ],
+      "id": "75526cc3-4ba8-49b8-8f95-a00352afc9c6",
+      "name": "Upload the Reel1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CezkIXyqm1175DXL",
+          "name": "Submagic"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/{{ $('Initialize Upload Session1').item.json.video_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "status"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -256,
+        1856
+      ],
+      "id": "0c320021-6b54-4ab8-9a18-9cc18a4834db",
+      "name": "Check Status of Upload1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CezkIXyqm1175DXL",
+          "name": "Submagic"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v23.0/{{ $('Configure Post Settings').item.json.page_id }}/video_reels",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"video_id\":\"{{ $('Initialize Upload Session1').item.json.video_id }}\",\n   \"upload_phase\": \"finish\",\n   \"video_state\": \"PUBLISHED\",\n   \"description\": \"This is automated post via n8n\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        1856
+      ],
+      "id": "828cfb87-bb44-448f-9c94-539478adf056",
+      "name": "Publish Reel1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CezkIXyqm1175DXL",
+          "name": "Submagic"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -32,
+        1856
+      ],
+      "id": "05bf9550-bc46-4797-9d32-d1bffe85eed3",
+      "name": "⏰ Initial Processing Wait",
+      "webhookId": "443f84eb-1e9d-4c77-9a9a-c70290333dca"
+    },
+    {
+      "parameters": {
+        "chatId": "8888",
+        "text": "Notes",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1312,
+        1648
+      ],
+      "id": "49b1538f-b1da-4f47-bff7-bd18c0c0f0f4",
+      "name": "Send a text message",
+      "webhookId": "eef1247d-43a0-4ceb-b02b-498719bcb0bc",
+      "credentials": {
+        "telegramApi": {
+          "id": "Eb5m8Ou5otuazRt3",
+          "name": "Summary"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -848,
+        320
+      ],
+      "id": "1a54479e-063b-491b-b2c1-2ab18d4c830f",
+      "name": "Telegram Trigger1",
+      "webhookId": "e18d4bde-336f-4341-9fed-ada3c62711e6",
+      "credentials": {
+        "telegramApi": {
+          "id": "Eb5m8Ou5otuazRt3",
+          "name": "Summary"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -656,
+        320
+      ],
+      "id": "6d11ff2d-ffb1-4543-ab07-eae831db02d2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "Upload_product",
+        "name": "New 2",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "15aDGAPg8X9wZr3RvFHygQs2bRSY00uUD",
+          "mode": "list",
+          "cachedResultName": "UGC",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/15aDGAPg8X9wZr3RvFHygQs2bRSY00uUD"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1328,
+        560
+      ],
+      "id": "ba3d928d-7cbb-4a8b-b856-7857b9ec74b1",
+      "name": "Upload Image",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pqwDBXzX6aAkWb7p",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "writer",
+            "type": "anyone",
+            "allowFileDiscovery": true
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1088,
+        560
+      ],
+      "id": "393de3dd-2dd1-4108-b0af-87ae7737e332",
+      "name": "Share permissions",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pqwDBXzX6aAkWb7p",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Upload Image').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -880,
+        560
+      ],
+      "id": "16aff5da-0917-445d-97f9-c9c9db4407bf",
+      "name": "Download File",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pqwDBXzX6aAkWb7p",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-preview-05-20",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-preview-05-20"
+        },
+        "text": "Describe the product shown in the image. Include its category, color, texture, materials, size, shape, how it is used, who usually uses it, and the type of setting it fits in. Keep it concise but detailed enough for generating a realistic UGC scene.",
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        560
+      ],
+      "id": "322abfd7-7214-434a-b33e-2ab274a2bede",
+      "name": "Analyze image",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Product description: {{ $json.content.parts[0].text }}\nTarget audience: {{ $('On form submission').item.json['Target Audience'] }}\nTone of video: {{ $('On form submission').item.json['Tone of video'] }}\nFocus point: {{ $('On form submission').item.json['Focus point'] }}\nDecription about script: {{ $('On form submission').item.json['Description about script'] }}\n\nCreate the final scene using all inputs above.",
+        "options": {
+          "systemMessage": "=Your role is StoryCreator. Your job is to read the user’s description and create a short UGC story for a twelve second video. Follow exactly what the user says. If they say one person, create a one person story. If they say two people are talking, create two people talking. If they say a group, create a group story. Never change the number of people.\n\nYou must always create:\n\n1. A quick setup  \n2. A problem or question  \n3. A natural reply  \n4. A product moment  \n5. A final reaction  \n\nKeep the dialogue very short, simple, and natural like TikTok or Reels. No long sentences.\n\nDo not add visuals in this node. Only output a small dialogue style story.\n\nExamples:\n\nUser description: “My skin is dry, two girls talking, one suggests serum.”\nStory:  \nGirl 1 touches her cheek and says her skin feels dry.  \nGirl 2 lifts the serum and says she started using it and it helped.  \nGirl 1 looks surprised and asks if she can try it.  \nGirl 2 smiles and nods.\n\nUser description: “Influencer doing a solo product demo.”\nStory:  \nCreator says she has been trying this serum for a week.  \nShe says it helped her glow.  \nShe picks up the bottle and mentions why she likes it.\n\nUser description: “Three friends and one shows product.”\nStory:  \nFriend 1 says her skin looks tired.  \nFriend 2 agrees.  \nFriend 3 shows the serum and says she has been using it.  \nFriends react with interest.\n\nAlways follow the user’s description. Never change the structure. Output the short story only.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -304,
+        560
+      ],
+      "id": "0f0fc568-e025-4208-8fab-afe9e2fd5a2f",
+      "name": "Story Writer"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "options": {
+          "systemMessage": "=Your role is SceneConverter. You take the story created in the previous node and turn it into one clear twelve second UGC video scene. You must show everything visually.\n\nYour job is to:\n1. Show the room  \n2. Show lighting  \n3. Show background objects  \n4. Show what each person is doing  \n5. Show how the product is held, opened, used, or shown  \n6. Show hand movements  \n7. Show facial reactions  \n8. Show small natural actions  \n9. Follow the story exactly  \n\nYou must not add new people or remove people. If the story has two people, you show two people. If it has three, you show three. If it is solo, show one person.\n\nConvert all dialogue into visual reactions. No spoken lines. No text.\n\nExamples of how to convert:\n\nStory: “Girl says her skin is dry, friend shows serum.”\nScene:  \nSoft morning light fills a bathroom as a girl touches her dry cheek. Her friend beside her lifts the amber serum bottle, opens the dropper, and applies a small drop to her own cheek. The first girl reacts with interest and leans closer. A mirror and skincare items sit on the counter. Soft ambient music plays.\n\nStory: “Influencer doing solo demo.”\nScene:  \nA girl stands near her vanity in warm indoor light. She picks up the serum bottle, opens the dropper, and applies two drops to her cheek with gentle taps. She looks at herself in the mirror with a small smile. Light music plays.\n\nStory: “Three friends and one shows product.”\nScene:  \nThree girls sit on a couch in a softly lit living room. One lifts the serum bottle, shows the texture on her fingertip, and applies it to her cheek. The other two lean in with interest and react with smiles. Soft music plays.\n\nDo not use camera words like angle or shot. Output one continuous scene description with an audio suggestion at the end."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        560
+      ],
+      "id": "19cf5a7b-25a3-4e6d-92ee-04a8cbbcaf5a",
+      "name": "Prompt Generator"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/jobs/createTask",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"sora-2-image-to-video\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($json.output) }},\n    \"image_urls\": [\n      \"https://drive.google.com/uc?export=view&id={{ $('Upload Image').item.json.id }}\"\n    ],\n    \"aspect_ratio\": \"portrait\",\n    \"quality\": \"hd\"\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        928,
+        -128
+      ],
+      "id": "49d01497-82b0-4880-8439-8c95d0f87de9",
+      "name": "Create video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sd8hPGkflaFZs144",
+          "name": "Kie API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        64
+      ],
+      "id": "2cf283b9-b87d-430d-9fbc-7ce55e63f14d",
+      "name": "Wait for 3min",
+      "webhookId": "9affabd3-4a0d-4c95-be3d-0b25d26bbc37"
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        928,
+        240
+      ],
+      "id": "be430f72-d899-4faa-94fa-6bc34b24801c",
+      "name": "Check status of video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sd8hPGkflaFZs144",
+          "name": "Kie API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c0dc46c1-0ff6-4b73-900c-3d63bd3573ca",
+              "leftValue": "={{ $json.data.state }}",
+              "rightValue": "generating",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        416
+      ],
+      "id": "5dd3bb84-13f3-4d8e-88dd-e715ea9a5af6",
+      "name": "Completed or Pending"
+    },
+    {
+      "parameters": {
+        "jsCode": "const resultJsonRaw = $json.data.resultJson;\n\n// Parse string to object\nconst parsed = JSON.parse(resultJsonRaw);\n\n// Extract first URL\nconst url = parsed.resultUrls[0];\n\nreturn [\n  {\n    json: {\n      video_url: url\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        592
+      ],
+      "id": "648e27ff-c1dd-4556-85b7-8963a40fa6ae",
+      "name": "Get Url"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.video_url }}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "sora_video.mp4"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        720
+      ],
+      "id": "87273f8d-7574-4f97-acf0-2331dcfb783b",
+      "name": "Download video"
+    },
+    {
+      "parameters": {
+        "operation": "sendVideo",
+        "chatId": "8417171830",
+        "binaryData": true,
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Approve",
+                    "additionalFields": {
+                      "callback_data": "Approve"
+                    }
+                  },
+                  {
+                    "text": "Decline",
+                    "additionalFields": {
+                      "callback_data": "Decline",
+                      "switch_inline_query_current_chat": ""
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        976,
+        880
+      ],
+      "id": "aa5dc719-7195-43ee-8e50-ce1f1a68df1a",
+      "name": "Send video in telegram",
+      "webhookId": "7bde4a4a-9248-41ad-a199-3e9fc07f94a4",
+      "credentials": {
+        "telegramApi": {
+          "id": "Eb5m8Ou5otuazRt3",
+          "name": "Summary"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1824,
+        1520
+      ],
+      "id": "f145868d-0543-4dd2-9694-8ea66158b473",
+      "name": "Wait for approval",
+      "webhookId": "60d6ece8-d343-4477-a6ec-6be2ed301890",
+      "credentials": {
+        "telegramApi": {
+          "id": "Eb5m8Ou5otuazRt3",
+          "name": "Summary"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "528a1979-2529-4d17-bf8d-98aa328cf987",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1616,
+        1520
+      ],
+      "id": "7ffb4b94-c8e1-44c7-b093-69c23d5376f4",
+      "name": "Approve or decline"
+    },
+    {
+      "parameters": {
+        "name": "Sora UGC",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1200,
+        1424
+      ],
+      "id": "f51a38b7-d1e6-4dd6-91dc-c7cdbe05bcfc",
+      "name": "Upload video",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pqwDBXzX6aAkWb7p",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Upload Image').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -976,
+        1424
+      ],
+      "id": "9d0fb0ad-4604-432c-8294-1cb18462f476",
+      "name": "Download video1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "pqwDBXzX6aAkWb7p",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "New",
+        "regionCode": "IN",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        1264
+      ],
+      "id": "5d964c13-4663-4aa4-94cf-9196e8c9a48d",
+      "name": "Upload video1",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "uxZstcYO2g7fZGu5",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v22.0/{{ $json.node }}/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "media_type",
+              "value": "=REELS"
+            },
+            {
+              "name": "video_url",
+              "value": "={{ $json.video_url }}"
+            },
+            {
+              "name": "caption",
+              "value": "={{ $json.caption }}"
+            },
+            {
+              "name": "cover_url",
+              "value": "={{ $json.cover_image }}"
+            },
+            {
+              "name": "audio_name",
+              "value": "Monody (feat. Laura Brehm)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -384,
+        1488
+      ],
+      "id": "c25d16b0-30f5-4a76-9564-cae2bb5f3caf",
+      "name": "Intsagram container",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CezkIXyqm1175DXL",
+          "name": "Submagic"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37f96da8-a8b6-417b-b5cf-7a4df5b4610c",
+              "name": "container_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        1488
+      ],
+      "id": "350c049f-4bf1-419f-9782-46747e4fda6c",
+      "name": " Check Processing Status"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        1488
+      ],
+      "id": "62c8677b-d1d5-4f67-a6d4-576dec0d0926",
+      "name": "Waiting",
+      "webhookId": "443f84eb-1e9d-4c77-9a9a-c70290333dca"
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v22.0/{{ $(' Check Processing Status').item.json.container_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "status_code"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        368,
+        1488
+      ],
+      "id": "63ecccbd-4997-4c0b-b166-c5f399246a57",
+      "name": "Check Processing Status",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "HRaS1hI25rXa967C",
+          "name": "Apify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v22.0/{{ $('🔍 Check Processing Status').item.json.container_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "status_code"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        1920
+      ],
+      "id": "80fd7c13-046c-404a-bea4-a82f38acfd6f",
+      "name": "Check Processing Status4",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "HRaS1hI25rXa967C",
+          "name": "Apify"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "682def4c-2cda-4417-9329-682a8a60feed",
+              "leftValue": "={{ $json.status_code }}",
+              "rightValue": "FINISHED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        1840
+      ],
+      "id": "974bdf2e-0262-4743-b088-32a35e5d6489",
+      "name": "Is Container Ready?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        2032
+      ],
+      "id": "d61493b1-e1f6-4363-b6f5-0de8aa309f9d",
+      "name": "Retry Wait Loop",
+      "webhookId": "e9ac0c1d-b415-4160-a6b1-908d2310cb23"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Story Writer",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Prompt Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Is Container Ready?1": {
+      "main": [
+        [
+          {
+            "node": "📤 Publish via HTTP API1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "⏰ Retry Wait Loop1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Retry Wait Loop1": {
+      "main": [
+        [
+          {
+            "node": "Check Processing Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Upload Session1": {
+      "main": [
+        [
+          {
+            "node": "Upload the Reel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload the Reel1": {
+      "main": [
+        [
+          {
+            "node": "Check Status of Upload1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Status of Upload1": {
+      "main": [
+        [
+          {
+            "node": "⏰ Initial Processing Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Initial Processing Wait": {
+      "main": [
+        [
+          {
+            "node": "Check Processing Status4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Story Writer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Share permissions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share permissions": {
+      "main": [
+        [
+          {
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Story Writer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Story Writer": {
+      "main": [
+        [
+          {
+            "node": "Prompt Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt Generator": {
+      "main": [
+        [
+          {
+            "node": "Create video",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create video": {
+      "main": [
+        [
+          {
+            "node": "Wait for 3min",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for 3min": {
+      "main": [
+        [
+          {
+            "node": "Check status of video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check status of video": {
+      "main": [
+        [
+          {
+            "node": "Completed or Pending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completed or Pending": {
+      "main": [
+        [
+          {
+            "node": "Check status of video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Url": {
+      "main": [
+        [
+          {
+            "node": "Download video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download video": {
+      "main": [
+        [
+          {
+            "node": "Send video in telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for approval": {
+      "main": [
+        [
+          {
+            "node": "Approve or decline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approve or decline": {
+      "main": [
+        [
+          {
+            "node": "Upload video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload video": {
+      "main": [
+        [
+          {
+            "node": "Download video1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download video1": {
+      "main": [
+        [
+          {
+            "node": "Upload video1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Intsagram container",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Initialize Upload Session1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload video1": {
+      "main": [
+        []
+      ]
+    },
+    "Intsagram container": {
+      "main": [
+        [
+          {
+            "node": " Check Processing Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Check Processing Status": {
+      "main": [
+        [
+          {
+            "node": "Waiting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Waiting": {
+      "main": [
+        [
+          {
+            "node": "Check Processing Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Processing Status": {
+      "main": [
+        [
+          {
+            "node": "✅ Is Container Ready?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Processing Status4": {
+      "main": [
+        [
+          {
+            "node": "Is Container Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Container Ready?": {
+      "main": [
+        [
+          {
+            "node": "Publish Reel1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Retry Wait Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry Wait Loop": {
+      "main": [
+        [
+          {
+            "node": "Check Processing Status4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5078c413-53d9-4556-bd5e-31cf9b5ce048",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-11-16T17:46:51.330Z",
+      "updatedAt": "2025-11-16T17:46:51.330Z",
+      "role": "workflow:owner",
+      "workflowId": "RDcBL6HetNBzu3dj",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
