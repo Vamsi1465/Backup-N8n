@@ -1,0 +1,830 @@
+{
+  "createdAt": "2025-10-21T11:50:07.072Z",
+  "updatedAt": "2025-11-23T20:31:48.000Z",
+  "id": "xOl5dqbr93rnsZsN",
+  "name": "Fathom Meeting Summary Extract",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        256
+      ],
+      "id": "a212fd2b-ae22-4d5e-b6a3-1b23ca8f32dc",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Extract all objections the prospect raised.\n\nFormat as JSON array:\n[\n  \"Objection 1: ...\",\n  \"Objection 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $json[\"cleanedTranscript\"].map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        -160
+      ],
+      "id": "54068088-550a-474b-9e99-412da5f9fa3c",
+      "name": "Objections",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Extract all questions the prospect asked.\n\nFormat as a JSON array:\n[\n  \"Question 1: ...\",\n  \"Question 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $node[\"Divide as Speakers \"].json.cleanedTranscript.map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        48
+      ],
+      "id": "448c33f2-8fb5-44a6-845e-413935ace4cc",
+      "name": "Questions",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Identify emotional triggers, pain points, frustrations, or motivators expressed by the prospect.  \n\nFormat as a JSON array:\n[\n  \"Emotional Trigger 1: ...\",\n  \"Emotional Trigger 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $('Divide as Speakers ').item.json.cleanedTranscript.map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        240
+      ],
+      "id": "ed36a138-3511-4a8b-891f-d2f94f206bf4",
+      "name": "Emotional Triggers",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1552,
+        80
+      ],
+      "id": "c94bdc1d-9365-4c18-a01a-09c751e59930",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content creator. Based on the following extracted data from a sales call, create a 7-slide Instagram carousel.\n\nData:\nObjections: {{ $json[\"objections\"].join(\"; \") }}\nQuestions: {{ $json[\"questions\"].join(\"; \") }}\nEmotional Triggers: {{ $json[\"emotionalTriggers\"].join(\"; \") }}\n\nFormat each slide with a short, punchy text (15-20 words max):\n\nSlide 1: Hook (grab attention)\nSlide 2: Objection 1 + How to address\nSlide 3: Objection 2 + How to address\nSlide 4: Question 1 + Insight\nSlide 5: Emotional Trigger 1 + Solution\nSlide 6: Emotional Trigger 2 + Solution\nSlide 7: CTA (Call-to-Action) - e.g., \"DM me if this resonates!\"\n\nMake the language engaging, friendly, and in the coach's brand voice.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1968,
+        -144
+      ],
+      "id": "b86695c7-a7bf-4e9a-8b85-3b7fe4757a3a",
+      "name": "Carousal",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content creator. Based on the extracted data from a sales call, write a LinkedIn post that:\n\n- Tells a short story or scenario from the call\n- Highlights objections, questions, or frustrations the prospect shared\n- Shows insights or solutions\n- Ends with a friendly CTA (like commenting or DMing)\n\nData:\nObjections: {{ $json.objections }}\nQuestions: {{ $json.questions }}\nEmotional Triggers: {{ $json.emotionalTriggers }}\n\nTone: Professional, story-driven, client-focused, and engaging\nLength: 150–250 words\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1968,
+        32
+      ],
+      "id": "c358dfc6-9c12-4d0b-83d7-a6eebba190a8",
+      "name": "Linkedin Post",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional content creator for a coach. Based on the following extracted data from a sales call, write a short, engaging email.\n\nData:\nObjections: {{ $json.objections }}\nQuestions: {{ $json.questions }}\nEmotional Triggers: {{ $json.emotionalTriggers }}\n\nEmail requirements:\n- Include a clear subject line\n- Highlight 1-2 objections or pain points from the prospect\n- Provide actionable insight or solution\n- End with a friendly call-to-action (e.g., reply to this email, DM me, or schedule a call)\n- Tone: professional but friendly\n- Length: 150–200 words\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        224
+      ],
+      "id": "d5a8b7e6-1a6a-4aff-b85d-d8018fac9919",
+      "name": "Email",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a social media content creator. Based on the following extracted data from a sales call, create a 5-slide story sequence for Instagram/Facebook.\n\nData:\nObjections: {{ $json.objections }}\nQuestions: {{ $json.questions }}\nEmotional Triggers: {{ $json.emotionalTriggers }}\n\nInstructions:\n- Slide 1: Hook / Attention Grabber\n- Slide 2: Highlight an objection or pain point\n- Slide 3: Share a question or frustration from the prospect\n- Slide 4: Provide a solution or actionable insight\n- Slide 5: CTA (Call-to-Action) - e.g., \"Swipe up\", \"DM me\", \"Comment below\"\n\nKeep each slide short, punchy, and visually scannable (15-20 words max). \nUse friendly, engaging, and brand-aligned language.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        464
+      ],
+      "id": "9a951b6c-8ddc-4efb-b5f0-0d90e5acd58d",
+      "name": "Story Sequence",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite-preview-06-17",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        368
+      ],
+      "id": "c8be8bae-ba99-443f-b667-b5c40cf3b08b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.fathom.ai/external/v1/meetings",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        112,
+        160
+      ],
+      "id": "a53405da-0612-4752-a7fd-e02fbefd6222",
+      "name": "Get all recordings",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NBhzhmldtZCSS2om",
+          "name": "Lumoscale -Fathom"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.fathom.ai/external/v1/recordings/{{ $json.items[0].recording_id }}/transcript",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        224
+      ],
+      "id": "23a06881-4f2f-48ac-8712-0a7eb4ec3b25",
+      "name": "Get Transcript",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NBhzhmldtZCSS2om",
+          "name": "Lumoscale -Fathom"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.fathom.ai/external/v1/recordings/{{ $json.items[0].recording_id }}/summary",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        32
+      ],
+      "id": "9a9c281a-fc46-4676-9c65-090bc0a302a4",
+      "name": "Get Summary",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NBhzhmldtZCSS2om",
+          "name": "Lumoscale -Fathom"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the transcript array from input\nconst transcript = $input.item.json.transcript;\n\n// Map each transcript entry to \"Speaker Name: text\"\nconst formatted = transcript.map(entry => {\n  // Try to get name from multiple possible locations\n  const speaker = entry.display_name || (entry.speaker && entry.speaker.display_name) || \"Unknown\";\n  const text = entry.text || \"\";\n  return `${speaker}: ${text}`;\n});\n\n// Return as single array\nreturn [{ json: { conversation: formatted } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        496,
+        224
+      ],
+      "id": "143501be-0e90-442a-b3a8-0603583e12d2",
+      "name": "Filter "
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input: msg.json.conversation = array of strings like:\n// [\"Lumoscale: Yeah, okay.\", \"Lumoscale: Let's wait until the beginning of the day.\", ...]\n\nconst conversation = $json[\"conversation\"]; // Your conversation array\n\nlet cleanedTranscript = [];\n\nconversation.forEach(line => {\n    if (!line) return; // skip empty lines\n\n    // Split speaker and text\n    const parts = line.split(\":\");\n    if (parts.length < 2) return; // skip lines without proper speaker\n\n    const speaker = parts[0].trim();\n    const speech = parts.slice(1).join(\":\").trim();\n\n    // Filter out filler / meaningless lines\n    const fillers = [\"yeah\", \"huh\", \"okay\", \"hello\", \"come on in here\", \"what\", \"sorry to interrupt\"];\n    if (speech.length < 3) return; // skip very short lines\n    if (fillers.some(f => speech.toLowerCase().includes(f))) return;\n\n    cleanedTranscript.push({speaker, text: speech});\n});\n\nreturn [{json: {cleanedTranscript}}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        224
+      ],
+      "id": "4a3bd781-9f22-4265-8732-54da62418825",
+      "name": "Divide as Speakers "
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access previous OpenAI / Gemini node outputs\nconst objectionsNode = $node[\"Objections\"].json[\"content\"][\"parts\"][0][\"text\"];\nconst questionsNode = $node[\"Questions\"].json[\"content\"][\"parts\"][0][\"text\"];\nconst emotionalTriggersNode = $node[\"Emotional Triggers\"].json[\"content\"][\"parts\"][0][\"text\"];\nconst transformationStoriesNode = $node[\"Transformation Stories\"].json[\"content\"][\"parts\"][0][\"text\"];\n\n// Helper function to remove ```json and ``` from OpenAI output\nfunction cleanJSON(str) {\n    if (!str) return \"[]\";\n    return str.replace(/```json|```/g, '').trim();\n}\n\n// Parse outputs safely\nlet objections, questions, emotionalTriggers, transformationStories;\n\ntry {\n    objections = JSON.parse(cleanJSON(objectionsNode));\n} catch (err) {\n    objections = [];\n}\n\ntry {\n    questions = JSON.parse(cleanJSON(questionsNode));\n} catch (err) {\n    questions = [];\n}\n\ntry {\n    emotionalTriggers = JSON.parse(cleanJSON(emotionalTriggersNode));\n} catch (err) {\n    emotionalTriggers = [];\n}\n\ntry {\n    transformationStories = JSON.parse(cleanJSON(transformationStoriesNode));\n} catch (err) {\n    transformationStories = [];\n}\n\n// Return combined data\nreturn [\n    {\n        json: { \n            objections, \n            questions, \n            emotionalTriggers,\n            transformationStories\n        }\n    }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        112
+      ],
+      "id": "bef9571c-22a9-4293-a215-9e0e05eaecd7",
+      "name": "Single Array"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite-preview-09-2025",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite-preview-09-2025"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are analyzing a sales call transcript. Extract all transformation stories or statements where the prospect shares struggles, past attempts, or consequences if problems are not solved.  \n\nFormat as a JSON array:\n[\n  \"Story 1: ...\",\n  \"Story 2: ...\",\n  ...\n]\n\nTranscript:\n{{ $node[\"Divide as Speakers \"].json.cleanedTranscript.map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        448
+      ],
+      "id": "f3e7f75e-7e9e-4a65-a246-dace64a7f745",
+      "name": "Transformation Stories",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "8ae75de6-c16d-4f25-915c-3fb18b16a67c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        112
+      ],
+      "id": "61852a32-3f60-4b5f-886b-399a764e674a",
+      "name": "Webhook",
+      "webhookId": "8ae75de6-c16d-4f25-915c-3fb18b16a67c"
+    },
+    {
+      "parameters": {
+        "sendTo": "xxx",
+        "subject": "Thank you, Muskaan 🙌",
+        "message": "<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>Follow-Up</title>\n    <style>\n      body {\n        margin: 0;\n        padding: 0;\n        font-family: \"Segoe UI\", Roboto, Arial, sans-serif;\n        background-color: #f4f6f8;\n      }\n      .container {\n        max-width: 600px;\n        margin: 40px auto;\n        background: #ffffff;\n        border-radius: 10px;\n        box-shadow: 0 4px 10px rgba(0,0,0,0.05);\n        overflow: hidden;\n      }\n      .header {\n        background: linear-gradient(90deg, #2563eb, #7c3aed);\n        color: #ffffff;\n        padding: 20px 30px;\n        font-size: 20px;\n        font-weight: 600;\n        text-align: center;\n      }\n      .content {\n        padding: 28px 30px;\n        color: #1e293b;\n        line-height: 1.6;\n        font-size: 15px;\n      }\n      .footer {\n        background: #f9fafb;\n        padding: 18px 30px;\n        font-size: 13px;\n        color: #64748b;\n        text-align: right;\n      }\n      @media(max-width:420px){\n        .content { padding: 20px; }\n        .header { padding: 18px; font-size: 18px; }\n      }\n    </style>\n  </head>\n  <body>\n    <div class=\"container\">\n      <div class=\"header\">\n        Loved Our Conversation Today\n      </div>\n      <div class=\"content\">\n        <p>Hi Muskaan,</p>\n        <p>It was great talking with you today! I truly appreciate you taking the time to share your thoughts and plans.</p>\n        <p>I’ll come up with the <strong>retainer plan</strong> tomorrow and share the details with you.</p>\n        <p>Thanks again for your time and trust.</p>\n        <p>Warm regards,<br><strong>Vamsi</strong><br>AI Automation Systems | Lumoscale</p>\n      </div>\n      <div class=\"footer\">\n        © Lumoscale | vamsivk1465@gmail.com\n      </div>\n    </div>\n  </body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        304,
+        544
+      ],
+      "id": "4d4cbdbd-c515-49dd-8a59-680ec9ac7bff",
+      "name": "Send a message",
+      "webhookId": "3e4c8aba-cf1a-469c-898e-df59acb2c2c1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UbWO1LFfZ6s8MzMA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash-lite-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash-lite-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a professional AI assistant tasked with summarizing meeting transcripts for a team. Your goal is to make the summary **clear, concise, actionable, and easy to understand** for someone who did not attend the meeting. \n\nFollow these instructions carefully:\n\n1. Read the full transcript provided.\n2. Extract and organize:\n   - **Key Discussion Points**: main topics discussed and important context.\n   - **Decisions Made**: anything the team agreed on or concluded.\n   - **Action Items**: tasks, who is responsible (if mentioned), and due dates (if mentioned).\n   - **Important Notes / Highlights**: any critical info the team should remember.\n3. Prioritize information by relevance. Put the most important points first in each section.\n4. Use bullet points, **bold important details**, and concise language. Avoid filler sentences.\n5. Make it readable for someone who did not attend the meeting.\n6. If multiple people are mentioned, clearly attribute their points.\n7. If topics are repeated, consolidate similar points into one bullet.\n8. Optionally, include a **one-line summary at the top** giving the overall context of the meeting.\n\n**Example output format:**\n\n---\n**Meeting Summary (One-Line Context):**\n- Brief summary of meeting purpose.\n\n**Key Discussion Points:**\n- Point 1 (Speaker: Name if relevant)\n- Point 2 (Speaker: Name if relevant)\n- Point 3 (Speaker: Name if relevant)\n\n**Decisions Made:**\n- Decision 1\n- Decision 2\n\n**Action Items:**\n- Person A: Task 1 (due if mentioned)\n- Person B: Task 2 (due if mentioned)\n\n**Important Notes / Highlights:**\n- Highlight 1\n- Highlight 2\n\n---\n\nTranscript:\n{{ $node[\"Divide as Speakers \"].json.cleanedTranscript.map(c => c.speaker + \": \" + c.text).join(\"\\n\") }}\n\nProvide the summary strictly in the format above.\nMake it concise, professional, and team-friendly.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -336
+      ],
+      "id": "babe151c-c7a1-4579-bcef-d4744d72fc7d",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8417171830",
+        "text": "={{ $json.content.parts[0].text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1456,
+        -336
+      ],
+      "id": "dd0b3f8b-ad6e-494d-b30c-2e7677d5c2d4",
+      "name": "Send a text message",
+      "webhookId": "7797a3c2-7037-4c06-a5bf-81bad508fbc5",
+      "credentials": {
+        "telegramApi": {
+          "id": "Eb5m8Ou5otuazRt3",
+          "name": "Summary"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the 7 slides from the big text and output each slide as its own item\n\nconst raw = $input.first().json.content.parts[0].text;\n\n// Split slides by \"### Slide\"\nconst parts = raw.split(\"### Slide\").slice(1);\n\nconst output = parts.map((p, index) => {\n  const lines = p.trim().split(\"\\n\").filter(l => l.trim() !== \"\");\n\n  // Remove the slide number text like \"1: Hook...\"\n  lines.shift();\n\n  const finalText = lines.join(\"\\n\");\n\n  return {\n    json: {\n      slide: index + 1,\n      message: finalText\n    }\n  };\n});\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        -144
+      ],
+      "id": "0572096c-d2f5-41da-b0f0-624ac8f76c0c",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get all recordings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Objections": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Questions": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Emotional Triggers": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Single Array",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email": {
+      "main": [
+        []
+      ]
+    },
+    "Carousal": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Get all recordings": {
+      "main": [
+        [
+          {
+            "node": "Get Summary",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Transcript",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Transcript": {
+      "main": [
+        [
+          {
+            "node": "Filter ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter ": {
+      "main": [
+        [
+          {
+            "node": "Divide as Speakers ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Divide as Speakers ": {
+      "main": [
+        [
+          {
+            "node": "Objections",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Questions",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Emotional Triggers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Transformation Stories",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Single Array": {
+      "main": [
+        [
+          {
+            "node": "Carousal",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Linkedin Post",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Story Sequence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transformation Stories": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get all recordings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Carousal": [
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "Here is your 7-slide Instagram carousel based on the sales call data:\n\n---\n\n## Instagram Carousel Content\n\n### Slide 1: Hook (Attention Grabber)\n\n**Text:** Stop Guessing Your Outreach Costs! Know the real price of 100 leads **today**.\n\n### Slide 2: Objection Handling (Cost)\n\n**Text:** Ballpark Cost Question? We ditch vague estimates for clear, scalable pricing models. Let's map your volume!\n\n### Slide 3: Objection Handling (Follow-up)\n\n**Text:** \"Send meeting minutes\"? We move faster. Actionable next steps beat paperwork every time. Let's connect live!\n\n### Slide 4: Key Question Insight\n\n**Text:** Secondary Domains & Enrichment: Are you missing key data? Smart systems find the **right** contact, every time.\n\n### Slide 5: Pain Point Solution (Targeting)\n\n**Text:** Struggling to find specific trades like plumbers? Our filtering delivers **hot, targeted leads**, not junk lists.\n\n### Slide 6: Emotional Trigger Solution (Risk Aversion)\n\n**Text:** LinkedIn Backlash Fear? We prioritize compliant, sustainable scraping. Protect your reputation while scaling leads!\n\n### Slide 7: CTA (Call-to-Action)\n\n**Text:** Tired of low-quality leads and risky tactics? **DM \"SCALE\"** if you want systems that actually deliver results!"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      }
+    ],
+    "Code in JavaScript": [
+      {
+        "json": {
+          "slide": 1,
+          "message": "**Text:** Stop Guessing Your Outreach Costs! Know the real price of 100 leads **today**."
+        }
+      },
+      {
+        "json": {
+          "slide": 2,
+          "message": "**Text:** Ballpark Cost Question? We ditch vague estimates for clear, scalable pricing models. Let's map your volume!"
+        }
+      },
+      {
+        "json": {
+          "slide": 3,
+          "message": "**Text:** \"Send meeting minutes\"? We move faster. Actionable next steps beat paperwork every time. Let's connect live!"
+        }
+      },
+      {
+        "json": {
+          "slide": 4,
+          "message": "**Text:** Secondary Domains & Enrichment: Are you missing key data? Smart systems find the **right** contact, every time."
+        }
+      },
+      {
+        "json": {
+          "slide": 5,
+          "message": "**Text:** Struggling to find specific trades like plumbers? Our filtering delivers **hot, targeted leads**, not junk lists."
+        }
+      },
+      {
+        "json": {
+          "slide": 6,
+          "message": "**Text:** LinkedIn Backlash Fear? We prioritize compliant, sustainable scraping. Protect your reputation while scaling leads!"
+        }
+      },
+      {
+        "json": {
+          "slide": 7,
+          "message": "**Text:** Tired of low-quality leads and risky tactics? **DM \"SCALE\"** if you want systems that actually deliver results!"
+        }
+      }
+    ],
+    "Linkedin Post": [
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "Here's a LinkedIn post based on the sales call data:\n\nThat moment when a potential partner stops you mid-pitch to ask, \"How would you put it in a manner that if a hundred leads come in daily, what's the ballpark cost?\"\n\nIt's a completely valid question! This prospect wasn't just price shopping; they were immediately stress-testing the scalability and *risk* of our entire lead generation setup. Their biggest fears? 😬 Running afoul of LinkedIn’s policies (\"I wouldn't want any backlash\") and ensuring the leads they're getting are actually *hot*, not just raw data dumps requiring endless enrichment.\n\nWe dove deep into how we structure our outreach sequences—not just *what* we scrape, but *how* we ensure compliance and confirm contact details *before* they hit their pipeline. It’s about building processes so solid, they can confidently delegate who gets allocated the next inquiry without the headache of compliance worry.\n\nIf you're constantly walking the tightrope between scaling your lead volume and staying safely within platform guidelines, you're not alone.\n\nWhat's the biggest compliance fear holding back your current lead gen strategy? Drop a comment below or DM me—let's chat risk mitigation! 👇 #LeadGeneration #SalesEnablement #B2BOutreach #Compliance"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      }
+    ]
+  },
+  "versionId": "fac05906-9d89-418b-9526-59615bfed704",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-21T11:50:07.078Z",
+      "updatedAt": "2025-10-21T11:50:07.078Z",
+      "role": "workflow:owner",
+      "workflowId": "xOl5dqbr93rnsZsN",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
