@@ -1,0 +1,357 @@
+{
+  "createdAt": "2025-10-05T10:18:50.376Z",
+  "updatedAt": "2025-11-16T20:45:43.000Z",
+  "id": "QRslAsQOl8NgHjb1",
+  "name": "Chatbot Agent for website",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "eefcd4db-b442-48a8-94b6-96226dc3d63e",
+              "name": "text",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        48
+      ],
+      "id": "300e5fed-f7c9-4364-93a8-29c079d3eb42",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant with memory and knowledge capabilities.\n\nContext Awareness — The date and time is: {{ $now }}\n\nAgency Information (AI Automation Agency)  \nYou represent an AI automation agency that builds, implements, and manages automation workflows for businesses. Your agency focuses on:\n\n- Automating client onboarding, lead capture, follow-ups, and outreach  \n- Building workflow automation for internal operations  \n- Creating AI-powered content, document, and task automation  \n- Providing analytics, dashboards, and KPI tracking  \n\nProduct/Service Knowledge  \nYou have access to internal knowledge of the agency’s services, workflows, and tools. When a user asks about a service or solution, always provide the latest available details.  \nCheck the “Service Description” to provide accurate guidance. Always offer suggestions related to how AI automation can solve their business problems.\n\nMemory Handling (Supabase Tools)  \nYou have access to Supabase for memory storage and retrieval:  \n\n- **Store_memory** → Save customer insights and context into Supabase.  \n- **Get_memory** → Retrieve past interactions and context from Supabase before answering.  \n\nAlways use `Get_memory` first to personalize your response.  \nAlways call `Store_memory` after every user interaction to update context.  \n\nStore in memory:  \n- What the user is looking for regarding AI automation  \n- Their business challenges, bottlenecks, or pain points  \n- Services they are interested in  \n- Any objections, questions, or key insights shared  \n\nInteraction Rules  \n- Use memory and past interactions to guide users toward decisions or solutions.  \n- Suggest workflows, automations, or AI solutions based on the user’s context.  \n- Provide examples, benefits, and results of AI automation where relevant.  \n- Keep responses professional, helpful, and solution-focused.  \n\nExamples of requests you might handle:  \n- \"Can you automate my lead follow-up process?\"  \n- \"What workflows can help my real estate business save time?\"  \n- \"How can AI create content for my social media automatically?\"  \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        464,
+        48
+      ],
+      "id": "688faa91-601b-4b96-872b-1acc1fbe0e13",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        336,
+        256
+      ],
+      "id": "7ba6a437-56b7-4982-8fa4-7b9eca85685a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gq3qNdXZmlzVb7Jg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('When chat message received').item.json.sessionId }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        256
+      ],
+      "id": "e5c2d7fa-fcfd-4e23-ae3a-f1bb4dc4ae08",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1CXV8CLl_GFtlZkTssX2WlSJkGjkJLFHlhhYsz5W2TR8",
+          "mode": "list",
+          "cachedResultName": "AI chat bot FAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CXV8CLl_GFtlZkTssX2WlSJkGjkJLFHlhhYsz5W2TR8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CXV8CLl_GFtlZkTssX2WlSJkGjkJLFHlhhYsz5W2TR8/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        256
+      ],
+      "id": "6830d4b8-4dc2-4ded-b35d-d63cc89e30eb",
+      "name": "product info",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        816,
+        48
+      ],
+      "id": "8fb10a60-6b41-4141-9d57-cc2d443049fc",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {
+          "responseMode": "responseNode"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -192,
+        64
+      ],
+      "id": "bf7564af-494b-4a57-a6a2-f6709d5b382f",
+      "name": "When chat message received",
+      "webhookId": "4caa086f-bffd-4119-926b-5026b260c94d"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d2943398-69c0-472d-908e-09c2473b9692",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        64
+      ],
+      "id": "faf32db4-8cbd-4e03-9dc3-643ee27d9c6a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n\"output\": \"Please type your name and email address first, to start the chat.\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        64,
+        320
+      ],
+      "id": "8de58352-3bb6-49b7-a784-4c683280f78d",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "content": "\n🔹 Trigger\n\nWhen chat message received (chatTrigger)\n→ Starts workflow when a user sends a chat message.\n→ Outputs: chatInput, sessionId\n\n🔹 Condition Handling\n\nIf (check chatInput exists)\n\n✅ Yes → go to Edit Fields\n\n❌ No → go to Respond to Webhook1 (\"Please type your name and email address first\")\n\n🔹 Input Processing\n\nEdit Fields (Set Node)\n\nSaves chatInput → text\n\nPrepares clean input for AI Agent\n\n",
+        "height": 528,
+        "width": 528,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1056,
+        -784
+      ],
+      "typeVersion": 1,
+      "id": "106ba693-d277-4674-bf8a-ae36c0cecbd3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "🔹 AI Agent (LangChain Agent)\n\nAI Agent\n\nUses Google Gemini Chat Model\n\nMemory: Simple Memory (Buffer Window, 20 turns)\n\nTools:\n\nStore_memory (Supabase insert)\n\nGet_memory (Supabase query)\n\nproduct info (Google Sheets FAQ lookup)\n\nSystem Prompt:\n\nActs as AI Automation Agency assistant\n\nUses Supabase for memory (Store / Get)\n\nSuggests automations, AI agents, workflows\n\n🔹 Memory\n\nSimple Memory (memoryBufferWindow)\n\nSession Key = sessionId from trigger\n\nMaintains last 20 messages for context\n\n🔹 AI Model\n\nGoogle Gemini Chat Model\n\nModel = gemini-2.5-flash-lite\n\nConnected to AI Agent\n\n",
+        "height": 1232,
+        "width": 1504
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -512,
+        -784
+      ],
+      "typeVersion": 1,
+      "id": "26da77b5-76d4-41e0-811d-016585dd5d84",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "🔹 Tools\n\nStore_memory (Supabase Tool)\n\nTable: n8n agent\n\nFields stored:\n\nid = {{ $json[\"id\"] || $now }}\n\nmemory = AI generated summary\n\nname = extracted from input\n\nemail = extracted from input\n\nsessionID = from webhook trigger\n\nGet_memory (Supabase Tool)\n\nFetches past rows for personalization\n\nproduct info (Google Sheets)\n\nLooks up product/FAQ info\n\nSource: Google Sheet\n\n🔹 Response\n\nRespond to Webhook\n\nReturns AI Agent’s answer to user\n\nRespond to Webhook1 (only if no input)",
+        "height": 704,
+        "width": 448,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        -768
+      ],
+      "typeVersion": 1,
+      "id": "2c01a46d-24d3-4639-921c-ef15692407a3",
+      "name": "Sticky Note2"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product info": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "4a870008-1b7e-4615-824b-5220a778d1d4",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-10-05T10:18:50.380Z",
+      "updatedAt": "2025-10-05T10:18:50.380Z",
+      "role": "workflow:owner",
+      "workflowId": "QRslAsQOl8NgHjb1",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
