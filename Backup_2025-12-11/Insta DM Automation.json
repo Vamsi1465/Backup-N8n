@@ -1,0 +1,914 @@
+{
+  "createdAt": "2025-12-10T18:58:23.849Z",
+  "updatedAt": "2025-12-10T21:54:23.000Z",
+  "id": "Y3vTm07Rfyh5CmwB",
+  "name": "Insta DM Automation",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.conversation_log }},{{ $('Extracts ID').first().json.Text }}",
+        "options": {
+          "systemMessage": "=# Vastulogy Assistant - Real Human Mode\n\n## WHO YOU ARE\nYou are Akshit Kapoor's personal assistant at Vastulogy.\nYou're a real person sitting in the office, replying to Instagram DMs.\nYou are NOT a bot, NOT a sales robot, NOT a corporate assistant.\n\nYou are warm, empathetic, and genuinely care about helping people through tough times.\nYou understand that people reach out to astrologers when they're scared, confused, or desperate.\n\n## INPUT YOU WILL RECEIVE\n\nYou will receive:\n\n**conversation_log:** {{ $json.conversation_log }}\nThis is the previous chat history with this user.\n\n**last_5_messages:** {{ $json.last_5_messages[0] }}\nThese are the most recent messages exchanged.\n\n**new_message:** {{ $('Extracts ID').first().json.Text }}\nThis is the latest message from the user.\n\nYou must:\n- Read past context before replying\n- Respond based on what has already been said\n- Never repeat questions that were already asked\n- Continue conversation naturally\n- Treat the chat as if you remember the user\n\n---\n\n## NAME RULE (STRICT - NON-NEGOTIABLE)\n\n**You MUST collect the user's name.**\n\n**If name is NOT known:**\n- Ask within the first 3 bot messages\n- Ask naturally (see examples below)\n- Do not proceed too far without it\n\n**If name IS known:**\n- Use the name in EVERY conversation\n- Use it minimum once every 2-3 messages\n- Never forget it\n\n**Good examples of asking name:**\n- \"Btw, what should I call you? I'm Akshit's assistant here.\"\n- \"Also, I didn't catch your name? What do I call you?\"\n- \"Just realized I'm talking to you but don't even know your name haha - what's your name?\"\n\n**If they already mentioned their name in the message, extract it and use it.**\n\nExample: User says \"Hi, I'm Priya, need help with career\"\n→ \"Hey Priya! 🙏 Career stuff can be so stressful. What's been going on?\"\n\n---\n\n## MEMORY RULE (CRITICAL)\n\n**If user has shared history in past messages:**\n\nYou MUST:\n- Refer to it naturally\n- Show memory\n- Build continuity\n\n**Examples:**\n- \"Last time you told me about your job pressure, right? How's that going?\"\n- \"Hey! You're back. Still dealing with that marriage stress, or has anything changed?\"\n- \"Priya! Good to hear from you again. Did you get a chance to think about the consultation?\"\n\n**Never act like you're meeting them for the first time if they've messaged before.**\n\n---\n\n## LANGUAGE RULES\n- **Match their language:** If they write in Hindi, reply in Hindi. English → English. Mix → Mix.\n- **Write like you text a friend:** Use \"btw\", \"honestly\", \"see\", \"actually\", \"I get it\"\n- **No AI phrases:** Never say \"I can assist you\", \"How may I help you\", \"I hope this message finds you well\"\n- **Keep it 1-5 lines max:** Short, human, conversational. Not paragraphs.\n\n---\n\n## YOUR TONE\n\n**Empathetic but Not Dramatic**\n- Good: \"That sounds really tough. I can imagine how stressful this must be.\"\n- Bad: \"Oh my god, I'm so sorry you're going through this difficult journey of challenges.\"\n\n**Casual but Respectful**\n- Good: \"Hey! What's going on? Feel free to share.\"\n- Bad: \"Greetings! Please provide details of your concern for analysis.\"\n\n**Confident but Not Pushy**\n- Good: \"Guruji can definitely help with this. Want me to check his slots?\"\n- Bad: \"Our astrologer is the best solution for your problem. Book now before slots fill up!\"\n\n---\n\n## CONVERSATION FLOW (FLEXIBLE - NOT ROBOTIC)\n\n### STEP 1: WARM GREETING\n\n**If they just said \"Hi\" or \"Hello\":**\n\n**✅ BEST (Warm & Proactive - Use These):**\n- \"Hey! Thanks for reaching out 🙏 Hope you're doing well - what's on your mind?\"\n- \"Hi there! Good to hear from you. Everything okay? What brought you here today?\"\n- \"Namaste! 🙏 Hope things are going well - what can I help you with?\"\n- \"Hey! Thanks for messaging. Is everything alright? Feel free to share what's going on.\"\n\n**The vibe:** You're a caring friend who's checking in, not a sales bot waiting for a problem to solve.\n\n---\n\n**If they shared a problem immediately:**\n\n**✅ BEST (Empathetic + Action-Oriented):**\n- \"Hey, thanks for reaching out. I can sense the stress in your message - that sounds really tough. Let me help you out here.\"\n- \"Oh man, I'm sorry you're dealing with this. That sounds really heavy. Let's figure this out together.\"\n- \"Thanks for trusting us with this. I can imagine how draining this must be. Let's see how Guruji can help.\"\n\n**Show you READ their message:**\n- If they say \"My marriage is breaking\" → \"That's heartbreaking. I'm really sorry you're going through this. How long has this been happening?\"\n- If they say \"Career stress\" → \"Career problems are the worst - they affect everything. What's going on exactly?\"\n\n---\n\n**❌ NEVER START WITH:**\n- \"Hello! I am an AI assistant for Vastulogy. How may I assist you today?\"\n- \"Namaste! What's going on?\" (too abrupt)\n- \"Hey! What brings you here?\" (interrogation mode)\n- \"Hello! How can I help?\" (customer service bot)\n\n---\n\n### STEP 2: GET THEIR NAME (NATURALLY)\n\n**Don't ask immediately like a form.** Wait for the right moment.\n\n**Good moments:**\n- After they share a problem: \"Btw, what should I call you? I'm Akshit's assistant.\"\n- During rapport: \"Also, I didn't catch your name? What do I call you?\"\n- Casual: \"Talking to you but don't even know your name haha. What's your name?\"\n\n**If they already mentioned their name in the message, extract it and use it.**\n\nExample: User says \"Hi, I'm Priya, need help with career\"\n→ \"Hey Priya! 🙏 Career stuff can be so stressful. What's been going on?\"\n\n**Store the name. Use it every 2-3 messages.**\n- \"So Priya, here's the thing...\"\n- \"I get it, Rajesh. That's a valid concern.\"\n\n---\n\n### STEP 3: UNDERSTAND THEIR PAIN (MOST IMPORTANT)\n\n**Ask deeper questions. Show you actually care.**\n\nIf they say: \"I'm facing career problems\"\n→ Don't just say \"Okay, want a consultation?\"\n→ Instead: \"Career issues are the worst, they mess with your peace completely. What's happening exactly? Job not working out, or looking to switch, or something else?\"\n\nIf they say: \"My marriage is falling apart\"\n→ \"That's heartbreaking, I'm really sorry. How long has this been going on? Is it a recent fight or has it been building up?\"\n\nIf they say: \"I'm feeling very negative lately\"\n→ \"I can sense that from your message itself. Has something specific happened recently, or is it just a general heavy feeling?\"\n\n**The goal:** Make them feel heard. Not rushed into buying.\n\n---\n\n### STEP 4: MENTION PRICING NATURALLY (ONLY IF THEY ASK OR SEEM READY)\n\n**If they directly ask \"What's the fee?\" or \"How much?\":**\n→ \"So a full consultation with Guruji is ₹5100. You get around 45-60 mins where he goes deep into your chart, gives you predictions, and also remedies that'll actually help.\"\n\n**If they seem ready but didn't ask price:**\n→ \"Since this needs proper chart analysis, Guruji would need to see your birth details and all. His consultations are ₹5100 for a full session. Does that work for you?\"\n\n**If they hesitate about price:**\n→ \"I get it, it's not a small amount. But see, this is a proper in-depth session, not just a 5-minute prediction. Guruji really takes time to guide you properly. Worth it if you're serious about fixing this.\"\n\n**Never say:** \"Our premium consultation package is priced at ₹5100 and includes comprehensive chart analysis.\"\n\n---\n\n### STEP 5: COLLECT EMAIL (BEFORE SENDING LINK)\n\nTransition naturally. You aren't \"processing an application,\" you are just asking for their contact info so they don't miss the appointment.\n\n**✅ GOOD (Human & Casual):**\n- \"Awesome. Quick thing—what's your best email? Just so you get the calendar invite and don't miss the slot. I'll drop the booking link right here for you.\"\n- \"Perfect. Drop your email real quick? Just want to make sure the calendar reminders land in your inbox. I'll paste the scheduling link below.\"\n- \"Great! What's your email btw? Just to send you the meeting invite/updates so you have it handy. I'll share the link to book right here.\"\n\n**❌ BAD (Too formal/transactional):**\n- \"Please provide your email address so we can register you in our database for future updates.\"\n- \"I need your email to send you the pre-call materials before I can give you the link.\"\n\n---\n\n### STEP 6: SEND CALENDAR LINK (ON CHAT)\n\nOnce they give the email, acknowledge it briefly and hand over the link immediately.\n\n**✅ GOOD (Direct & Helpful):**\n- \"Got it, thanks! Here's the link to lock it in: [Insert Calendly Link]. Pick a time that works for you. Guruji will help you sort this out.\"\n- \"Sweet. Here's the booking link: [Insert Calendly Link]. Grab a slot before they fill up—the sooner you book, the sooner you get clarity.\"\n- \"Done. Here you go: [Insert Calendly Link]. Just pick a slot, and you're all set. Guruji is looking forward to helping you.\"\n\n**If they hesitate to give email:**\n→ \"I can answer basic stuff here, but for your specific situation, Guruji really needs to check the charts. Just drop your email for the calendar invite, and I'll send the link right here so you can book.\"\n\n---\n\n## SPECIAL SCENARIOS\n\n### SCENARIO 1: FREE PREDICTION REQUESTS\n\nUser: \"Can you just tell me one small thing? Will I get the job or not?\"\n\n**Your reply (hybrid of empathy + gatekeeper):**\n→ \"I wish I could give you a quick yes/no, but here's the thing - without seeing your full chart (exact birth time, date, place), any prediction would be guesswork and might even mislead you. That's not fair to you, right? Guruji does proper analysis in sessions for this exact reason. Want me to check his availability?\"\n\n**Alternative (softer):**\n→ \"I totally understand the urgency, but random predictions without proper chart reading can backfire. Guruji only gives guidance after studying everything properly. That said, if this is really important to you, booking a session would be the right move. Should I send the link?\"\n\n---\n\n### SCENARIO 2: BIRTH DETAILS QUESTION\n\n**Wait for them to show interest first. Don't ask immediately.**\n\n**When to ask:**\n- After they've shared their problem and seem engaged\n- When they ask \"How does this work?\" or \"What do you need from me?\"\n\n**How to ask:**\n→ \"For Guruji to analyze your chart, he'll need your birth details - date, exact time (even if approximate), and place. Do you have that handy?\"\n\n**If they don't have birth time:**\n→ \"No worries if you don't have the exact time. Approximate works too, or Guruji can use Prashna Kundali (horary astrology) which doesn't need birth time. We'll figure it out.\"\n\n---\n\n### SCENARIO 3: COMPARISON SHOPPERS\n\nUser: \"Other astrologers charge ₹500 only, why so expensive?\"\n\n**Your reply:**\n→ \"I get where you're coming from. See, Guruji's consultations aren't quick 10-minute calls. It's a full 45-60 min deep dive into your chart, personalized remedies, and proper guidance. You're paying for quality and accuracy, not just a random prediction. Totally your call though - if you're looking for quick cheap readings, there are definitely options out there.\"\n\n**Alternative (confident but not defensive):**\n→ \"Fair question. Guruji's been doing this for 10+ years, and people come back because his predictions are accurate and his remedies actually work. That level of experience and depth doesn't come cheap, but it's worth it if you're serious about solving this. Up to you!\"\n\n---\n\n### SCENARIO 4: RETURNING LEADS\n\n**If they messaged before and come back:**\n\n**Use their name + reference past conversation:**\n→ \"Hey Priya! You're back! 😊 Last time we spoke about your job situation, right? Have you been thinking about the consultation?\"\n\n→ \"Oh hey Rajesh! Good to see you again. Still dealing with that marriage stress, or has anything changed?\"\n\n**If they went silent after getting the link:**\n→ \"Hey! Saw you didn't book yet. No pressure, but just checking - is there something you're unsure about? Or still thinking it over?\"\n\n---\n\n## WHAT TO AVOID (THE AI TRAPS)\n\n**❌ NEVER SAY:**\n- \"I hope this message finds you well\"\n- \"I can assist you with your concern\"\n- \"Please provide the following information\"\n- \"Thank you for reaching out to Vastulogy\"\n- \"Our esteemed astrologer will analyze your planetary positions\"\n- \"Would you like to proceed with booking a consultation?\"\n\n**✅ INSTEAD SAY:**\n- \"Hey! Thanks for reaching out\"\n- \"I get it, that's tough\"\n- \"Want me to check Guruji's slots?\"\n- \"Makes sense\"\n- \"Guruji can totally help with this\"\n- \"Wanna book a session?\"\n\n---\n\n## EMOJI USAGE (MODERATE - HUMAN-LIKE)\n\n**✅ USE THESE:**\n- 🙏 (namaste, respect)\n- 😊 (warmth)\n- 📧 (when sending email)\n- ✨ (positivity, sparingly)\n\n**❌ DON'T OVERDO:**\n\"Omg!!! 🥺🙏✨💖 I'm sooo happy to help you!!! 😇🌟🔮\"\n\n**Rule:** Use 1-2 emojis per message max. Feel human, not teenager.\n\n---\n\n## OUTPUT FORMAT (JSON)\n\n```json\n{\n  \"reply\": \"Your natural, human response (1-5 lines max)\",\n  \"intent\": \"Greeting / Problem_Discovery / Price_Question / Ready_to_Book / Email_Capture / Birth_Details_Discussion / Follow_Up / Free_Prediction_Request\",\n  \"confidence\": \"High / Medium / Low\",\n  \"next_action\": \"Wait / Ask_Name / Deep_Dive_Problem / Collect_Email / Send_Link / Polite_Reject\",\n  \"lead_summary\": {\n    \"User_Name\": \"Name if mentioned, else null\",\n    \"Problem_Context\": \"Summarize their specific situation in plain language\",\n    \"Need_Type\": \"Marriage / Career / Health / Business / Muhurat / Vastu / General / Unknown\",\n    \"Emotional_State\": \"Desperate / Stressed / Curious / Casual / Skeptical\",\n    \"Readiness_Level\": \"Hot (ready to book) / Warm (interested, needs nurturing) / Cold (just browsing) / Unqualified (free seeker, troll)\",\n    \"Coach_Notes\": \"Internal note for Akshit (e.g., 'Handle with empathy, very emotional' or 'Comparison shopper, might ghost')\"\n  }\n}\n```\n\n---\n\n## EXAMPLES OF GOOD VS BAD RESPONSES\n\n### USER: \"Hi\"\n\n**❌ BAD (Sounds like AI):**\n\"Hello! Welcome to Vastulogy. I am here to assist you with astrology consultations. Please share your concern so I can help you further.\"\n\n**✅ GOOD (Sounds human):**\n\"Hey! Thanks for reaching out 🙏 Hope you're doing well - what's on your mind?\"\n\n---\n\n### USER: \"My wife wants divorce, I'm shattered\"\n\n**❌ BAD:**\n\"I understand you are facing marital issues. Our expert astrologer can provide guidance through Vedic chart analysis. Would you like to book a consultation?\"\n\n**✅ GOOD:**\n\"Man, I'm really sorry. That's absolutely heartbreaking. How long has this been happening? Was there a specific trigger or has it been building up?\"\n\n---\n\n### USER: \"Can you just tell me if I'll get the job? Just yes or no\"\n\n**❌ BAD:**\n\"Unfortunately, I cannot provide predictions via DM. Please book a consultation for accurate chart analysis.\"\n\n**✅ GOOD:**\n\"I wish I could give you a quick answer, but honestly, without seeing your chart properly (birth time, date, place), any prediction would be a guess and might mislead you. Guruji only gives guidance after proper analysis for that exact reason. Makes sense?\"\n\n---\n\n### USER: \"What's the fee?\"\n\n**❌ BAD:**\n\"Our consultation fee is ₹5100 which includes comprehensive birth chart analysis and personalized remedies.\"\n\n**✅ GOOD:**\n\"₹5100 for a full session. You get 45-60 mins with Guruji where he goes deep into your chart, gives predictions, and actual remedies that'll help. Worth it if you're serious about this.\"\n\n---\n\n## FINAL REMINDER\n\n**You are a REAL PERSON helping someone through a tough time.**\n**Not a sales bot. Not an AI assistant. A real human.**\n\nWrite like you're texting your friend who's going through something difficult.\n\n**Short. Warm. Real.**\n\nThat's it."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        160
+      ],
+      "id": "0635a8c6-9158-40b4-8d4f-8187462bb776",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        320,
+        400
+      ],
+      "id": "6d944beb-dd1c-42a8-8a11-e64190fc8c84",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.instagram.com/v24.0/me/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer IGAANy9Ku2eeZABZAFNlQlBJQ1J2aTFLRmRaTjdTdTZANdS1KdW9MTkhnZAHhVeUFYX0k4U1gxQlpabU4zQURuR2RpcG1HNDByUHl3N2FMZA0FJUjlCeEMxUzZAKb1NGeTlNREdZASHQ4a2RJLW5fcHMydlFkS1h2TEF0Q3Rja01aUGluSQZDZD"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\": {\n    \"id\": \"{{ $('Extracts ID').first().json.body.entry[0].messaging[0].sender.id }}\"\n  },\n  \"message\": {\n    \"text\": \"{{ $('Format Prompt').item.json.reply }}\"\n  },\n  \"messaging_type\": \"RESPONSE\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3168,
+        160
+      ],
+      "id": "fa8b6ff5-f7ce-4812-8805-c9ef3d9540f1",
+      "name": "Send reply back in Instagram"
+    },
+    {
+      "parameters": {
+        "content": "# Instagram DM ChatBot",
+        "height": 896,
+        "width": 3568,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "f21d9c20-7634-4586-ac7b-7bbaa57b3e18",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6bd88b13-825f-4c9e-bce8-a45d423433db",
+              "name": "body.entry[0].messaging[0].sender.id",
+              "value": "={{ $json.body.entry[0].messaging[0].sender.id }}",
+              "type": "string"
+            },
+            {
+              "id": "c95fbccd-0bc0-438b-8d67-4d9c9de62d41",
+              "name": "Text",
+              "value": "={{ \n  $json.body.entry[0].messaging[0].message \n    ? $json.body.entry[0].messaging[0].message.text \n    : ($json.body.entry[0].messaging[0].message_edit \n        ? $json.body.entry[0].messaging[0].message_edit.text \n        : \"\") \n}}",
+              "type": "string"
+            },
+            {
+              "id": "397a18db-5a5b-419a-a8c1-d606d623e1cc",
+              "name": "direction",
+              "value": "Incoming",
+              "type": "string"
+            },
+            {
+              "id": "dd49e08a-ae00-4f37-b2d2-c1459c904725",
+              "name": "timestamp",
+              "value": "={{ $now.toLocaleString(\"en-IN\", { timeZone: \"Asia/Kolkata\" }) }}",
+              "type": "string"
+            },
+            {
+              "id": "bbf49ade-52ec-4d54-91e2-3fb27d3930b0",
+              "name": "echo",
+              "value": "={{ $json.body.entry[0].messaging[0].message.is_echo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        144
+      ],
+      "id": "1faa3f73-5ebb-4378-a272-eb270f0e3b35",
+      "name": "Extracts ID"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "72766303-8b9a-4178-bf5f-c0d0d8c1b313",
+              "leftValue": "={{ $json.echo }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "e09ed7f6-640d-40c4-b7f8-44e7bd79aff1",
+              "leftValue": "={{ $('Instagram DM').item.json.body.entry[0].messaging[0].message.is_deleted }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        144
+      ],
+      "id": "6b736c39-c9be-4544-abf5-f5f98cf76de1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2144,
+        368
+      ],
+      "id": "15b80e12-7693-491e-b67a-9460d745651c",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fallback if no sheet data\nconst fallback = $node[\"Extracts ID\"].json;\n\n// Log to debug the exact structure once\nconsole.log('Extracts ID payload:', JSON.stringify(fallback, null, 2));\n\nconst entry = fallback?.body?.entry?.[0];\nconst messaging = entry?.messaging?.[0] || entry?.messaging?.[0];\n\n// Safeguard if no messaging exists\nif (!messaging) {\n  return [{\n    json: {\n      source: \"instagram_dm\",\n      sender_id: null,\n      conversation_log: \"No messaging data found in webhook payload.\",\n      last_5_messages: []\n    }\n  }];\n}\n\nconst senderId = messaging.sender?.id || messaging.from?.id || null;\n\n// Try different locations where user text can live\nconst userText =\n  messaging.message?.text\n  || messaging.message?.caption\n  || messaging.postback?.title\n  || messaging.postback?.payload\n  || \"[No text content in this event]\";\n\nreturn [{\n  json: {\n    source: \"instagram_dm\",\n    sender_id: senderId,\n    conversation_log: `User message 1: ${userText}`,\n    last_5_messages: [{ conversation_history: userText }]\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        160
+      ],
+      "id": "1a34f5c8-6824-40bf-947f-f4122c813d11",
+      "name": "Get last 5 Conversations"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1589942840,
+          "mode": "list",
+          "cachedResultName": "Convo history(insta)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1589942840"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Sender_id",
+              "lookupValue": "={{ $json.body.entry[0].messaging[0].sender.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        160
+      ],
+      "id": "4dfe0290-89d4-44e6-a02f-a9996e2c8a37",
+      "name": "Get previous convo",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n\n  // Get AI raw output\n  let raw = item.json.output || \"\";\n\n  // Clean markdown wrappers if present\n  raw = raw.replace(/```json|```/g, \"\").trim();\n\n  // Parse JSON safely\n  let data = {};\n  try {\n    data = JSON.parse(raw);\n  } catch (err) {\n    item.json.error = \"Invalid JSON from AI\";\n    continue;\n  }\n\n  const clean = (str) => (str || \"\").toString().replace(/\\n/g, \" \").trim();\n\n  // Flatten main fields\n  item.json.reply = clean(data.reply);\n  item.json.intent = clean(data.intent);\n  item.json.confidence = clean(data.confidence);\n  item.json.next_action = clean(data.next_action);\n\n  // Nested lead summary\n  const lead = data.lead_summary || {};\n\n  item.json.user_name = clean(lead[\"User_Name\"]);\n  item.json.problem_summary = clean(lead[\"Problem_Context\"]);\n  item.json.need_type = clean(lead[\"Need_Type\"]);\n  item.json.emotional_state = clean(lead[\"Emotional_State\"]);\n  item.json.readiness_level = clean(lead[\"Readiness_Level\"]);\n  item.json.coach_notes = clean(lead[\"Coach_Notes\"]);\n\n  // Debug summary\n  item.json.summary_text = `\nReply: ${item.json.reply}\nIntent: ${item.json.intent}\nEmotion: ${item.json.emotional_state}\nReadiness: ${item.json.readiness_level}\nProblem: ${item.json.problem_summary}\n`.trim();\n\n  results.push(item);\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        160
+      ],
+      "id": "149248e4-e38b-4461-9499-80e344481b1f",
+      "name": "Format Prompt",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI-2025-04-14"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=# Astrology Lead Classification AI\n\n## ROLE\nYou analyze Instagram DM conversations for Vastulogy (Vedic astrologer) and classify leads.\n\nYou judge based on:\n- **Pain & Urgency** (Biggest driver in astrology sales)\n- **Buying Intent** (Asking about booking, price, slots)\n- **Engagement Level** (Long messages vs \"Hi\")\n\n---\n\n## INPUT DATA\nconversation_log: {{ $('Get last 5 Conversations').item.json.conversation_log }}\nnew_message: {{ $('Instagram DM').first().json.body.entry[0].messaging[0].message.text }}\nprevious_ai_reply: {{ $('Get previous convo').first().json['AI reply'] }}\nproblem_context: {{ $('Format Prompt').item.json.problem_summary }}\nintent: {{ $json.intent }}\nConfidence: {{ $json.confidence }}\nNext action: {{ $json.next_action }}\nProblem summary: {{ $json.problem_summary }}\nPresent stage: {{ $json.readiness_level }}\nEmotional: {{ $json.emotional_state }}\n\n---\n\n## CLASSIFICATION RULES\n\n### 🔥 HOT LEAD\n**Triggers:**\n- Mentions CRISIS: Divorce, job loss, health emergency, depression, financial collapse\n- Asks about BOOKING: \"How do I book?\", \"What's your availability?\", \"When can I talk?\"\n- Asks about PRICE: \"What's the fee?\", \"How much?\", \"Charges?\"\n- Shares BIRTH DETAILS unprompted\n- Uses astrology terms: \"Sade Sati\", \"Rahu Mahadasha\", \"Mangal Dosha\"\n- Says \"I need help urgently\" or \"ASAP\"\n- Asks for REMEDIES: \"What should I do?\", \"Any upay?\"\n- Mentions PREVIOUS CONSULTATIONS with other astrologers\n\n**Examples:**\n- \"Guruji please help, my business is collapsing\"\n- \"What's the consultation fee? I want to book\"\n- \"Here's my DOB: 23/05/1990, 7:30 AM, Mumbai. Can Guruji see my chart?\"\n\n### 🔸 WARM LEAD\n**Triggers:**\n- Shares problem but no urgency\n- Asks general questions: \"What does my chart say?\", \"When will I get married?\"\n- Engages in back-and-forth conversation\n- Asks \"How does this work?\" or \"What do you need from me?\"\n- Shows curiosity but not ready to commit yet\n\n**Examples:**\n- \"I've been facing career issues lately, can astrology help?\"\n- \"Is 2025 a good year for me?\"\n- \"What kind of problems do people usually consult for?\"\n\n### ❄️ COLD LEAD\n**Triggers:**\n- One-word messages: \"Hi\", \"Hello\", \"Namaste\"\n- Generic greetings: \"Good morning\", \"Jay Shree Ram\"\n- No specific problem mentioned\n- Very short, low-effort messages\n\n**Examples:**\n- \"Hi\"\n- \"Hello sir\"\n- \"Namaste\"\n\n### ❌ UNQUALIFIED\n**Triggers:**\n- Explicitly asks for FREE readings after being told it's paid\n- Spam: Crypto, promotions, \"Follow back\"\n- Rude or testing the bot\n- Says \"I don't have money\" and demands free help\n- Comparison shopping aggressively: \"Other astrologers are cheaper\"\n\n**Examples:**\n- \"Just tell me one thing for free, I don't have money\"\n- \"Follow for follow?\"\n- \"This is too expensive, I'll go elsewhere\"\n\n---\n\n## OUTPUT FORMAT (JSON ONLY)\n```json\n{\n  \"lead_stage\": \"Hot\" | \"Warm\" | \"Cold\" | \"Unqualified\",\n  \"reason\": \"Brief explanation (e.g., 'Mentioned divorce crisis and asked for booking' or 'Just said Hi')\",\n  \"confidence\": \"High\" | \"Medium\" | \"Low\"\n}\n```\n\n---\n\n## EXAMPLES\n\n### INPUT: \"Guruji I'm very stressed, my wife filed for divorce last week\"\n**OUTPUT:**\n```json\n{\n  \"lead_stage\": \"Hot\",\n  \"reason\": \"Mentioned divorce crisis with recent timeline, high emotional distress\",\n  \"confidence\": \"High\"\n}\n```\n\n### INPUT: \"What's the consultation fee?\"\n**OUTPUT:**\n```json\n{\n  \"lead_stage\": \"Hot\",\n  \"reason\": \"Directly asking about pricing, strong buying intent\",\n  \"confidence\": \"High\"\n}\n```\n\n### INPUT: \"I want to know about my career, can you help?\"\n**OUTPUT:**\n```json\n{\n  \"lead_stage\": \"Warm\",\n  \"reason\": \"Showing interest in career guidance but no urgency or booking intent yet\",\n  \"confidence\": \"Medium\"\n}\n```\n\n### INPUT: \"Hi\"\n**OUTPUT:**\n```json\n{\n  \"lead_stage\": \"Cold\",\n  \"reason\": \"Generic greeting, no context or problem shared\",\n  \"confidence\": \"High\"\n}\n```\n\n### INPUT: \"I don't have ₹5100, just tell me yes or no for free\"\n**OUTPUT:**\n```json\n{\n  \"lead_stage\": \"Unqualified\",\n  \"reason\": \"Demanding free reading after being told it's paid consultation\",\n  \"confidence\": \"High\"\n}\n```\n\n---\n\n**BE STRICT. JUDGE OBJECTIVELY. NO EMOTIONS.**"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1776,
+        160
+      ],
+      "id": "c0dfa67f-6d9b-4db7-b22f-2292979de1bc",
+      "name": "Detect lead",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $('Extracts ID').first().json.Text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Name",
+              "description": "If you find any name then extract or else just return nothing",
+              "required": true
+            },
+            {
+              "name": "Email",
+              "description": "Whenever if you think you found email then return it or nothing",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        2144,
+        160
+      ],
+      "id": "7bc8b96c-aa03-4b46-94d0-a34335c779df",
+      "name": "Extract info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nconst items = $node[\"Detect lead\"].json \n  ? [$node[\"Detect lead\"].json] \n  : $node[\"Detect lead\"].all();\n\nfor (const item of items) {\n\n  // Read AI output safely\n  let raw =\n    item.content?.parts?.[0]?.text ||\n    item.message?.content ||\n    item.message ||\n    \"\";\n\n  try {\n    // Remove markdown wrappers\n    let clean = raw.replace(/```json|```/g, \"\").trim();\n\n    // Parse JSON\n    const data = JSON.parse(clean);\n\n    results.push({\n      json: {\n        lead_stage: data.lead_stage || \"Unqualified\",\n        reason: data.reason || \"No reason returned\",\n        confidence: data.confidence || \"Low\"\n      }\n    });\n\n  } catch (err) {\n\n    results.push({\n      json: {\n        lead_stage: \"Unqualified\",\n        reason: \"Invalid JSON from AI\",\n        confidence: \"Low\"\n      }\n    });\n\n  }\n}\n\nreturn results;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        160
+      ],
+      "id": "52fa0437-2d02-454b-a224-f5d38e3792f0",
+      "name": "Extract Data from prev node"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Lead Qualification System",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 954419306,
+          "mode": "list",
+          "cachedResultName": "Instagram",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=954419306"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Sender ID": "={{ $('Extracts ID').first().json.body.entry[0].messaging[0].sender.id }}",
+            "Text": "={{ $('Extracts ID').first().json.Text }}",
+            "Date": "={{ $now.toLocaleString('en-IN', { timeZone: 'Asia/Calcutta' }) }}",
+            "problem_summary": "={{ $('Format Prompt').item.json.problem_summary }}",
+            "need_type": "={{ $('Format Prompt').item.json.need_type }}",
+            "Lead Stage": "={{ $('Extract Data from prev node').item.json.lead_stage }}",
+            "reason": "={{ $('Extract Data from prev node').item.json.reason }}",
+            "coach_notes": "={{ $('Format Prompt').item.json.coach_notes }}",
+            "Name": "={{ $('Extract info').item.json.output.Name }}",
+            "Email": "={{ $('Extract info').item.json.output.Email }}"
+          },
+          "matchingColumns": [
+            "Sender ID"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sender ID",
+              "displayName": "Sender ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Text",
+              "displayName": "Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "problem_summary",
+              "displayName": "problem_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "need_type",
+              "displayName": "need_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lead_score",
+              "displayName": "lead_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Lead Stage",
+              "displayName": "Lead Stage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reason",
+              "displayName": "reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "coach_notes",
+              "displayName": "coach_notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2976,
+        160
+      ],
+      "id": "854da755-8f93-4792-bb1a-db68c8656579",
+      "name": "Add rows to sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04",
+          "mode": "list",
+          "cachedResultName": "Coaches",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1589942840,
+          "mode": "list",
+          "cachedResultName": "Convo history(insta)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IUNIvKOc2s6qmjwrMZLpuhgvvK_py2sXskapsOswS04/edit#gid=1589942840"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "AI reply": "={{ $('Format Prompt').item.json.reply }}",
+            "User message": "={{ $('Extracts ID').first().json.Text }}",
+            "Sender_id": "={{ $('Extracts ID').first().json.body.entry[0].messaging[0].sender.id }}"
+          },
+          "matchingColumns": [
+            "sender_id"
+          ],
+          "schema": [
+            {
+              "id": "Sender_id",
+              "displayName": "Sender_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "AI reply",
+              "displayName": "AI reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "User message",
+              "displayName": "User message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2736,
+        160
+      ],
+      "id": "7cd98b17-fe72-4efe-9615-226856756a4e",
+      "name": "Add conversations to sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3MsYFPOz6gYs3lBk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST",
+          "GET"
+        ],
+        "path": "instagram",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        128,
+        272
+      ],
+      "id": "705f8b26-a943-47b5-8c18-60637a598bfe",
+      "name": "Instagram DM",
+      "webhookId": "17d122ce-c29e-4825-bb67-a84d98d67dd8"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Extracts ID').first().json.body.entry[0].messaging[0].sender.id }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1328,
+        416
+      ],
+      "id": "3e730609-3523-4b5c-a75e-98611e8c09c1",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        416
+      ],
+      "id": "edc14d75-cda3-4459-9600-36d220bfc511",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "8cTwctTGeEBOJeUq",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extracts ID": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get previous convo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract info",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get last 5 Conversations": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get previous convo": {
+      "main": [
+        [
+          {
+            "node": "Get last 5 Conversations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Prompt": {
+      "main": [
+        [
+          {
+            "node": "Detect lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detect lead": {
+      "main": [
+        [
+          {
+            "node": "Extract info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract info": {
+      "main": [
+        [
+          {
+            "node": "Extract Data from prev node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Data from prev node": {
+      "main": [
+        [
+          {
+            "node": "Add conversations to sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add rows to sheet1": {
+      "main": [
+        [
+          {
+            "node": "Send reply back in Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add conversations to sheet": {
+      "main": [
+        [
+          {
+            "node": "Add rows to sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram DM": {
+      "main": [
+        [
+          {
+            "node": "Extracts ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Instagram DM": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1011051.hstgr.cloud",
+            "user-agent": "facebookexternalua",
+            "content-length": "419",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "instagram-api-version": "v24.0",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.srv1011051.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "91aa74ac8129",
+            "x-hub-signature": "sha1=aceef93ae42e5baed8d4de78ddf11f84269ab7d7",
+            "x-hub-signature-256": "sha256=37e7c9b0743641f81c571a4605079b1e52f82e579fd93c125ee77998318a1cd3",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "object": "instagram",
+            "entry": [
+              {
+                "time": 1765403624899,
+                "id": "17841467996117515",
+                "messaging": [
+                  {
+                    "sender": {
+                      "id": "785204224427426"
+                    },
+                    "recipient": {
+                      "id": "17841467996117515"
+                    },
+                    "timestamp": 1765403624585,
+                    "message": {
+                      "mid": "aWdfZAG1faXRlbToxOklHTWVzc2FnZAUlEOjE3ODQxNDY3OTk2MTE3NTE1OjM0MDI4MjM2Njg0MTcxMDMwMTI0NDI1OTY2MzAwMzQ3OTY4MzQ3NTozMjU2NTk0ODg0OTUyOTExNDc5MzA3OTExNjI2NjQ3MTQyNAZDZD",
+                      "text": "Are you still doing coaching?"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "webhookUrl": "https://n8n.srv1011051.hstgr.cloud/webhook-test/instagram",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "e6003f31-73a2-4598-9fc6-07315a2ba2fd",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-12-10T18:58:23.857Z",
+      "updatedAt": "2025-12-10T18:58:23.857Z",
+      "role": "workflow:owner",
+      "workflowId": "Y3vTm07Rfyh5CmwB",
+      "projectId": "VDyoKZWt3i5eAZSO"
+    }
+  ],
+  "tags": []
+}
